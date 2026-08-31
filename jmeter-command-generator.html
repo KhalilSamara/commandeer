@@ -1,0 +1,767 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Commandeer</title>
+<style>
+  :root{
+    --bg:#2B2B2B; --surface:#3C3F41; --ink:#D6D6D6; --muted:#9AA0A0;
+    --line:#4F5355; --line-soft:#34383A; --accent:#E8743B; --accent-weak:#4A3529;
+    --danger:#FF6E67; --ok:#6EBF6E;
+    --panel:#212223; --panel-line:#4F5355;
+    --p-dim:#7E8385; --p-total:#E8743B; --p-cmd:#C9CCCE; --p-num:#D6A15E; --p-flag:#FF6E67;
+    --mono:ui-monospace,"SF Mono","Cascadia Code","Consolas","Roboto Mono",monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --radius:9px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:26px 22px 60px}
+
+  header.top{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+  .brand .logo{width:34px;height:34px;flex:0 0 auto;display:block}
+  .brand h1{font-size:19px;letter-spacing:-.01em;margin:0;font-weight:650}
+  .brand .tag{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.02em;
+    border:1px solid var(--line);border-radius:5px;padding:2px 7px;background:var(--surface)}
+  .sub{color:var(--muted);font-size:12.5px;max-width:520px}
+
+  .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:18px;align-items:start}
+  @media(max-width:900px){.grid{grid-template-columns:1fr}.preview{position:static}}
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
+  .card .hd{display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:12px 16px;border-bottom:1px solid var(--line-soft)}
+  .card .hd h2{font-size:12px;text-transform:uppercase;letter-spacing:.08em;margin:0;color:var(--muted);font-weight:650}
+  .card .bd{padding:16px}
+
+  label.fld{display:block;margin-bottom:14px}
+  label.fld:last-child{margin-bottom:0}
+  .lbl{display:block;font-size:12px;font-weight:600;margin-bottom:5px}
+  .hint{color:var(--muted);font-weight:400;font-size:11.5px}
+  input[type=text],input[type=number]{width:100%;font-family:var(--mono);font-size:13px;color:var(--ink);
+    background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:8px 10px;outline:none}
+  input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-weak)}
+  input::placeholder{color:#7E8385}
+  input[readonly]{background:var(--bg);color:var(--muted);cursor:default}
+  input[readonly]:focus{border-color:var(--line);box-shadow:none}
+  .fld.chk{display:flex;flex-direction:row;align-items:center;gap:9px;cursor:pointer}
+  .fld.chk span{font-size:13px;font-weight:600}
+  input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px;flex:0 0 auto;cursor:pointer;margin:0}
+
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .stepper{display:flex;align-items:center;gap:8px;max-width:170px}
+  .stepper button{width:30px;height:34px;border:1px solid var(--line);background:var(--surface);
+    border-radius:7px;font-size:16px;cursor:pointer;color:var(--ink);line-height:1}
+  .stepper button:hover{border-color:var(--accent);color:var(--accent)}
+  .stepper input{text-align:center}
+
+  .scn-tbl{border:1px solid var(--line-soft);border-radius:8px;overflow:hidden}
+  .scn-row{display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"tag slider ctrl";
+    gap:12px;align-items:center;padding:10px 10px;border-bottom:1px solid var(--line-soft)}
+  .scn-row:last-child{border-bottom:0}
+  .scn-tag{grid-area:tag;justify-self:start;font-family:var(--mono);font-size:11px;color:var(--muted);background:var(--bg);
+    border:1px solid var(--line);border-radius:5px;padding:2px 6px;white-space:nowrap;min-width:70px;text-align:center}
+  /* kill native number spinners everywhere (ugly on dark) */
+  input[type=number]{-moz-appearance:textfield;appearance:textfield}
+  input[type=number]::-webkit-outer-spin-button,
+  input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+
+  /* draggable percentage slider */
+  .pct-range{grid-area:slider;-webkit-appearance:none;appearance:none;width:100%;height:8px;border-radius:5px;
+    background:var(--line-soft);outline:none;cursor:pointer;margin:0}
+  .pct-range::-webkit-slider-runnable-track{height:8px;border-radius:5px;background:transparent}
+  .pct-range::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+    background:var(--accent);border:3px solid var(--surface);box-shadow:0 0 0 1px var(--line);margin-top:-5px;cursor:grab}
+  .pct-range:active::-webkit-slider-thumb{cursor:grabbing}
+  .pct-range::-moz-range-track{height:8px;border-radius:5px;background:var(--line-soft)}
+  .pct-range::-moz-range-progress{height:8px;border-radius:5px;background:var(--accent)}
+  .pct-range::-moz-range-thumb{width:18px;height:18px;border:3px solid var(--surface);border-radius:50%;
+    background:var(--accent);box-shadow:0 0 0 1px var(--line);cursor:grab}
+  .pct-range:focus-visible{box-shadow:0 0 0 3px var(--accent-weak)}
+  .pct-range:disabled{cursor:not-allowed;opacity:.55}
+
+  /* percentage stepper cluster */
+  .pct-ctrl{grid-area:ctrl;display:flex;align-items:center;gap:6px}
+  .pct-ctrl button{width:30px;height:30px;flex:0 0 auto;border:1px solid var(--line);background:var(--surface);
+    border-radius:7px;color:var(--ink);font-size:17px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+  .pct-ctrl button:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+  .pct-ctrl button:active:not(:disabled){background:var(--accent-weak)}
+  .pct-ctrl button:disabled{opacity:.45;cursor:not-allowed}
+  .pct-num{width:48px;text-align:center;padding:6px 4px}
+  .pct-unit{color:var(--muted);font-family:var(--mono);font-size:12px}
+
+  .sumline{display:flex;align-items:center;justify-content:space-between;margin-top:10px;font-family:var(--mono);font-size:12px}
+  .sumline .val{font-weight:650}
+  .sumline .val.bad{color:var(--danger)}
+  .sumline .val.good{color:var(--ok)}
+  .sumline a{color:var(--accent);text-decoration:none;font-family:var(--sans);font-size:11.5px;cursor:pointer}
+  .sumline a:hover{text-decoration:underline}
+
+  .actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+  button.btn{font-family:var(--sans);font-size:13px;font-weight:600;border-radius:8px;padding:9px 16px;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+  button.btn:not(:disabled):hover{border-color:var(--accent);color:var(--accent)}
+  button.btn.primary{background:var(--accent);border-color:var(--accent);color:#2B2B2B}
+  button.btn.primary:not(:disabled):hover{background:#D9602A;color:#2B2B2B}
+  button.btn:disabled{cursor:not-allowed;opacity:1;background:#34383A;border-color:var(--line);color:var(--muted)}
+
+  /* preview panel */
+  .preview{background:var(--panel);border:1px solid var(--panel-line);border-radius:var(--radius);overflow:hidden;position:sticky;top:16px}
+  .preview .hd{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-bottom:1px solid var(--panel-line)}
+  .preview .hd .fname{font-family:var(--mono);font-size:12px;color:#D6D6D6}
+  .preview .hd .meta{font-family:var(--mono);font-size:11px;color:var(--p-dim)}
+  .preview pre{margin:0;padding:14px 16px;max-height:560px;overflow:auto;font-family:var(--mono);font-size:12.5px;line-height:1.65;color:var(--p-cmd);white-space:pre;tab-size:2}
+  .preview .t-total{color:var(--p-total);font-weight:650}
+  .preview .t-num{color:var(--p-num)}
+  .preview .t-flag{color:var(--p-flag)}
+  .preview .t-dim{color:var(--p-dim)}
+  .preview::-webkit-scrollbar,.preview pre::-webkit-scrollbar{width:10px;height:10px}
+  .preview pre::-webkit-scrollbar-thumb{background:#4F5355;border-radius:6px}
+
+  .legend{display:flex;gap:14px;flex-wrap:wrap;padding:8px 16px 12px;font-family:var(--mono);font-size:11px;color:var(--p-dim);border-top:1px solid var(--panel-line)}
+  .legend b{font-weight:400}
+  .dot{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px;vertical-align:middle}
+
+  /* settings */
+  details.settings{margin-top:18px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
+  details.settings>summary{list-style:none;cursor:pointer;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:650;color:var(--muted)}
+  details.settings>summary::-webkit-details-marker{display:none}
+  details.settings>summary .chev{transition:transform .15s;color:var(--muted)}
+  details.settings[open]>summary .chev{transform:rotate(90deg)}
+  .settings .bd{padding:4px 16px 18px;border-top:1px solid var(--line-soft)}
+  .set-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
+  @media(max-width:640px){.set-grid{grid-template-columns:1fr}.row2{grid-template-columns:1fr}}
+  @media(max-width:560px){
+    .wrap{padding:18px 14px 46px}
+    .brand h1{font-size:17px}
+    .sub{font-size:12px}
+    .card .bd{padding:14px}
+    /* scenario row: tag + controls on top, slider full-width below */
+    .scn-row{grid-template-columns:1fr auto;grid-template-areas:"tag ctrl" "slider slider";row-gap:12px;column-gap:10px}
+    .pct-num{width:52px}
+    /* stack action buttons full-width for easy tapping */
+    .actions{flex-direction:column;align-items:stretch;gap:8px}
+    .actions .btn{width:100%}
+  }
+  @media(max-width:360px){
+    .pct-ctrl{gap:5px}
+    .pct-ctrl button{width:28px;height:28px}
+    .pct-num{width:44px}
+    .scn-tag{min-width:0}
+  }
+  .prop-list{display:flex;flex-direction:column;gap:8px}
+  .prop-row{display:grid;grid-template-columns:74px 12px 1fr;gap:8px;align-items:center}
+  .prop-row .k{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:right}
+  .prop-row .eq{font-family:var(--mono);color:var(--muted);text-align:center}
+  .set-foot{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:14px;border-top:1px solid var(--line-soft)}
+  .warn{color:var(--danger);font-size:11.5px}
+  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--panel);color:#D6D6D6;font-size:12.5px;padding:9px 16px;border-radius:8px;
+    opacity:0;pointer-events:none;transition:.2s;font-family:var(--mono);z-index:50;border:1px solid var(--panel-line)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .persist-note{font-size:11px;color:var(--muted);margin-top:6px;font-family:var(--mono)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="brand">
+        <span class="logo" aria-hidden="true">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="8" width="48" height="48" rx="13" fill="var(--accent)"/>
+            <circle cx="32" cy="23.5" r="4.7" fill="#2B2B2B"/>
+            <circle cx="32" cy="39" r="4.7" fill="#2B2B2B"/>
+            <path d="M35.53 41.59 C34.82 47.10 31.60 48.90 26.00 50.90 C28.50 46.30 31.06 43.50 28.48 40.88 Z" fill="#2B2B2B"/>
+          </svg>
+        </span>
+        <h1>Commandeer</h1>
+      </div>
+    </div>
+  </header>
+
+  <div class="grid">
+    <!-- INPUT COLUMN -->
+    <div>
+      <div class="card">
+        <div class="hd"><h2>Run definition</h2></div>
+        <div class="bd">
+          <label class="fld">
+            <span class="lbl">Project name</span>
+            <input type="text" id="project" autocomplete="off">
+          </label>
+
+          <label class="fld">
+            <span class="lbl">Script path</span>
+            <input type="text" id="path" autocomplete="off">
+          </label>
+
+          <label class="fld">
+            <span class="lbl">Maximum Expected Number of vUsers</span>
+            <input type="text" inputmode="numeric" id="target" autocomplete="off">
+          </label>
+
+          <label class="fld">
+            <span class="lbl">Scenarios</span>
+            <div class="stepper">
+              <button type="button" id="scnMinus" aria-label="fewer scenarios">−</button>
+              <input type="text" inputmode="numeric" id="scnCount" value="3">
+              <button type="button" id="scnPlus" aria-label="more scenarios">+</button>
+            </div>
+          </label>
+
+          <div class="lbl" style="margin-bottom:8px">Load distribution</div>
+          <div class="scn-tbl" id="scnTable"></div>
+          <div class="sumline">
+            <span>Total: <span class="val" id="pctSum">0%</span></span>
+            <a id="evenBtn">Even split</a>
+          </div>
+
+          <div class="actions">
+            <button class="btn primary" id="genBtn">Generate &amp; Download</button>
+            <button class="btn" id="copyBtn">Copy to clipboard</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SETTINGS -->
+      <details class="settings" id="settings">
+        <summary><span>Settings</span><span class="chev">›</span></summary>
+        <div class="bd">
+          <label class="fld">
+            <span class="lbl">Debug rows</span>
+            <input type="text" id="setDebug">
+          </label>
+
+          <label class="fld">
+            <span class="lbl">Base ladder</span>
+            <input type="text" id="setLadder">
+          </label>
+
+          <label class="fld">
+            <span class="lbl">Increment after ladder</span>
+            <input type="text" inputmode="numeric" id="setInc">
+          </label>
+
+          <label class="fld">
+            <span class="lbl">Filename pattern</span>
+            <input type="text" id="setFilename">
+          </label>
+
+          <label class="fld chk">
+            <input type="checkbox" id="setHeader">
+            <span>Include file header</span>
+          </label>
+
+          <label class="fld">
+            <span class="lbl">Tester</span>
+            <input type="text" id="setTester" autocomplete="off">
+          </label>
+
+          <label class="fld">
+            <span class="lbl">JMeter version</span>
+            <input type="text" id="setJmeter" autocomplete="off">
+          </label>
+
+          <div class="lbl" style="margin-bottom:8px">JMeter property names</div>
+          <div class="prop-list" id="propList"></div>
+
+          <div class="set-foot">
+            <span class="warn" id="setWarn"></span>
+            <button class="btn" id="resetBtn">Reset to defaults</button>
+          </div>
+          <div class="persist-note" id="persistNote"></div>
+        </div>
+      </details>
+    </div>
+
+    <!-- PREVIEW COLUMN -->
+    <div>
+      <div class="preview">
+        <div class="hd">
+          <span class="fname" id="pvName">RUNME.txt</span>
+          <span class="meta" id="pvMeta"></span>
+        </div>
+        <pre id="pvBody"></pre>
+        <div class="legend">
+          <span><i class="dot" style="background:var(--p-total)"></i><b>step total</b></span>
+          <span><i class="dot" style="background:var(--p-num)"></i><b>per-scenario users</b></span>
+          <span><i class="dot" style="background:var(--p-flag)"></i><b>+1 = rounded up to hit target</b></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+
+// ---- defaults ----------------------------------------------------------
+const DEFAULTS = {
+  debug: "15",
+  inc: 250,
+  ladder: "50,100,150,250,500,750,1000",
+  filename: "{project}_RUNME.txt",
+  header: true,
+  tester: "",
+  jmeterVersion: "",
+  props: []          // per-scenario, defaults to S1..Sn when empty
+};
+
+// ---- guarded storage (works on Pages / locally; no-ops if blocked) ------
+const store = (() => {
+  let ok = true;
+  try { const k="__t"; localStorage.setItem(k,"1"); localStorage.removeItem(k); }
+  catch(e){ ok = false; }
+  const mem = {};
+  return {
+    ok,
+    get(k){ try { return ok ? localStorage.getItem(k) : mem[k]; } catch(e){ return mem[k]; } },
+    set(k,v){ try { ok ? localStorage.setItem(k,v) : (mem[k]=v); } catch(e){ mem[k]=v; } }
+  };
+})();
+const SKEY = "jmcg.state.v1";
+
+// ---- state -------------------------------------------------------------
+let state = {
+  project:"", path:"", target:2000, scnCount:3,
+  pcts:[50,30,20],
+  set: JSON.parse(JSON.stringify(DEFAULTS))
+};
+
+function loadState(){
+  const raw = store.get(SKEY);
+  if(!raw) return;
+  try {
+    const s = JSON.parse(raw);
+    state = Object.assign(state, s);
+    state.set = Object.assign(JSON.parse(JSON.stringify(DEFAULTS)), s.set || {});
+  } catch(e){}
+}
+function saveState(){ store.set(SKEY, JSON.stringify(state)); }
+
+// ---- core logic --------------------------------------------------------
+// Distribute `total` across percentages. Rules:
+//   - never round a scenario down without compensation; prefer rounding up
+//   - final sum is exactly `total` or `total`+1 (never under, never more than +1)
+//   - every scenario gets at least 1
+// Returns {parts:[...], bumped:bool}  (bumped = landed on total+1)
+function distribute(total, pcts){
+  const n = pcts.length;
+  if(n === 1) return { parts:[total], bumped:false };
+
+  const exact = pcts.map(p => total * p / 100);
+  const base  = exact.map(Math.floor);
+  const rem   = exact.map((x,i) => x - base[i]);
+  const parts = base.slice();
+
+  let deficit = total - parts.reduce((a,b)=>a+b,0);        // whole users still to place
+  const order = [...Array(n).keys()].sort((a,b)=> rem[b]-rem[a] || a-b);
+  const bumpedIdx = new Set();
+  for(let k=0;k<deficit;k++){ const i=order[k%n]; parts[i]++; bumpedIdx.add(i); }
+  // now sum === total exactly
+
+  // round-up preference: the most-shorted floored scenario gets its +1,
+  // capped so the total never exceeds total+1
+  let bumped = false;
+  const loser = order.find(i => rem[i] > 1e-9 && !bumpedIdx.has(i));
+  if(loser !== undefined){ parts[loser]++; bumped = true; }
+
+  // no zero-user scenario — but only for scenarios that actually carry load
+  for(let i=0;i<n;i++) if(parts[i] < 1 && pcts[i] > 0) parts[i] = 1;
+  return { parts, bumped };
+}
+
+// Integer even split of percentages that sums to exactly 100 (whole numbers).
+// e.g. 6 scenarios -> 17,17,17,17,16,16
+function evenPcts(n){
+  const q = Math.floor(100 / n);
+  const r = 100 - q*n;
+  return Array.from({length:n}, (_,i) => i < r ? q+1 : q);
+}
+
+// Debug rows: true integer even split. Sum is always exactly `total`
+// (largest-remainder over the whole users), never inflated by pct rounding.
+function evenSplit(total, n){
+  const q = Math.floor(total / n);
+  let r = total - q*n;
+  const parts = Array(n).fill(q);
+  for(let i=0;i<r;i++) parts[i]++;
+  for(let i=0;i<n;i++) if(parts[i] < 1) parts[i] = 1;
+  return { parts, bumped:false };
+}
+
+function buildLadder(target, debug, base, inc){
+  const rows = [];
+  const seen = new Set();
+  const push = (v, isDebug) => { if(v>0 && !seen.has(v)){ seen.add(v); rows.push({total:v, debug:isDebug}); } };
+  debug.forEach(d => push(d, true));
+  base.filter(v => v <= target).forEach(v => push(v, false));
+  const last = base.length ? base[base.length-1] : 0;
+  for(let v = last + inc; v <= target; v += inc) push(v, false);
+  push(target, false);                                     // guarantee the target row exists
+  // debug rows first (in given order), load rows ascending
+  const dbg = rows.filter(r=>r.debug);
+  const load = rows.filter(r=>!r.debug).sort((a,b)=>a.total-b.total);
+  return [...dbg, ...load];
+}
+
+function parseList(str){
+  return String(str).split(",").map(s=>parseInt(s.trim(),10)).filter(v=>Number.isFinite(v)&&v>0);
+}
+
+function propNames(n, custom){
+  const out = [];
+  for(let i=0;i<n;i++) out.push((custom && custom[i] && custom[i].trim()) ? custom[i].trim() : ("S"+(i+1)));
+  return out;
+}
+
+// build the file model -> {lines:[{type,total,parts,names,bumped,stop}], text, filename, error}
+function buildModel(){
+  const s = state;
+  const target = parseInt(s.target,10);
+  if(!s.path) return { error:"Add the script path." };
+  if(!Number.isFinite(target) || target<1) return { error:"Set a valid target user count." };
+
+  const active = s.pcts.slice(0, s.scnCount).map(v=>parseFloat(v)||0);
+  const pctSum = active.reduce((a,b)=>a+b,0);
+  if(Math.abs(pctSum-100) > 0.01) return { error:`Distribution must sum to 100% (currently ${round2(pctSum)}%).` };
+  const zeroAt = active.findIndex(v=>v<=0);
+  if(s.scnCount > 1 && zeroAt !== -1) return { error:`Scenario ${zeroAt+1} is 0% — give it a share or reduce the scenario count.` };
+
+  const debug  = parseList(s.set.debug);
+  const base   = parseList(s.set.ladder);
+  const inc    = parseInt(s.set.inc,10) || 250;
+  if(!base.length) return { error:"Base ladder is empty — add at least one step in Settings." };
+
+  const names  = propNames(s.scnCount, s.set.props);
+  const ladder = buildLadder(target, debug, base, inc);
+
+  const rows = ladder.map(r=>{
+    const {parts, bumped} = r.debug
+      ? evenSplit(r.total, s.scnCount)               // debug = clean integer even split
+      : distribute(r.total, active);                 // load  = weighted, rounded up
+    return { total:r.total, debug:r.debug, parts, names, bumped };
+  });
+
+  // A step can't honor the "N or N+1" ceiling only when a scenario's share
+  // rounds below one user and min-1 has to rescue several of them — i.e. the
+  // split isn't representable at that user count. Refuse rather than mislead.
+  const bad = rows.find(r => r.parts.reduce((a,b)=>a+b,0) > r.total + 1);
+  if(bad){
+    return { error: bad.debug
+      ? `The ${bad.total}-user debug step can't cover ${s.scnCount} scenarios (needs ≥1 user each). Lower the scenario count or raise the debug value.`
+      : `At ${bad.total} users a scenario's share rounds below 1 user, so the step can't stay within ${bad.total+1}. Raise the smallest step or rebalance the percentages.` };
+  }
+
+  const body = rows.map(r=>{
+    const args = r.parts.map((v,i)=>`-J${names[i]}=${v}`).join(" ");
+    return `# ${r.total}vUsers\njmeter -n -t "${s.path}" ${args}`;
+  }).join("\n") + "\n";
+
+  let text = body;
+  if(s.set.header){
+    const d = new Date();
+    const dateStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+    const dist = names.map((nm,i)=>`${nm} ${active[i]}%`).join("  ");
+    const meta = [];
+    const add = (k,v)=> meta.push(`# ${(k+":").padEnd(15)}${v}`);
+    add("Project", s.project || "(unnamed)");
+    add("Generated", dateStr);
+    add("Max vUsers", target);
+    add("Scenarios", `${s.scnCount} (${dist})`);
+    if((s.set.tester||"").trim())        add("Tester", s.set.tester.trim());
+    if((s.set.jmeterVersion||"").trim()) add("JMeter", s.set.jmeterVersion.trim());
+    const bar = "# " + "=".repeat(48);
+    text = [bar, ...meta, bar].join("\n") + "\n\n" + body;
+  }
+
+  const filename = (s.set.filename||"{project}_RUNME.txt")
+      .replace(/\{project\}/g, sanitize(s.project||"project"));
+
+  return { rows, text, filename, target,
+           anyBump: rows.some(r=>r.bumped && !r.debug) };
+}
+
+// ---- rendering ---------------------------------------------------------
+function esc(t){ return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function round2(n){ return Math.round(n*100)/100; }
+function sanitize(t){ return String(t).replace(/[^\w.\-]+/g,"_").replace(/^_+|_+$/g,"") || "project"; }
+
+function setRangeFill(range, v){
+  range.style.background =
+    `linear-gradient(to right, var(--accent) ${v}%, var(--line-soft) ${v}%)`;
+}
+
+function renderScenarioTable(){
+  const n = state.scnCount;
+  const tbl = document.getElementById("scnTable");
+  const names = propNames(n, state.set.props);
+  const single = (n === 1);
+  if(single) state.pcts = [100];                        // one scenario is always 100%
+  tbl.innerHTML = "";
+  for(let i=0;i<n;i++){
+    const pct = Math.round(state.pcts[i] ?? 0);
+    const dis = single ? " disabled" : "";
+    const row = document.createElement("div");
+    row.className = "scn-row";
+    row.innerHTML =
+      `<span class="scn-tag">-J${esc(names[i])}</span>
+       <input type="range" class="pct-range" min="0" max="100" step="1" data-i="${i}" value="${pct}"${dis}>
+       <div class="pct-ctrl">
+         <button type="button" class="pct-dec" data-i="${i}" aria-label="decrease"${dis}>−</button>
+         <input type="text" inputmode="numeric" class="pct-num" data-i="${i}" value="${pct}"${single?" readonly tabindex=\"-1\"":""}>
+         <button type="button" class="pct-inc" data-i="${i}" aria-label="increase"${dis}>+</button>
+         <span class="pct-unit">%</span>
+       </div>`;
+    tbl.appendChild(row);
+  }
+  // colour the slider fill for every row
+  tbl.querySelectorAll(".pct-range").forEach(r=> setRangeFill(r, +r.value));
+
+  if(!single){
+    const rowEls = tbl.querySelectorAll(".scn-row");
+    const clamp = v => Math.max(0, Math.min(100, v));
+    const commit = (i, v, {syncRange=true, syncNum=true}={}) => {
+      v = clamp(v);
+      state.pcts[i] = v;
+      const range = rowEls[i].querySelector(".pct-range");
+      const num   = rowEls[i].querySelector(".pct-num");
+      if(syncRange){ range.value = v; }
+      setRangeFill(range, v);
+      if(syncNum){ num.value = v; }
+      updateSum(); refresh();
+    };
+    rowEls.forEach((rowEl, i)=>{
+      const range = rowEl.querySelector(".pct-range");
+      const num   = rowEl.querySelector(".pct-num");
+      range.addEventListener("input", e=> commit(i, +e.target.value, {syncRange:false}));
+      num.addEventListener("input", e=>{
+        const raw = e.target.value;
+        const v = raw === "" ? 0 : clamp(parseInt(raw,10) || 0);
+        commit(i, v, {syncNum:false});
+        if(raw !== "" && String(v) !== raw) e.target.value = v;   // rewrite only if clamped
+      });
+      num.addEventListener("blur", e=>{ if(e.target.value === "") e.target.value = state.pcts[i]; });
+      rowEl.querySelector(".pct-dec").addEventListener("click", ()=> commit(i, state.pcts[i]-1));
+      rowEl.querySelector(".pct-inc").addEventListener("click", ()=> commit(i, state.pcts[i]+1));
+    });
+  }
+  updateSum();
+}
+
+function renderPropList(){
+  const n = state.scnCount;
+  const names = state.set.props;
+  const list = document.getElementById("propList");
+  list.innerHTML = "";
+  for(let i=0;i<n;i++){
+    const row = document.createElement("div");
+    row.className = "prop-row";
+    const val = (names[i] ?? "");
+    row.innerHTML =
+      `<span class="k">scenario ${i+1}</span>
+       <span class="eq">-J</span>
+       <input type="text" data-i="${i}" value="${esc(val)}">`;
+    list.appendChild(row);
+  }
+  list.querySelectorAll("input").forEach(inp=>{
+    inp.addEventListener("input", e=>{
+      const i = +e.target.dataset.i;
+      state.set.props[i] = e.target.value;
+      renderScenarioTable(); refresh();
+    });
+  });
+}
+
+function updateSum(){
+  const sum = state.pcts.slice(0,state.scnCount).reduce((a,b)=>a+(parseFloat(b)||0),0);
+  const el = document.getElementById("pctSum");
+  el.textContent = round2(sum) + "%";
+  el.className = "val " + (Math.abs(sum-100)<0.01 ? "good" : "bad");
+}
+
+function highlight(text){
+  // colorize the preview: totals, numeric args, +1 flags, STOP markers
+  return text.split("\n").map(line=>{
+    if(/^jmeter/.test(line)){
+      let l = esc(line);
+      l = l.replace(/(-J[\w.\-]+=)(\d+)/g, (_,a,b)=>`<span class="t-dim">${a}</span><span class="t-num">${b}</span>`);
+      l = l.replace(/^(jmeter -n -t )(&quot;.*?&quot;)/, `<span class="t-dim">$1</span>$2`);
+      return l;
+    }
+    if(/^# \d+vUsers/.test(line)){
+      return `<span class="t-total">${esc(line)}</span>`;
+    }
+    if(/^#/.test(line)){
+      return `<span class="t-dim">${esc(line)}</span>`;
+    }
+    return esc(line);
+  }).join("\n");
+}
+
+let lastModel = null;
+function refresh(){
+  const model = buildModel();
+  const body = document.getElementById("pvBody");
+  const meta = document.getElementById("pvMeta");
+  const name = document.getElementById("pvName");
+  const gen  = document.getElementById("genBtn");
+  const copy = document.getElementById("copyBtn");
+
+  if(model.error){
+    lastModel = null;
+    body.innerHTML = `<span class="t-dim"># ${esc(model.error)}</span>`;
+    meta.textContent = "";
+    name.textContent = (state.set.filename||"{project}_RUNME.txt").replace(/\{project\}/g, sanitize(state.project||"project"));
+    gen.disabled = true; copy.disabled = true;
+    saveState();
+    return;
+  }
+  lastModel = model;
+  body.innerHTML = highlight(model.text);
+  name.textContent = model.filename;
+  const rowCount = model.rows.length;
+  meta.textContent = `${rowCount} steps · reach ${model.target}` + (model.anyBump ? " · +1 rows flagged" : "");
+  gen.disabled = false; copy.disabled = false;
+  saveState();
+}
+
+// ---- wiring ------------------------------------------------------------
+function bindMain(){
+  const bind = (id, key, isNum)=>{
+    const el = document.getElementById(id);
+    el.addEventListener("input", e=>{
+      if(isNum){
+        const clean = e.target.value.replace(/[^\d]/g,"");
+        if(clean !== e.target.value) e.target.value = clean;
+        state[key] = clean;
+      } else {
+        state[key] = e.target.value;
+      }
+      refresh();
+    });
+  };
+  bind("project","project",false);
+  bind("path","path",false);
+  bind("target","target",true);
+
+  const scn = document.getElementById("scnCount");
+  const setScn = (v)=>{
+    v = Math.max(1, Math.min(12, v|0));
+    state.scnCount = v;
+    scn.value = v;
+    // grow/shrink pcts; new scenarios start at 0 (flagged until given a share)
+    while(state.pcts.length < v) state.pcts.push(0);
+    state.pcts = state.pcts.slice(0, v);
+    while(state.set.props.length < v) state.set.props.push("");
+    renderScenarioTable(); renderPropList(); refresh();
+  };
+  scn.addEventListener("input", e=> setScn(parseInt(e.target.value,10)||1));
+  document.getElementById("scnPlus").addEventListener("click", ()=> setScn(state.scnCount+1));
+  document.getElementById("scnMinus").addEventListener("click", ()=> setScn(state.scnCount-1));
+
+  document.getElementById("evenBtn").addEventListener("click", ()=>{
+    const ev = evenPcts(state.scnCount);
+    state.pcts = ev.slice();
+    renderScenarioTable(); refresh();
+  });
+
+  // settings inputs
+  const bindSet = (id,key,isNum)=>{
+    const el = document.getElementById(id);
+    el.addEventListener("input", e=>{
+      let v = e.target.value;
+      if(isNum){ const clean = v.replace(/[^\d]/g,""); if(clean !== v) e.target.value = clean; v = clean; }
+      state.set[key] = v; refresh();
+    });
+  };
+  bindSet("setDebug","debug");
+  bindSet("setInc","inc",true);
+  bindSet("setLadder","ladder");
+  bindSet("setFilename","filename");
+  bindSet("setTester","tester");
+  bindSet("setJmeter","jmeterVersion");
+  document.getElementById("setHeader").addEventListener("change", e=>{
+    state.set.header = e.target.checked; refresh();
+  });
+
+  document.getElementById("resetBtn").addEventListener("click", ()=>{
+    state.set = JSON.parse(JSON.stringify(DEFAULTS));
+    state.set.props = Array(state.scnCount).fill("");
+    fillSettingsInputs();
+    renderScenarioTable(); renderPropList(); refresh();
+    toast("Settings reset to defaults");
+  });
+
+  document.getElementById("genBtn").addEventListener("click", download);
+  document.getElementById("copyBtn").addEventListener("click", copyOut);
+}
+
+function fillSettingsInputs(){
+  document.getElementById("setDebug").value = state.set.debug;
+  document.getElementById("setInc").value = state.set.inc;
+  document.getElementById("setLadder").value = state.set.ladder;
+  document.getElementById("setFilename").value = state.set.filename;
+  document.getElementById("setHeader").checked = !!state.set.header;
+  document.getElementById("setTester").value = state.set.tester || "";
+  document.getElementById("setJmeter").value = state.set.jmeterVersion || "";
+}
+function fillMainInputs(){
+  document.getElementById("project").value = state.project;
+  document.getElementById("path").value = state.path;
+  document.getElementById("target").value = state.target;
+  document.getElementById("scnCount").value = state.scnCount;
+}
+
+function download(){
+  if(!lastModel) return;
+  const blob = new Blob([lastModel.text], {type:"text/plain;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = lastModel.filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
+  toast("Downloaded " + lastModel.filename);
+}
+function copyOut(){
+  if(!lastModel) return;
+  const t = lastModel.text;
+  const done = ()=>toast("Copied to clipboard");
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(t).then(done).catch(()=>fallbackCopy(t,done));
+  } else fallbackCopy(t,done);
+}
+function fallbackCopy(t,cb){
+  const ta=document.createElement("textarea"); ta.value=t; ta.style.position="fixed"; ta.style.opacity="0";
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand("copy"); cb(); }catch(e){} ta.remove();
+}
+
+let toastTimer=null;
+function toast(msg){
+  const t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show");
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove("show"),1800);
+}
+
+// ---- init --------------------------------------------------------------
+loadState();
+if(!state.set.props || state.set.props.length < state.scnCount){
+  state.set.props = Array(state.scnCount).fill("").map((_,i)=> (state.set.props && state.set.props[i]) || "");
+}
+fillMainInputs();
+fillSettingsInputs();
+renderScenarioTable();
+renderPropList();
+bindMain();
+document.getElementById("persistNote").textContent = store.ok
+  ? "Settings persist in this browser."
+  : "Storage blocked here — settings won't persist until hosted or opened locally.";
+refresh();
+</script>
+</body>
+</html>
