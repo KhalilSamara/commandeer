@@ -4,7 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Commandeer</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjggOCA0OCA0OCI+PHJlY3QgeD0iOCIgeT0iOCIgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iMTMiIGZpbGw9IiNFODc0M0IiLz48Y2lyY2xlIGN4PSIzMiIgY3k9IjIzLjUiIHI9IjQuNyIgZmlsbD0iIzJCMkIyQiIvPjxjaXJjbGUgY3g9IjMyIiBjeT0iMzkiIHI9IjQuNyIgZmlsbD0iIzJCMkIyQiIvPjxwYXRoIGQ9Ik0zNS41MyA0MS41OSBDMzQuODIgNDcuMTAgMzEuNjAgNDguOTAgMjYuMDAgNTAuOTAgQzI4LjUwIDQ2LjMwIDMxLjA2IDQzLjUwIDI4LjQ4IDQwLjg4IFoiIGZpbGw9IiMyQjJCMkIiLz48L3N2Zz4=">
 <style>
   :root{
     --bg:#2B2B2B; --surface:#3C3F41; --ink:#D6D6D6; --muted:#9AA0A0;
@@ -54,8 +53,6 @@
 
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   .stepper{display:flex;align-items:center;gap:8px;max-width:170px}
-  .scn-line{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-  .scn-hint{font-size:11.5px;color:var(--muted);max-width:260px;line-height:1.4}
   .stepper button{width:30px;height:34px;border:1px solid var(--line);background:var(--surface);
     border-radius:7px;font-size:16px;cursor:pointer;color:var(--ink);line-height:1}
   .stepper button:hover{border-color:var(--accent);color:var(--accent)}
@@ -96,18 +93,28 @@
   .pct-num{width:48px;text-align:center;padding:6px 4px}
   .pct-unit{color:var(--muted);font-family:var(--mono);font-size:12px}
 
-  .sumline{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px;font-family:var(--mono);font-size:12px}
+  .sumline{display:flex;align-items:center;justify-content:space-between;margin-top:10px;font-family:var(--mono);font-size:12px}
   .sumline .val{font-weight:650}
   .sumline .val.bad{color:var(--danger)}
   .sumline .val.good{color:var(--ok)}
-  .sumline .total{color:var(--muted)}
+  .sumline a{color:var(--accent);text-decoration:none;font-family:var(--sans);font-size:11.5px;cursor:pointer}
+  .sumline a:hover{text-decoration:underline}
 
   .actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+
+  /* rounding mode segmented control */
+  .rounding-row{margin-top:14px}
+  .rounding-row .lbl{margin-bottom:6px}
+  .seg{display:inline-flex;background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:2px;gap:2px}
+  .seg-btn{background:transparent;border:0;color:var(--muted);padding:7px 14px;border-radius:5px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:var(--sans);line-height:1}
+  .seg-btn:hover{color:var(--ink)}
+  .seg-btn.on{background:var(--accent);color:#2B2B2B}
+  .seg-btn:focus-visible{outline:none;box-shadow:0 0 0 3px var(--accent-weak)}
+  .rounding-help{margin:8px 0 0;color:var(--muted);font-size:11.5px;line-height:1.5;font-family:var(--sans)}
   button.btn{font-family:var(--sans);font-size:13px;font-weight:600;border-radius:8px;padding:9px 16px;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
   button.btn:not(:disabled):hover{border-color:var(--accent);color:var(--accent)}
   button.btn.primary{background:var(--accent);border-color:var(--accent);color:#2B2B2B}
   button.btn.primary:not(:disabled):hover{background:#D9602A;color:#2B2B2B}
-  button.btn.sm{font-size:12px;padding:5px 11px;border-radius:6px}
   button.btn:disabled{cursor:not-allowed;opacity:1;background:#34383A;border-color:var(--line);color:var(--muted)}
 
   /* preview panel */
@@ -147,6 +154,8 @@
     /* stack action buttons full-width for easy tapping */
     .actions{flex-direction:column;align-items:stretch;gap:8px}
     .actions .btn{width:100%}
+    .seg{display:flex;width:100%}
+    .seg-btn{flex:1;text-align:center}
   }
   @media(max-width:360px){
     .pct-ctrl{gap:5px}
@@ -208,21 +217,27 @@
 
           <label class="fld">
             <span class="lbl">Scenarios</span>
-            <div class="scn-line">
-              <div class="stepper">
-                <button type="button" id="scnMinus" aria-label="fewer scenarios">−</button>
-                <input type="text" inputmode="numeric" id="scnCount" value="3">
-                <button type="button" id="scnPlus" aria-label="more scenarios">+</button>
-              </div>
-              <span class="scn-hint" id="scnHint" hidden>Small shares may not split cleanly at low steps.</span>
+            <div class="stepper">
+              <button type="button" id="scnMinus" aria-label="fewer scenarios">−</button>
+              <input type="text" inputmode="numeric" id="scnCount" value="3">
+              <button type="button" id="scnPlus" aria-label="more scenarios">+</button>
             </div>
           </label>
 
           <div class="lbl" style="margin-bottom:8px">Load distribution</div>
           <div class="scn-tbl" id="scnTable"></div>
           <div class="sumline">
-            <button type="button" class="btn sm" id="evenBtn">Even split</button>
-            <span class="total">Total: <span class="val" id="pctSum">0%</span></span>
+            <span>Total: <span class="val" id="pctSum">0%</span></span>
+            <a id="evenBtn">Even split</a>
+          </div>
+
+          <div class="rounding-row">
+            <span class="lbl">Rounding</span>
+            <div class="seg" id="roundSeg" role="radiogroup" aria-label="Rounding mode">
+              <button type="button" class="seg-btn on" data-mode="roundup" role="radio" aria-checked="true">Round up (+1)</button>
+              <button type="button" class="seg-btn" data-mode="exact" role="radio" aria-checked="false">Exact total</button>
+            </div>
+            <p class="rounding-help" id="roundHelp" aria-live="polite"></p>
           </div>
 
           <div class="actions">
@@ -294,7 +309,7 @@
         <div class="legend">
           <span><i class="dot" style="background:var(--p-total)"></i><b>step total</b></span>
           <span><i class="dot" style="background:var(--p-num)"></i><b>per-scenario users</b></span>
-          <span><i class="dot" style="background:var(--p-flag)"></i><b>+1 = rounded up to hit target</b></span>
+          <span id="lgFlag"><i class="dot" style="background:var(--p-flag)"></i><b>+1 = rounded up to hit target</b></span>
         </div>
       </div>
     </div>
@@ -336,6 +351,7 @@ const SKEY = "jmcg.state.v1";
 let state = {
   project:"", path:"", target:2000, scnCount:3,
   pcts:[50,30,20],
+  rounding:"roundup",         // "roundup" (allow N+1 to preserve minor scenarios) or "exact" (sum == N exactly)
   set: JSON.parse(JSON.stringify(DEFAULTS))
 };
 
@@ -355,10 +371,12 @@ function saveState(){ store.set(SKEY, JSON.stringify(state)); }
 //   - never round a scenario down without compensation; prefer rounding up
 //   - final sum is exactly `total` or `total`+1 (never under, never more than +1)
 //   - every scenario gets at least 1
-// Returns {parts:[...], bumped:bool}  (bumped = landed on total+1)
+// Returns {parts:[...], bumped:bool, bumpedAt:int|null}
+//   bumped   = landed on total+1
+//   bumpedAt = scenario index that received the round-up (for preview flagging)
 function distribute(total, pcts){
   const n = pcts.length;
-  if(n === 1) return { parts:[total], bumped:false };
+  if(n === 1) return { parts:[total], bumped:false, bumpedAt:null };
 
   const exact = pcts.map(p => total * p / 100);
   const base  = exact.map(Math.floor);
@@ -374,12 +392,49 @@ function distribute(total, pcts){
   // round-up preference: the most-shorted floored scenario gets its +1,
   // capped so the total never exceeds total+1
   let bumped = false;
+  let bumpedAt = null;
   const loser = order.find(i => rem[i] > 1e-9 && !bumpedIdx.has(i));
-  if(loser !== undefined){ parts[loser]++; bumped = true; }
+  if(loser !== undefined){ parts[loser]++; bumped = true; bumpedAt = loser; }
 
   // no zero-user scenario — but only for scenarios that actually carry load
   for(let i=0;i<n;i++) if(parts[i] < 1 && pcts[i] > 0) parts[i] = 1;
-  return { parts, bumped };
+  return { parts, bumped, bumpedAt };
+}
+
+// Exact-total variant. Same largest-remainder fair-share fill as `distribute`,
+// but no round-up overshoot: sum equals `total` exactly. When a scenario's
+// share rounds to 0 users, steal from the largest donor (parts>1) instead of
+// adding a fresh user. If no donor exists, produce parts whose sum exceeds
+// `total` so buildModel's infeasibility check refuses the step.
+function distributeExact(total, pcts){
+  const n = pcts.length;
+  if(n === 1) return { parts:[total], bumped:false, bumpedAt:null };
+
+  const exact = pcts.map(p => total * p / 100);
+  const base  = exact.map(Math.floor);
+  const rem   = exact.map((x,i) => x - base[i]);
+  const parts = base.slice();
+
+  let deficit = total - parts.reduce((a,b)=>a+b,0);
+  // On remainder ties, protect the SMALLER scenario: ascending pct wins the
+  // fair-share user, so it's the larger one that rounds down (relative error
+  // is much smaller there). Ascending index is the final tiebreak.
+  const order = [...Array(n).keys()].sort((a,b)=> rem[b]-rem[a] || pcts[a]-pcts[b] || a-b);
+  for(let k=0;k<deficit;k++){ const i=order[k%n]; parts[i]++; }
+  // sum === total exactly
+
+  // min-1 rescue via STEAL from largest — keeps the total exact
+  for(let i=0;i<n;i++){
+    if(pcts[i] > 0 && parts[i] < 1){
+      let donor = -1, max = -1;
+      for(let j=0;j<n;j++){
+        if(j !== i && parts[j] > 1 && parts[j] > max){ donor = j; max = parts[j]; }
+      }
+      if(donor === -1){ parts[i] = 1; }              // infeasible — will trip check in buildModel
+      else { parts[donor]--; parts[i]++; }
+    }
+  }
+  return { parts, bumped:false, bumpedAt:null };
 }
 
 // Integer even split of percentages that sums to exactly 100 (whole numbers).
@@ -398,7 +453,7 @@ function evenSplit(total, n){
   const parts = Array(n).fill(q);
   for(let i=0;i<r;i++) parts[i]++;
   for(let i=0;i<n;i++) if(parts[i] < 1) parts[i] = 1;
-  return { parts, bumped:false };
+  return { parts, bumped:false, bumpedAt:null };
 }
 
 function buildLadder(target, debug, base, inc){
@@ -446,21 +501,29 @@ function buildModel(){
 
   const names  = propNames(s.scnCount, s.set.props);
   const ladder = buildLadder(target, debug, base, inc);
+  const mode   = s.rounding === "exact" ? "exact" : "roundup";
 
   const rows = ladder.map(r=>{
-    const {parts, bumped} = r.debug
-      ? evenSplit(r.total, s.scnCount)               // debug = clean integer even split
-      : distribute(r.total, active);                 // load  = weighted, rounded up
-    return { total:r.total, debug:r.debug, parts, names, bumped };
+    const {parts, bumped, bumpedAt} = r.debug
+      ? evenSplit(r.total, s.scnCount)                                       // debug = clean integer even split
+      : (mode === "exact" ? distributeExact(r.total, active)
+                          : distribute(r.total, active));
+    return { total:r.total, debug:r.debug, parts, names, bumped, bumpedAt };
   });
 
-  // A step can't honor the "N or N+1" ceiling only when a scenario's share
-  // rounds below one user and min-1 has to rescue several of them — i.e. the
-  // split isn't representable at that user count. Refuse rather than mislead.
-  const bad = rows.find(r => r.parts.reduce((a,b)=>a+b,0) > r.total + 1);
+  // Feasibility check depends on mode:
+  //   exact  — sum must equal total (no overshoot allowed)
+  //   roundup — sum may exceed total by at most 1
+  const bad = rows.find(r => {
+    const sum = r.parts.reduce((a,b)=>a+b,0);
+    return mode === "exact" ? sum !== r.total : sum > r.total + 1;
+  });
   if(bad){
-    return { error: bad.debug
-      ? `The ${bad.total}-user debug step can't cover ${s.scnCount} scenarios (needs ≥1 user each). Lower the scenario count or raise the debug value.`
+    if(bad.debug){
+      return { error: `The ${bad.total}-user debug step can't cover ${s.scnCount} scenarios (needs ≥1 user each). Lower the scenario count or raise the debug value.` };
+    }
+    return { error: mode === "exact"
+      ? `At ${bad.total} users, exact rounding can't fit ≥1 user per scenario without overshoot. Switch to Round-up mode, raise the smallest step, or reduce scenarios.`
       : `At ${bad.total} users a scenario's share rounds below 1 user, so the step can't stay within ${bad.total+1}. Raise the smallest step or rebalance the percentages.` };
   }
 
@@ -472,7 +535,8 @@ function buildModel(){
   let text = body;
   if(s.set.header){
     const d = new Date();
-    const dateStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+    const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    const dateStr = `${String(d.getDate()).padStart(2,"0")} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
     const dist = names.map((nm,i)=>`${nm} ${active[i]}%`).join("  ");
     const meta = [];
     const add = (k,v)=> meta.push(`# ${(k+":").padEnd(15)}${v}`);
@@ -480,6 +544,7 @@ function buildModel(){
     add("Generated", dateStr);
     add("Max vUsers", target);
     add("Scenarios", `${s.scnCount} (${dist})`);
+    add("Rounding", mode === "exact" ? "exact total" : "round-up (+1)");
     if((s.set.tester||"").trim())        add("Tester", s.set.tester.trim());
     if((s.set.jmeterVersion||"").trim()) add("JMeter", s.set.jmeterVersion.trim());
     const bar = "# " + "=".repeat(48);
@@ -489,7 +554,7 @@ function buildModel(){
   const filename = (s.set.filename||"{project}_RUNME.txt")
       .replace(/\{project\}/g, sanitize(s.project||"project"));
 
-  return { rows, text, filename, target,
+  return { rows, text, filename, target, mode,
            anyBump: rows.some(r=>r.bumped && !r.debug) };
 }
 
@@ -509,10 +574,6 @@ function renderScenarioTable(){
   const names = propNames(n, state.set.props);
   const single = (n === 1);
   if(single) state.pcts = [100];                        // one scenario is always 100%
-  const evenBtn = document.getElementById("evenBtn");
-  if(evenBtn) evenBtn.disabled = single;
-  const scnHint = document.getElementById("scnHint");
-  if(scnHint) scnHint.hidden = n <= 12;
   tbl.innerHTML = "";
   for(let i=0;i<n;i++){
     const pct = Math.round(state.pcts[i] ?? 0);
@@ -588,6 +649,20 @@ function renderPropList(){
   });
 }
 
+function renderRoundSeg(){
+  document.querySelectorAll("#roundSeg .seg-btn").forEach(b=>{
+    const active = b.dataset.mode === state.rounding;
+    b.classList.toggle("on", active);
+    b.setAttribute("aria-checked", active ? "true" : "false");
+  });
+  const help = document.getElementById("roundHelp");
+  if(help){
+    help.textContent = state.rounding === "exact"
+      ? "Step totals stay exact. Small scenarios may round down."
+      : "Keeps small scenarios near their share. Step totals may be 1 vUser over.";
+  }
+}
+
 function updateSum(){
   const sum = state.pcts.slice(0,state.scnCount).reduce((a,b)=>a+(parseFloat(b)||0),0);
   const el = document.getElementById("pctSum");
@@ -595,17 +670,31 @@ function updateSum(){
   el.className = "val " + (Math.abs(sum-100)<0.01 ? "good" : "bad");
 }
 
-function highlight(text){
-  // colorize the preview: totals, numeric args, +1 flags, STOP markers
+function highlight(text, model){
+  // colorize the preview: totals, numeric args, +1 flags
+  // rowIdx tracks which model row we're inside; the "# NvUsers" header
+  // advances it, and the jmeter line that follows shares that row's flag state
+  const rows = (model && model.rows) || [];
+  let rowIdx = -1;
   return text.split("\n").map(line=>{
+    if(/^# \d+vUsers/.test(line)){
+      rowIdx++;
+      const r = rows[rowIdx];
+      const cls = (r && r.bumped) ? "t-flag" : "t-total";
+      return `<span class="${cls}">${esc(line)}</span>`;
+    }
     if(/^jmeter/.test(line)){
+      const r = rows[rowIdx];
       let l = esc(line);
-      l = l.replace(/(-J[\w.\-]+=)(\d+)/g, (_,a,b)=>`<span class="t-dim">${a}</span><span class="t-num">${b}</span>`);
+      let argIdx = 0;
+      l = l.replace(/(-J[\w.\-]+=)(\d+)/g, (_,a,b)=>{
+        const flagThis = r && r.bumped && argIdx === r.bumpedAt;
+        argIdx++;
+        const numCls = flagThis ? "t-flag" : "t-num";
+        return `<span class="t-dim">${a}</span><span class="${numCls}">${b}</span>`;
+      });
       l = l.replace(/^(jmeter -n -t )(&quot;.*?&quot;)/, `<span class="t-dim">$1</span>$2`);
       return l;
-    }
-    if(/^# \d+vUsers/.test(line)){
-      return `<span class="t-total">${esc(line)}</span>`;
     }
     if(/^#/.test(line)){
       return `<span class="t-dim">${esc(line)}</span>`;
@@ -633,10 +722,12 @@ function refresh(){
     return;
   }
   lastModel = model;
-  body.innerHTML = highlight(model.text);
+  body.innerHTML = highlight(model.text, model);
   name.textContent = model.filename;
   const rowCount = model.rows.length;
-  meta.textContent = `${rowCount} steps · reach ${model.target}` + (model.anyBump ? " · +1 rows flagged" : "");
+  const modeTag = model.mode === "exact" ? " · exact" : " · round-up";
+  meta.textContent = `${rowCount} steps · reach ${model.target}${modeTag}` + (model.anyBump ? " · +1 rows flagged" : "");
+  document.getElementById("lgFlag").style.display = model.mode === "exact" ? "none" : "";
   gen.disabled = false; copy.disabled = false;
   saveState();
 }
@@ -662,7 +753,7 @@ function bindMain(){
 
   const scn = document.getElementById("scnCount");
   const setScn = (v)=>{
-    v = Math.max(1, Math.min(50, v|0));
+    v = Math.max(1, Math.min(12, v|0));
     state.scnCount = v;
     scn.value = v;
     // grow/shrink pcts; new scenarios start at 0 (flagged until given a share)
@@ -679,6 +770,14 @@ function bindMain(){
     const ev = evenPcts(state.scnCount);
     state.pcts = ev.slice();
     renderScenarioTable(); refresh();
+  });
+
+  document.querySelectorAll("#roundSeg .seg-btn").forEach(b=>{
+    b.addEventListener("click", ()=>{
+      if(state.rounding === b.dataset.mode) return;
+      state.rounding = b.dataset.mode;
+      renderRoundSeg(); refresh();
+    });
   });
 
   // settings inputs
@@ -760,6 +859,7 @@ function toast(msg){
 
 // ---- init --------------------------------------------------------------
 loadState();
+if(state.rounding !== "exact" && state.rounding !== "roundup") state.rounding = "roundup";
 if(!state.set.props || state.set.props.length < state.scnCount){
   state.set.props = Array(state.scnCount).fill("").map((_,i)=> (state.set.props && state.set.props[i]) || "");
 }
@@ -767,6 +867,7 @@ fillMainInputs();
 fillSettingsInputs();
 renderScenarioTable();
 renderPropList();
+renderRoundSeg();
 bindMain();
 document.getElementById("persistNote").textContent = store.ok
   ? "Settings persist in this browser."
