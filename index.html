@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Commandeer</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjggOCA0OCA0OCI+PHJlY3QgeD0iOCIgeT0iOCIgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iMTMiIGZpbGw9IiNFODc0M0IiLz48Y2lyY2xlIGN4PSIzMiIgY3k9IjIzLjUiIHI9IjQuNyIgZmlsbD0iIzJCMkIyQiIvPjxjaXJjbGUgY3g9IjMyIiBjeT0iMzkiIHI9IjQuNyIgZmlsbD0iIzJCMkIyQiIvPjxwYXRoIGQ9Ik0zNS41MyA0MS41OSBDMzQuODIgNDcuMTAgMzEuNjAgNDguOTAgMjYuMDAgNTAuOTAgQzI4LjUwIDQ2LjMwIDMxLjA2IDQzLjUwIDI4LjQ4IDQwLjg4IFoiIGZpbGw9IiMyQjJCMkIiLz48L3N2Zz4=">
 <style>
   :root{
     --bg:#2B2B2B; --surface:#3C3F41; --ink:#D6D6D6; --muted:#9AA0A0;
@@ -53,6 +54,8 @@
 
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   .stepper{display:flex;align-items:center;gap:8px;max-width:170px}
+  .scn-line{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .scn-hint{font-size:11.5px;color:var(--muted);max-width:260px;line-height:1.4}
   .stepper button{width:30px;height:34px;border:1px solid var(--line);background:var(--surface);
     border-radius:7px;font-size:16px;cursor:pointer;color:var(--ink);line-height:1}
   .stepper button:hover{border-color:var(--accent);color:var(--accent)}
@@ -93,18 +96,18 @@
   .pct-num{width:48px;text-align:center;padding:6px 4px}
   .pct-unit{color:var(--muted);font-family:var(--mono);font-size:12px}
 
-  .sumline{display:flex;align-items:center;justify-content:space-between;margin-top:10px;font-family:var(--mono);font-size:12px}
+  .sumline{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px;font-family:var(--mono);font-size:12px}
   .sumline .val{font-weight:650}
   .sumline .val.bad{color:var(--danger)}
   .sumline .val.good{color:var(--ok)}
-  .sumline a{color:var(--accent);text-decoration:none;font-family:var(--sans);font-size:11.5px;cursor:pointer}
-  .sumline a:hover{text-decoration:underline}
+  .sumline .total{color:var(--muted)}
 
   .actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
   button.btn{font-family:var(--sans);font-size:13px;font-weight:600;border-radius:8px;padding:9px 16px;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
   button.btn:not(:disabled):hover{border-color:var(--accent);color:var(--accent)}
   button.btn.primary{background:var(--accent);border-color:var(--accent);color:#2B2B2B}
   button.btn.primary:not(:disabled):hover{background:#D9602A;color:#2B2B2B}
+  button.btn.sm{font-size:12px;padding:5px 11px;border-radius:6px}
   button.btn:disabled{cursor:not-allowed;opacity:1;background:#34383A;border-color:var(--line);color:var(--muted)}
 
   /* preview panel */
@@ -205,18 +208,21 @@
 
           <label class="fld">
             <span class="lbl">Scenarios</span>
-            <div class="stepper">
-              <button type="button" id="scnMinus" aria-label="fewer scenarios">−</button>
-              <input type="text" inputmode="numeric" id="scnCount" value="3">
-              <button type="button" id="scnPlus" aria-label="more scenarios">+</button>
+            <div class="scn-line">
+              <div class="stepper">
+                <button type="button" id="scnMinus" aria-label="fewer scenarios">−</button>
+                <input type="text" inputmode="numeric" id="scnCount" value="3">
+                <button type="button" id="scnPlus" aria-label="more scenarios">+</button>
+              </div>
+              <span class="scn-hint" id="scnHint" hidden>Small shares may not split cleanly at low steps.</span>
             </div>
           </label>
 
           <div class="lbl" style="margin-bottom:8px">Load distribution</div>
           <div class="scn-tbl" id="scnTable"></div>
           <div class="sumline">
-            <span>Total: <span class="val" id="pctSum">0%</span></span>
-            <a id="evenBtn">Even split</a>
+            <button type="button" class="btn sm" id="evenBtn">Even split</button>
+            <span class="total">Total: <span class="val" id="pctSum">0%</span></span>
           </div>
 
           <div class="actions">
@@ -466,8 +472,7 @@ function buildModel(){
   let text = body;
   if(s.set.header){
     const d = new Date();
-    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-    const dateStr = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+    const dateStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
     const dist = names.map((nm,i)=>`${nm} ${active[i]}%`).join("  ");
     const meta = [];
     const add = (k,v)=> meta.push(`# ${(k+":").padEnd(15)}${v}`);
@@ -504,6 +509,10 @@ function renderScenarioTable(){
   const names = propNames(n, state.set.props);
   const single = (n === 1);
   if(single) state.pcts = [100];                        // one scenario is always 100%
+  const evenBtn = document.getElementById("evenBtn");
+  if(evenBtn) evenBtn.disabled = single;
+  const scnHint = document.getElementById("scnHint");
+  if(scnHint) scnHint.hidden = n <= 12;
   tbl.innerHTML = "";
   for(let i=0;i<n;i++){
     const pct = Math.round(state.pcts[i] ?? 0);
@@ -653,7 +662,7 @@ function bindMain(){
 
   const scn = document.getElementById("scnCount");
   const setScn = (v)=>{
-    v = Math.max(1, Math.min(12, v|0));
+    v = Math.max(1, Math.min(50, v|0));
     state.scnCount = v;
     scn.value = v;
     // grow/shrink pcts; new scenarios start at 0 (flagged until given a share)
