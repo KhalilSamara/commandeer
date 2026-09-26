@@ -1,0 +1,12 @@
+{
+  "name": "commandeer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "JMeter command ladder generator. Zero runtime and zero dev dependencies.",
+  "scripts": {
+    "test": "node --test",
+    "build": "node tools/build.mjs",
+    "check": "node --test && node tools/build.mjs"
+  },
+  "engines": { "node": ">=18" }
+}
