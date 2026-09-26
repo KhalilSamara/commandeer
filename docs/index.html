@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Commandeer</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='8' y='8' width='48' height='48' rx='13' fill='%23E8743B'/><circle cx='32' cy='23.5' r='4.7' fill='%232B2B2B'/><circle cx='32' cy='39' r='4.7' fill='%232B2B2B'/><path d='M35.53 41.59 C34.82 47.10 31.60 48.90 26.00 50.90 C28.50 46.30 31.06 43.50 28.48 40.88 Z' fill='%232B2B2B'/></svg>">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/preview.css">
+<link rel="stylesheet" href="css/overlays.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ============================================================
+       TOPBAR
+       ============================================================ -->
+  <header class="topbar">
+    <div class="brand" title="Commandeer">
+      <span class="logo" aria-hidden="true">
+        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+          <rect x="8" y="8" width="48" height="48" rx="13" fill="var(--accent)"/>
+          <circle cx="32" cy="23.5" r="4.7" fill="#2B2B2B"/>
+          <circle cx="32" cy="39" r="4.7" fill="#2B2B2B"/>
+          <path d="M35.53 41.59 C34.82 47.10 31.60 48.90 26.00 50.90 C28.50 46.30 31.06 43.50 28.48 40.88 Z" fill="#2B2B2B"/>
+        </svg>
+      </span>
+      <span class="name">Commandeer</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="path-slot">
+      <span class="k">-t</span>
+      <input type="text" class="input-inline" id="path" autocomplete="off"
+             spellcheck="false">
+    </div>
+
+    <div class="top-actions">
+      <button class="btn" id="copyBtn" type="button" title="Copy to clipboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg>
+        <span>Copy</span>
+      </button>
+      <button class="btn btn-primary" id="genBtn" type="button" title="Generate &amp; download">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        <span>Generate</span>
+      </button>
+      <button class="icon-btn" id="drawerOpen" type="button" title="Preferences" aria-label="Preferences">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       WORKSPACE
+       ============================================================ -->
+  <div class="workspace">
+
+    <section class="form-pane">
+
+      <div class="section">
+        <div class="section-hd">Run</div>
+        <div class="field">
+          <label class="field-lbl" for="project">Project name</label>
+          <input type="text" class="input" id="project" autocomplete="off"
+                 spellcheck="false">
+        </div>
+        <div class="row-2 u-mt-3">
+          <div class="field">
+            <label class="field-lbl" for="target">Max vUsers</label>
+            <input type="text" inputmode="numeric" class="input" id="target" autocomplete="off">
+          </div>
+          <div class="field">
+            <label class="field-lbl">Scenarios</label>
+            <div class="stepper">
+              <button type="button" id="scnMinus" aria-label="fewer scenarios">−</button>
+              <input type="text" inputmode="numeric" id="scnCount" value="3">
+              <button type="button" id="scnPlus" aria-label="more scenarios">+</button>
+            </div>
+            <span class="scn-hint" id="scnHint" hidden>Small shares may not split cleanly at low steps.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section" id="runtimeSection" hidden>
+        <div class="section-hd">Runtime</div>
+        <div class="row-2">
+          <div class="field">
+            <label class="field-lbl" for="rampup">Ramp-up (s)</label>
+            <input type="text" inputmode="numeric" class="input" id="rampup" autocomplete="off">
+          </div>
+          <div class="field">
+            <label class="field-lbl" for="duration">Duration (s)</label>
+            <input type="text" inputmode="numeric" class="input" id="duration" autocomplete="off">
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-hd">Distribution</div>
+        <div class="dist" id="scnTable"></div>
+        <div class="dist-sum">
+          <span>Total <span class="val" id="pctSum">0%</span></span>
+          <button class="btn-ghost" id="evenBtn" type="button">Even split</button>
+        </div>
+        <div class="rounding-row">
+          <div class="field-lbl">Rounding</div>
+          <div class="seg" id="roundSeg" role="radiogroup" aria-label="Rounding mode">
+            <button type="button" class="seg-btn on" data-mode="roundup" role="radio" aria-checked="true">Round up (+1)</button>
+            <button type="button" class="seg-btn" data-mode="exact" role="radio" aria-checked="false">Exact total</button>
+          </div>
+          <p class="rounding-help" id="roundHelp" aria-live="polite"></p>
+        </div>
+      </div>
+
+    </section>
+
+    <section class="preview-pane">
+      <div class="preview">
+        <div class="preview-hd">
+          <span class="fname" id="pvName">RUNME.txt</span>
+          <span class="meta" id="pvMeta"></span>
+        </div>
+        <pre class="preview-body" id="pvBody"></pre>
+        <div class="preview-empty" id="pvEmpty" hidden>
+          <svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"
+               width="40" height="40" aria-hidden="true">
+            <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+          <div class="msg" id="pvEmptyMsg"></div>
+        </div>
+        <div class="preview-legend">
+          <span><i class="dot dot--total"></i>step total</span>
+          <span><i class="dot dot--num"></i>per-scenario users</span>
+          <span id="lgFlag"><i class="dot dot--flag"></i>+1 rounded up</span>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ==============================================================
+     DRAWER (Preferences)
+     ============================================================== -->
+<div class="drawer-scrim" id="drawerScrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-labelledby="drawerTitle" aria-modal="true">
+  <header class="drawer-hd">
+    <h2 id="drawerTitle">Preferences <span class="k">/ set &amp; forget</span></h2>
+    <button class="icon-btn" id="drawerClose" type="button" aria-label="Close preferences">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </header>
+  <div class="drawer-bd">
+
+    <div class="section">
+      <div class="section-hd">Ladder</div>
+      <div class="row-2">
+        <div class="field">
+          <label class="field-lbl" for="setDebug">Debug rows</label>
+          <input type="text" class="input" id="setDebug" autocomplete="off">
+        </div>
+        <div class="field">
+          <label class="field-lbl" for="setInc">Increment</label>
+          <input type="text" inputmode="numeric" class="input" id="setInc" autocomplete="off">
+        </div>
+      </div>
+      <div class="field u-mt-3">
+        <label class="field-lbl" for="setLadder">Base steps</label>
+        <input type="text" class="input" id="setLadder" autocomplete="off">
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-hd">Output</div>
+      <div class="field">
+        <label class="field-lbl" for="setFilename">Filename pattern</label>
+        <input type="text" class="input" id="setFilename" autocomplete="off">
+      </div>
+      <label class="field-check">
+        <input type="checkbox" id="setHeader">
+        <span>Include metadata header</span>
+      </label>
+    </div>
+
+    <div class="section">
+      <div class="section-hd">Metadata</div>
+      <div class="field">
+        <label class="field-lbl" for="setTester">Tester</label>
+        <input type="text" class="input" id="setTester" autocomplete="off">
+      </div>
+      <div class="field u-mt-3">
+        <label class="field-lbl" for="setJmeter">JMeter version</label>
+        <input type="text" class="input" id="setJmeter" autocomplete="off">
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-hd">Runtime</div>
+      <label class="field-check">
+        <input type="checkbox" id="setRuntime">
+        <span>Include ramp-up &amp; duration</span>
+      </label>
+      <div class="prop-list u-mt-3" id="runtimePropList" hidden>
+        <div class="prop-row">
+          <span class="k">ramp-up</span>
+          <div class="input-wrap">
+            <span class="prefix">-J</span>
+            <input type="text" id="setRampupProp" spellcheck="false">
+          </div>
+        </div>
+        <div class="prop-row">
+          <span class="k">duration</span>
+          <div class="input-wrap">
+            <span class="prefix">-J</span>
+            <input type="text" id="setDurationProp" spellcheck="false">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-hd">Property names</div>
+      <div class="prop-list" id="propList"></div>
+    </div>
+
+  </div>
+  <div class="drawer-ft">
+    <span id="persistNote"></span>
+    <button class="btn-ghost" id="resetBtn" type="button">Reset defaults</button>
+  </div>
+</aside>
+
+<div class="toast" id="toast"></div>
+
+<!-- ==============================================================
+     TEMPLATES — row markup cloned by ui/scenario-table.js and
+     ui/property-list.js. Keep class names in sync with the CSS.
+     ============================================================== -->
+<template id="tplDistRow">
+  <div class="dist-row">
+    <span class="dist-tag"><span class="prefix">-J</span></span>
+    <input type="range" class="slider" min="0" max="100" step="1">
+    <div class="stepper">
+      <button type="button" class="pct-dec" aria-label="decrease">−</button>
+      <input type="text" inputmode="numeric" class="pct-num">
+      <button type="button" class="pct-inc" aria-label="increase">+</button>
+      <span class="suffix">%</span>
+    </div>
+  </div>
+</template>
+
+<template id="tplPropRow">
+  <div class="prop-row">
+    <span class="k"></span>
+    <div class="input-wrap">
+      <span class="prefix">-J</span>
+      <input type="text" spellcheck="false">
+    </div>
+  </div>
+</template>
+
+<!-- Classic scripts (not ES modules) so the app runs from file:// with no server.
+     Order = dependency order. Each file registers itself on window.Commandeer. -->
+<script src="js/core/config.js"></script>
+<script src="js/core/utils.js"></script>
+<script src="js/core/distribution.js"></script>
+<script src="js/core/ladder.js"></script>
+<script src="js/core/format.js"></script>
+<script src="js/core/model.js"></script>
+<script src="js/services/storage.js"></script>
+<script src="js/services/state.js"></script>
+<script src="js/ui/dom.js"></script>
+<script src="js/ui/highlight.js"></script>
+<script src="js/ui/scenario-table.js"></script>
+<script src="js/ui/property-list.js"></script>
+<script src="js/ui/preview.js"></script>
+<script src="js/ui/drawer.js"></script>
+<script src="js/ui/forms.js"></script>
+<script src="js/ui/export.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

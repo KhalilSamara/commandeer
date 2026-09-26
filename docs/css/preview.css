@@ -1,0 +1,94 @@
+/* ==============================================================
+   PREVIEW
+   ============================================================== */
+.preview{
+  background:var(--surface-3);
+  border:1px solid var(--line);
+  border-radius:var(--r-lg);
+  overflow:hidden;
+  display:flex; flex-direction:column;
+  flex:1 1 auto;
+  min-height:0; min-width:0;
+  width:100%;
+}
+.preview-hd{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 14px;
+  border-bottom:1px solid var(--line);
+  background:rgba(0,0,0,.18);
+  flex:0 0 auto;
+  gap:var(--sp-3);
+}
+.preview-hd .fname{
+  font-family:var(--font-mono);
+  font-size:var(--fs-sm);
+  color:var(--ink);
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.preview-hd .meta{
+  font-family:var(--font-mono);
+  font-size:var(--fs-xs);
+  color:var(--syn-dim);
+  display:flex; gap:var(--sp-3);
+  flex:0 0 auto;
+  white-space:nowrap;
+}
+.preview-hd .meta .flag{ color:var(--syn-flag) }
+
+.preview-body{
+  flex:1 1 auto; min-height:0;
+  overflow:auto;
+  margin:0;
+  padding:var(--sp-4) var(--sp-5);
+  font-family:var(--font-mono);
+  font-size:12.5px;
+  line-height:1.7;
+  color:var(--syn-cmd);
+  white-space:pre;
+  tab-size:2;
+}
+
+.preview-legend{
+  flex:0 0 auto;
+  display:flex; gap:var(--sp-4); flex-wrap:wrap;
+  padding:8px 14px;
+  border-top:1px solid var(--line);
+  background:rgba(0,0,0,.12);
+  font-family:var(--font-mono);
+  font-size:var(--fs-xs);
+  color:var(--syn-dim);
+}
+.preview-legend .dot{
+  display:inline-block; width:7px; height:7px;
+  border-radius:1.5px; margin-right:6px; vertical-align:middle;
+}
+
+/* Preview syntax classes */
+.t-total{ color:var(--syn-total); font-weight:650 }
+.t-num{ color:var(--syn-num) }
+.t-flag{ color:var(--syn-flag); font-weight:650 }
+.t-dim{ color:var(--syn-dim) }
+.t-str{ color:var(--syn-str) }
+
+/* Empty / error state */
+.preview-empty{
+  flex:1 1 auto; min-height:0;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  padding:var(--sp-6);
+  gap:var(--sp-3);
+  color:var(--ink-dim);
+  text-align:center;
+}
+.preview-empty .icn{ color:var(--warn) }
+.preview-empty .msg{
+  font-family:var(--font-mono);
+  font-size:var(--fs-sm);
+  max-width:44ch;
+  line-height:1.6;
+}
+
+/* Legend swatches (replace former inline style="" attributes) */
+.dot--total{ background:var(--syn-total) }
+.dot--num{ background:var(--syn-num) }
+.dot--flag{ background:var(--syn-flag) }

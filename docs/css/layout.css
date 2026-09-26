@@ -1,0 +1,79 @@
+/* ==============================================================
+   APP SHELL
+   ============================================================== */
+.app{
+  display:grid;
+  grid-template-rows: var(--topbar-h) 1fr;
+  height:100%;
+}
+
+/* ---- Topbar -------------------------------------------------- */
+.topbar{
+  display:flex;
+  align-items:center;
+  gap:var(--sp-3);
+  padding:0 var(--sp-4);
+  background:var(--surface-2);
+  border-bottom:1px solid var(--line);
+  min-width:0;
+}
+.brand{ display:flex; align-items:center; gap:var(--sp-2); flex:0 0 auto }
+.brand .logo{ width:26px; height:26px; flex:0 0 auto; display:block }
+.brand .name{
+  font-size:var(--fs-lg); font-weight:650; letter-spacing:-.01em;
+}
+.divider{ width:1px; height:22px; background:var(--line); flex:0 0 auto }
+
+.path-slot{
+  flex:1 1 auto; min-width:0;
+  display:flex; align-items:center; gap:var(--sp-2);
+}
+.path-slot .k{
+  font-family:var(--font-mono);
+  font-size:var(--fs-xs);
+  color:var(--ink-faint);
+  flex:0 0 auto;
+  padding:0 2px;
+}
+.path-slot .input-inline{ flex:1 1 auto; min-width:0 }
+
+.input-inline{
+  font-family:var(--font-mono);
+  font-size:var(--fs-sm);
+  color:var(--ink);
+  background:var(--bg);
+  border:1px solid var(--line-soft);
+  border-radius:var(--r-sm);
+  padding:6px 10px;
+  outline:none;
+  height:30px;
+  transition:border-color .12s, box-shadow .12s;
+}
+.input-inline:hover{ border-color:var(--ink-faint) }
+.input-inline:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 2px var(--accent-weak);
+}
+.input-inline::placeholder{ color:var(--ink-faint) }
+
+.top-actions{ display:flex; gap:var(--sp-2); align-items:center; flex:0 0 auto }
+
+/* ---- Workspace ---------------------------------------------- */
+.workspace{
+  display:grid;
+  grid-template-columns: minmax(360px, 440px) 1fr;
+  min-height:0;
+  overflow:hidden;
+}
+.form-pane{
+  overflow-y:auto;
+  padding:var(--sp-5);
+  border-right:1px solid var(--line);
+  background:var(--bg);
+}
+.preview-pane{
+  padding:var(--sp-4);
+  min-height:0;
+  overflow:hidden;
+  display:flex;
+}

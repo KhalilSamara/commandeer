@@ -1,0 +1,42 @@
+/* ==============================================================
+   RESPONSIVE
+   ============================================================== */
+@media (max-width: 900px){
+  body{ overflow:auto }
+  .app{ height:auto; min-height:100% }
+  .workspace{ grid-template-columns:1fr; overflow:visible }
+  .form-pane{
+    border-right:none; border-bottom:1px solid var(--line);
+    overflow:visible; max-width:600px; width:100%;
+  }
+  .preview-pane{ overflow:visible }
+  .preview{ min-height:60vh }
+}
+@media (max-width: 720px){
+  .topbar{
+    flex-wrap:wrap; height:auto;
+    padding:var(--sp-2) var(--sp-3);
+    gap:var(--sp-2);
+    min-height:var(--topbar-h);
+  }
+  .app{ grid-template-rows:auto 1fr }
+  .path-slot{ order:10; flex-basis:100% }
+  .divider{ display:none }
+  .btn > span{ display:none }
+  .btn{ padding:0; width:34px; justify-content:center; gap:0 }
+}
+@media (max-width: 560px){
+  .form-pane{ padding:var(--sp-4) }
+  .dist-row{
+    grid-template-columns:auto 1fr;
+    grid-template-areas: "tag ctrl" "slider slider";
+    row-gap:var(--sp-2);
+  }
+  .dist-row .dist-tag{ grid-area:tag; text-align:left }
+  .dist-row .slider{ grid-area:slider }
+  .dist-row .stepper{ grid-area:ctrl }
+  .row-2{ grid-template-columns:1fr }
+  .row-2 > .field + .field{ margin-top:var(--sp-3) }
+  .seg{ display:flex; width:100% }
+  .seg-btn{ flex:1; text-align:center }
+}

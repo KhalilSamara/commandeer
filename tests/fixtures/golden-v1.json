@@ -1,0 +1,3110 @@
+{
+ "generatedBy": "Commandeer v1 single-file build (verified)",
+ "now": "2026-03-07",
+ "cases": [
+  {
+   "name": "defaults, round-up",
+   "state": {
+    "project": "Acme",
+    "path": "C:\\Tests\\My Plan.jmx",
+    "target": 2000,
+    "scnCount": 3,
+    "pcts": [
+     50,
+     30,
+     20
+    ],
+    "rampup": "",
+    "duration": "",
+    "rounding": "roundup",
+    "set": {
+     "debug": "15",
+     "inc": 250,
+     "ladder": "50,100,150,250,500,750,1000",
+     "filename": "{project}_RUNME.txt",
+     "header": true,
+     "tester": "",
+     "jmeterVersion": "",
+     "props": [],
+     "runtime": false,
+     "rampupProp": "rampup",
+     "durationProp": "duration"
+    }
+   },
+   "expected": {
+    "text": "# ================================================\n# Project:       Acme\n# Generated:     07 March 2026\n# Max vUsers:    2000\n# Scenarios:     3 (S1 50%  S2 30%  S3 20%)\n# Rounding:      round-up (+1)\n# ================================================\n\n# 15vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=8 -JS2=5 -JS3=3\n# 50vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=25 -JS2=15 -JS3=10\n# 100vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=50 -JS2=30 -JS3=20\n# 150vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=75 -JS2=45 -JS3=30\n# 250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=125 -JS2=75 -JS3=50\n# 500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=250 -JS2=150 -JS3=100\n# 750vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=375 -JS2=225 -JS3=150\n# 1000vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=500 -JS2=300 -JS3=200\n# 1250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=625 -JS2=375 -JS3=250\n# 1500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=750 -JS2=450 -JS3=300\n# 1750vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=875 -JS2=525 -JS3=350\n# 2000vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=1000 -JS2=600 -JS3=400\n",
+    "filename": "Acme_RUNME.txt",
+    "mode": "roundup",
+    "anyBump": true,
+    "rows": [
+     {
+      "total": 15,
+      "debug": true,
+      "parts": [
+       8,
+       5,
+       3
+      ],
+      "bumped": true,
+      "bumpedAt": 1
+     },
+     {
+      "total": 50,
+      "debug": false,
+      "parts": [
+       25,
+       15,
+       10
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 100,
+      "debug": false,
+      "parts": [
+       50,
+       30,
+       20
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 150,
+      "debug": false,
+      "parts": [
+       75,
+       45,
+       30
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 250,
+      "debug": false,
+      "parts": [
+       125,
+       75,
+       50
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 500,
+      "debug": false,
+      "parts": [
+       250,
+       150,
+       100
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 750,
+      "debug": false,
+      "parts": [
+       375,
+       225,
+       150
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1000,
+      "debug": false,
+      "parts": [
+       500,
+       300,
+       200
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1250,
+      "debug": false,
+      "parts": [
+       625,
+       375,
+       250
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1500,
+      "debug": false,
+      "parts": [
+       750,
+       450,
+       300
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1750,
+      "debug": false,
+      "parts": [
+       875,
+       525,
+       350
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 2000,
+      "debug": false,
+      "parts": [
+       1000,
+       600,
+       400
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     }
+    ],
+    "highlight": "<span class=\"t-dim\"># ================================================</span>\n<span class=\"t-dim\"># Project:       Acme</span>\n<span class=\"t-dim\"># Generated:     07 March 2026</span>\n<span class=\"t-dim\"># Max vUsers:    2000</span>\n<span class=\"t-dim\"># Scenarios:     3 (S1 50%  S2 30%  S3 20%)</span>\n<span class=\"t-dim\"># Rounding:      round-up (+1)</span>\n<span class=\"t-dim\"># ================================================</span>\n\n<span class=\"t-flag\"># 15vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">8</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-flag\">5</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">3</span>\n<span class=\"t-total\"># 50vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">25</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">15</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">10</span>\n<span class=\"t-total\"># 100vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">50</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">30</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">20</span>\n<span class=\"t-total\"># 150vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">75</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">45</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">30</span>\n<span class=\"t-total\"># 250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">125</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">75</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">50</span>\n<span class=\"t-total\"># 500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">250</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">150</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">100</span>\n<span class=\"t-total\"># 750vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">375</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">225</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">150</span>\n<span class=\"t-total\"># 1000vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">500</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">300</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">200</span>\n<span class=\"t-total\"># 1250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">625</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">375</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">250</span>\n<span class=\"t-total\"># 1500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">750</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">450</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">300</span>\n<span class=\"t-total\"># 1750vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">875</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">525</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">350</span>\n<span class=\"t-total\"># 2000vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">1000</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">600</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">400</span>\n"
+   }
+  },
+  {
+   "name": "exact mode",
+   "state": {
+    "project": "Acme",
+    "path": "C:\\Tests\\My Plan.jmx",
+    "target": 2000,
+    "scnCount": 3,
+    "pcts": [
+     50,
+     30,
+     20
+    ],
+    "rampup": "",
+    "duration": "",
+    "rounding": "exact",
+    "set": {
+     "debug": "15",
+     "inc": 250,
+     "ladder": "50,100,150,250,500,750,1000",
+     "filename": "{project}_RUNME.txt",
+     "header": true,
+     "tester": "",
+     "jmeterVersion": "",
+     "props": [],
+     "runtime": false,
+     "rampupProp": "rampup",
+     "durationProp": "duration"
+    }
+   },
+   "expected": {
+    "text": "# ================================================\n# Project:       Acme\n# Generated:     07 March 2026\n# Max vUsers:    2000\n# Scenarios:     3 (S1 50%  S2 30%  S3 20%)\n# Rounding:      exact total\n# ================================================\n\n# 15vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=7 -JS2=5 -JS3=3\n# 50vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=25 -JS2=15 -JS3=10\n# 100vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=50 -JS2=30 -JS3=20\n# 150vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=75 -JS2=45 -JS3=30\n# 250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=125 -JS2=75 -JS3=50\n# 500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=250 -JS2=150 -JS3=100\n# 750vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=375 -JS2=225 -JS3=150\n# 1000vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=500 -JS2=300 -JS3=200\n# 1250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=625 -JS2=375 -JS3=250\n# 1500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=750 -JS2=450 -JS3=300\n# 1750vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=875 -JS2=525 -JS3=350\n# 2000vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=1000 -JS2=600 -JS3=400\n",
+    "filename": "Acme_RUNME.txt",
+    "mode": "exact",
+    "anyBump": false,
+    "rows": [
+     {
+      "total": 15,
+      "debug": true,
+      "parts": [
+       7,
+       5,
+       3
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 50,
+      "debug": false,
+      "parts": [
+       25,
+       15,
+       10
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 100,
+      "debug": false,
+      "parts": [
+       50,
+       30,
+       20
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 150,
+      "debug": false,
+      "parts": [
+       75,
+       45,
+       30
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 250,
+      "debug": false,
+      "parts": [
+       125,
+       75,
+       50
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 500,
+      "debug": false,
+      "parts": [
+       250,
+       150,
+       100
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 750,
+      "debug": false,
+      "parts": [
+       375,
+       225,
+       150
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1000,
+      "debug": false,
+      "parts": [
+       500,
+       300,
+       200
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1250,
+      "debug": false,
+      "parts": [
+       625,
+       375,
+       250
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1500,
+      "debug": false,
+      "parts": [
+       750,
+       450,
+       300
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1750,
+      "debug": false,
+      "parts": [
+       875,
+       525,
+       350
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 2000,
+      "debug": false,
+      "parts": [
+       1000,
+       600,
+       400
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     }
+    ],
+    "highlight": "<span class=\"t-dim\"># ================================================</span>\n<span class=\"t-dim\"># Project:       Acme</span>\n<span class=\"t-dim\"># Generated:     07 March 2026</span>\n<span class=\"t-dim\"># Max vUsers:    2000</span>\n<span class=\"t-dim\"># Scenarios:     3 (S1 50%  S2 30%  S3 20%)</span>\n<span class=\"t-dim\"># Rounding:      exact total</span>\n<span class=\"t-dim\"># ================================================</span>\n\n<span class=\"t-total\"># 15vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">7</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">5</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">3</span>\n<span class=\"t-total\"># 50vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">25</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">15</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">10</span>\n<span class=\"t-total\"># 100vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">50</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">30</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">20</span>\n<span class=\"t-total\"># 150vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">75</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">45</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">30</span>\n<span class=\"t-total\"># 250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">125</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">75</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">50</span>\n<span class=\"t-total\"># 500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">250</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">150</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">100</span>\n<span class=\"t-total\"># 750vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">375</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">225</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">150</span>\n<span class=\"t-total\"># 1000vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">500</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">300</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">200</span>\n<span class=\"t-total\"># 1250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">625</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">375</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">250</span>\n<span class=\"t-total\"># 1500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">750</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">450</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">300</span>\n<span class=\"t-total\"># 1750vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">875</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">525</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">350</span>\n<span class=\"t-total\"># 2000vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">1000</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">600</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">400</span>\n"
+   }
+  },
+  {
+   "name": "header off",
+   "state": {
+    "project": "Acme",
+    "path": "C:\\Tests\\My Plan.jmx",
+    "target": 2000,
+    "scnCount": 3,
+    "pcts": [
+     50,
+     30,
+     20
+    ],
+    "rampup": "",
+    "duration": "",
+    "rounding": "roundup",
+    "set": {
+     "debug": "15",
+     "inc": 250,
+     "ladder": "50,100,150,250,500,750,1000",
+     "filename": "{project}_RUNME.txt",
+     "header": false,
+     "tester": "",
+     "jmeterVersion": "",
+     "props": [],
+     "runtime": false,
+     "rampupProp": "rampup",
+     "durationProp": "duration"
+    }
+   },
+   "expected": {
+    "text": "# 15vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=8 -JS2=5 -JS3=3\n# 50vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=25 -JS2=15 -JS3=10\n# 100vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=50 -JS2=30 -JS3=20\n# 150vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=75 -JS2=45 -JS3=30\n# 250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=125 -JS2=75 -JS3=50\n# 500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=250 -JS2=150 -JS3=100\n# 750vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=375 -JS2=225 -JS3=150\n# 1000vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=500 -JS2=300 -JS3=200\n# 1250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=625 -JS2=375 -JS3=250\n# 1500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=750 -JS2=450 -JS3=300\n# 1750vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=875 -JS2=525 -JS3=350\n# 2000vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=1000 -JS2=600 -JS3=400\n",
+    "filename": "Acme_RUNME.txt",
+    "mode": "roundup",
+    "anyBump": true,
+    "rows": [
+     {
+      "total": 15,
+      "debug": true,
+      "parts": [
+       8,
+       5,
+       3
+      ],
+      "bumped": true,
+      "bumpedAt": 1
+     },
+     {
+      "total": 50,
+      "debug": false,
+      "parts": [
+       25,
+       15,
+       10
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 100,
+      "debug": false,
+      "parts": [
+       50,
+       30,
+       20
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 150,
+      "debug": false,
+      "parts": [
+       75,
+       45,
+       30
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 250,
+      "debug": false,
+      "parts": [
+       125,
+       75,
+       50
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 500,
+      "debug": false,
+      "parts": [
+       250,
+       150,
+       100
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 750,
+      "debug": false,
+      "parts": [
+       375,
+       225,
+       150
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1000,
+      "debug": false,
+      "parts": [
+       500,
+       300,
+       200
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1250,
+      "debug": false,
+      "parts": [
+       625,
+       375,
+       250
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1500,
+      "debug": false,
+      "parts": [
+       750,
+       450,
+       300
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1750,
+      "debug": false,
+      "parts": [
+       875,
+       525,
+       350
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 2000,
+      "debug": false,
+      "parts": [
+       1000,
+       600,
+       400
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     }
+    ],
+    "highlight": "<span class=\"t-flag\"># 15vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">8</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-flag\">5</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">3</span>\n<span class=\"t-total\"># 50vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">25</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">15</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">10</span>\n<span class=\"t-total\"># 100vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">50</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">30</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">20</span>\n<span class=\"t-total\"># 150vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">75</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">45</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">30</span>\n<span class=\"t-total\"># 250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">125</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">75</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">50</span>\n<span class=\"t-total\"># 500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">250</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">150</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">100</span>\n<span class=\"t-total\"># 750vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">375</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">225</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">150</span>\n<span class=\"t-total\"># 1000vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">500</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">300</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">200</span>\n<span class=\"t-total\"># 1250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">625</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">375</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">250</span>\n<span class=\"t-total\"># 1500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">750</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">450</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">300</span>\n<span class=\"t-total\"># 1750vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">875</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">525</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">350</span>\n<span class=\"t-total\"># 2000vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">1000</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">600</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">400</span>\n"
+   }
+  },
+  {
+   "name": "single scenario",
+   "state": {
+    "project": "Acme",
+    "path": "C:\\Tests\\My Plan.jmx",
+    "target": 2000,
+    "scnCount": 1,
+    "pcts": [
+     100
+    ],
+    "rampup": "",
+    "duration": "",
+    "rounding": "roundup",
+    "set": {
+     "debug": "15",
+     "inc": 250,
+     "ladder": "50,100,150,250,500,750,1000",
+     "filename": "{project}_RUNME.txt",
+     "header": true,
+     "tester": "",
+     "jmeterVersion": "",
+     "props": [],
+     "runtime": false,
+     "rampupProp": "rampup",
+     "durationProp": "duration"
+    }
+   },
+   "expected": {
+    "text": "# ================================================\n# Project:       Acme\n# Generated:     07 March 2026\n# Max vUsers:    2000\n# Scenarios:     1 (S1 100%)\n# Rounding:      round-up (+1)\n# ================================================\n\n# 15vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=15\n# 50vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=50\n# 100vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=100\n# 150vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=150\n# 250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=250\n# 500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=500\n# 750vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=750\n# 1000vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=1000\n# 1250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=1250\n# 1500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=1500\n# 1750vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=1750\n# 2000vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=2000\n",
+    "filename": "Acme_RUNME.txt",
+    "mode": "roundup",
+    "anyBump": false,
+    "rows": [
+     {
+      "total": 15,
+      "debug": true,
+      "parts": [
+       15
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 50,
+      "debug": false,
+      "parts": [
+       50
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 100,
+      "debug": false,
+      "parts": [
+       100
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 150,
+      "debug": false,
+      "parts": [
+       150
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 250,
+      "debug": false,
+      "parts": [
+       250
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 500,
+      "debug": false,
+      "parts": [
+       500
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 750,
+      "debug": false,
+      "parts": [
+       750
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1000,
+      "debug": false,
+      "parts": [
+       1000
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1250,
+      "debug": false,
+      "parts": [
+       1250
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1500,
+      "debug": false,
+      "parts": [
+       1500
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1750,
+      "debug": false,
+      "parts": [
+       1750
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 2000,
+      "debug": false,
+      "parts": [
+       2000
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     }
+    ],
+    "highlight": "<span class=\"t-dim\"># ================================================</span>\n<span class=\"t-dim\"># Project:       Acme</span>\n<span class=\"t-dim\"># Generated:     07 March 2026</span>\n<span class=\"t-dim\"># Max vUsers:    2000</span>\n<span class=\"t-dim\"># Scenarios:     1 (S1 100%)</span>\n<span class=\"t-dim\"># Rounding:      round-up (+1)</span>\n<span class=\"t-dim\"># ================================================</span>\n\n<span class=\"t-total\"># 15vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">15</span>\n<span class=\"t-total\"># 50vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">50</span>\n<span class=\"t-total\"># 100vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">100</span>\n<span class=\"t-total\"># 150vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">150</span>\n<span class=\"t-total\"># 250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">250</span>\n<span class=\"t-total\"># 500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">500</span>\n<span class=\"t-total\"># 750vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">750</span>\n<span class=\"t-total\"># 1000vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">1000</span>\n<span class=\"t-total\"># 1250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">1250</span>\n<span class=\"t-total\"># 1500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">1500</span>\n<span class=\"t-total\"># 1750vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">1750</span>\n<span class=\"t-total\"># 2000vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">2000</span>\n"
+   }
+  },
+  {
+   "name": "off-grid target appended",
+   "state": {
+    "project": "Acme",
+    "path": "C:\\Tests\\My Plan.jmx",
+    "target": 1333,
+    "scnCount": 3,
+    "pcts": [
+     50,
+     30,
+     20
+    ],
+    "rampup": "",
+    "duration": "",
+    "rounding": "roundup",
+    "set": {
+     "debug": "15",
+     "inc": 250,
+     "ladder": "50,100,150,250,500,750,1000",
+     "filename": "{project}_RUNME.txt",
+     "header": true,
+     "tester": "",
+     "jmeterVersion": "",
+     "props": [],
+     "runtime": false,
+     "rampupProp": "rampup",
+     "durationProp": "duration"
+    }
+   },
+   "expected": {
+    "text": "# ================================================\n# Project:       Acme\n# Generated:     07 March 2026\n# Max vUsers:    1333\n# Scenarios:     3 (S1 50%  S2 30%  S3 20%)\n# Rounding:      round-up (+1)\n# ================================================\n\n# 15vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=8 -JS2=5 -JS3=3\n# 50vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=25 -JS2=15 -JS3=10\n# 100vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=50 -JS2=30 -JS3=20\n# 150vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=75 -JS2=45 -JS3=30\n# 250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=125 -JS2=75 -JS3=50\n# 500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=250 -JS2=150 -JS3=100\n# 750vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=375 -JS2=225 -JS3=150\n# 1000vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=500 -JS2=300 -JS3=200\n# 1250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=625 -JS2=375 -JS3=250\n# 1333vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=667 -JS2=400 -JS3=267\n",
+    "filename": "Acme_RUNME.txt",
+    "mode": "roundup",
+    "anyBump": true,
+    "rows": [
+     {
+      "total": 15,
+      "debug": true,
+      "parts": [
+       8,
+       5,
+       3
+      ],
+      "bumped": true,
+      "bumpedAt": 1
+     },
+     {
+      "total": 50,
+      "debug": false,
+      "parts": [
+       25,
+       15,
+       10
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 100,
+      "debug": false,
+      "parts": [
+       50,
+       30,
+       20
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 150,
+      "debug": false,
+      "parts": [
+       75,
+       45,
+       30
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 250,
+      "debug": false,
+      "parts": [
+       125,
+       75,
+       50
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 500,
+      "debug": false,
+      "parts": [
+       250,
+       150,
+       100
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 750,
+      "debug": false,
+      "parts": [
+       375,
+       225,
+       150
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1000,
+      "debug": false,
+      "parts": [
+       500,
+       300,
+       200
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1250,
+      "debug": false,
+      "parts": [
+       625,
+       375,
+       250
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1333,
+      "debug": false,
+      "parts": [
+       667,
+       400,
+       267
+      ],
+      "bumped": true,
+      "bumpedAt": 0
+     }
+    ],
+    "highlight": "<span class=\"t-dim\"># ================================================</span>\n<span class=\"t-dim\"># Project:       Acme</span>\n<span class=\"t-dim\"># Generated:     07 March 2026</span>\n<span class=\"t-dim\"># Max vUsers:    1333</span>\n<span class=\"t-dim\"># Scenarios:     3 (S1 50%  S2 30%  S3 20%)</span>\n<span class=\"t-dim\"># Rounding:      round-up (+1)</span>\n<span class=\"t-dim\"># ================================================</span>\n\n<span class=\"t-flag\"># 15vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">8</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-flag\">5</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">3</span>\n<span class=\"t-total\"># 50vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">25</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">15</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">10</span>\n<span class=\"t-total\"># 100vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">50</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">30</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">20</span>\n<span class=\"t-total\"># 150vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">75</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">45</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">30</span>\n<span class=\"t-total\"># 250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">125</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">75</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">50</span>\n<span class=\"t-total\"># 500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">250</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">150</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">100</span>\n<span class=\"t-total\"># 750vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">375</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">225</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">150</span>\n<span class=\"t-total\"># 1000vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">500</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">300</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">200</span>\n<span class=\"t-total\"># 1250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">625</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">375</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">250</span>\n<span class=\"t-flag\"># 1333vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-flag\">667</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">400</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">267</span>\n"
+   }
+  },
+  {
+   "name": "target below base ladder",
+   "state": {
+    "project": "Acme",
+    "path": "C:\\Tests\\My Plan.jmx",
+    "target": 120,
+    "scnCount": 3,
+    "pcts": [
+     50,
+     30,
+     20
+    ],
+    "rampup": "",
+    "duration": "",
+    "rounding": "roundup",
+    "set": {
+     "debug": "15",
+     "inc": 250,
+     "ladder": "50,100,150,250,500,750,1000",
+     "filename": "{project}_RUNME.txt",
+     "header": true,
+     "tester": "",
+     "jmeterVersion": "",
+     "props": [],
+     "runtime": false,
+     "rampupProp": "rampup",
+     "durationProp": "duration"
+    }
+   },
+   "expected": {
+    "text": "# ================================================\n# Project:       Acme\n# Generated:     07 March 2026\n# Max vUsers:    120\n# Scenarios:     3 (S1 50%  S2 30%  S3 20%)\n# Rounding:      round-up (+1)\n# ================================================\n\n# 15vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=8 -JS2=5 -JS3=3\n# 50vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=25 -JS2=15 -JS3=10\n# 100vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=50 -JS2=30 -JS3=20\n# 120vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=60 -JS2=36 -JS3=24\n",
+    "filename": "Acme_RUNME.txt",
+    "mode": "roundup",
+    "anyBump": true,
+    "rows": [
+     {
+      "total": 15,
+      "debug": true,
+      "parts": [
+       8,
+       5,
+       3
+      ],
+      "bumped": true,
+      "bumpedAt": 1
+     },
+     {
+      "total": 50,
+      "debug": false,
+      "parts": [
+       25,
+       15,
+       10
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 100,
+      "debug": false,
+      "parts": [
+       50,
+       30,
+       20
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 120,
+      "debug": false,
+      "parts": [
+       60,
+       36,
+       24
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     }
+    ],
+    "highlight": "<span class=\"t-dim\"># ================================================</span>\n<span class=\"t-dim\"># Project:       Acme</span>\n<span class=\"t-dim\"># Generated:     07 March 2026</span>\n<span class=\"t-dim\"># Max vUsers:    120</span>\n<span class=\"t-dim\"># Scenarios:     3 (S1 50%  S2 30%  S3 20%)</span>\n<span class=\"t-dim\"># Rounding:      round-up (+1)</span>\n<span class=\"t-dim\"># ================================================</span>\n\n<span class=\"t-flag\"># 15vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">8</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-flag\">5</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">3</span>\n<span class=\"t-total\"># 50vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">25</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">15</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">10</span>\n<span class=\"t-total\"># 100vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">50</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">30</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">20</span>\n<span class=\"t-total\"># 120vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">60</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">36</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">24</span>\n"
+   }
+  },
+  {
+   "name": "uneven split flags +1",
+   "state": {
+    "project": "Acme",
+    "path": "C:\\Tests\\My Plan.jmx",
+    "target": 2000,
+    "scnCount": 3,
+    "pcts": [
+     33,
+     33,
+     34
+    ],
+    "rampup": "",
+    "duration": "",
+    "rounding": "roundup",
+    "set": {
+     "debug": "15",
+     "inc": 250,
+     "ladder": "50,100,150,250,500,750,1000",
+     "filename": "{project}_RUNME.txt",
+     "header": true,
+     "tester": "",
+     "jmeterVersion": "",
+     "props": [],
+     "runtime": false,
+     "rampupProp": "rampup",
+     "durationProp": "duration"
+    }
+   },
+   "expected": {
+    "text": "# ================================================\n# Project:       Acme\n# Generated:     07 March 2026\n# Max vUsers:    2000\n# Scenarios:     3 (S1 33%  S2 33%  S3 34%)\n# Rounding:      round-up (+1)\n# ================================================\n\n# 15vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=5 -JS2=5 -JS3=6\n# 50vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=17 -JS2=17 -JS3=17\n# 100vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=33 -JS2=33 -JS3=34\n# 150vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=50 -JS2=50 -JS3=51\n# 250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=83 -JS2=83 -JS3=85\n# 500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=165 -JS2=165 -JS3=170\n# 750vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=248 -JS2=248 -JS3=255\n# 1000vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=330 -JS2=330 -JS3=340\n# 1250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=413 -JS2=413 -JS3=425\n# 1500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=495 -JS2=495 -JS3=510\n# 1750vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=578 -JS2=578 -JS3=595\n# 2000vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=660 -JS2=660 -JS3=680\n",
+    "filename": "Acme_RUNME.txt",
+    "mode": "roundup",
+    "anyBump": true,
+    "rows": [
+     {
+      "total": 15,
+      "debug": true,
+      "parts": [
+       5,
+       5,
+       6
+      ],
+      "bumped": true,
+      "bumpedAt": 2
+     },
+     {
+      "total": 50,
+      "debug": false,
+      "parts": [
+       17,
+       17,
+       17
+      ],
+      "bumped": true,
+      "bumpedAt": 1
+     },
+     {
+      "total": 100,
+      "debug": false,
+      "parts": [
+       33,
+       33,
+       34
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 150,
+      "debug": false,
+      "parts": [
+       50,
+       50,
+       51
+      ],
+      "bumped": true,
+      "bumpedAt": 1
+     },
+     {
+      "total": 250,
+      "debug": false,
+      "parts": [
+       83,
+       83,
+       85
+      ],
+      "bumped": true,
+      "bumpedAt": 1
+     },
+     {
+      "total": 500,
+      "debug": false,
+      "parts": [
+       165,
+       165,
+       170
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 750,
+      "debug": false,
+      "parts": [
+       248,
+       248,
+       255
+      ],
+      "bumped": true,
+      "bumpedAt": 1
+     },
+     {
+      "total": 1000,
+      "debug": false,
+      "parts": [
+       330,
+       330,
+       340
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1250,
+      "debug": false,
+      "parts": [
+       413,
+       413,
+       425
+      ],
+      "bumped": true,
+      "bumpedAt": 1
+     },
+     {
+      "total": 1500,
+      "debug": false,
+      "parts": [
+       495,
+       495,
+       510
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1750,
+      "debug": false,
+      "parts": [
+       578,
+       578,
+       595
+      ],
+      "bumped": true,
+      "bumpedAt": 1
+     },
+     {
+      "total": 2000,
+      "debug": false,
+      "parts": [
+       660,
+       660,
+       680
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     }
+    ],
+    "highlight": "<span class=\"t-dim\"># ================================================</span>\n<span class=\"t-dim\"># Project:       Acme</span>\n<span class=\"t-dim\"># Generated:     07 March 2026</span>\n<span class=\"t-dim\"># Max vUsers:    2000</span>\n<span class=\"t-dim\"># Scenarios:     3 (S1 33%  S2 33%  S3 34%)</span>\n<span class=\"t-dim\"># Rounding:      round-up (+1)</span>\n<span class=\"t-dim\"># ================================================</span>\n\n<span class=\"t-flag\"># 15vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">5</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">5</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-flag\">6</span>\n<span class=\"t-flag\"># 50vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">17</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-flag\">17</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">17</span>\n<span class=\"t-total\"># 100vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">33</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">33</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">34</span>\n<span class=\"t-flag\"># 150vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">50</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-flag\">50</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">51</span>\n<span class=\"t-flag\"># 250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">83</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-flag\">83</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">85</span>\n<span class=\"t-total\"># 500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">165</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">165</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">170</span>\n<span class=\"t-flag\"># 750vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">248</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-flag\">248</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">255</span>\n<span class=\"t-total\"># 1000vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">330</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">330</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">340</span>\n<span class=\"t-flag\"># 1250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">413</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-flag\">413</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">425</span>\n<span class=\"t-total\"># 1500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">495</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">495</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">510</span>\n<span class=\"t-flag\"># 1750vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">578</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-flag\">578</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">595</span>\n<span class=\"t-total\"># 2000vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">660</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">660</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">680</span>\n"
+   }
+  },
+  {
+   "name": "uneven split exact",
+   "state": {
+    "project": "Acme",
+    "path": "C:\\Tests\\My Plan.jmx",
+    "target": 2000,
+    "scnCount": 3,
+    "pcts": [
+     33,
+     33,
+     34
+    ],
+    "rampup": "",
+    "duration": "",
+    "rounding": "exact",
+    "set": {
+     "debug": "15",
+     "inc": 250,
+     "ladder": "50,100,150,250,500,750,1000",
+     "filename": "{project}_RUNME.txt",
+     "header": true,
+     "tester": "",
+     "jmeterVersion": "",
+     "props": [],
+     "runtime": false,
+     "rampupProp": "rampup",
+     "durationProp": "duration"
+    }
+   },
+   "expected": {
+    "text": "# ================================================\n# Project:       Acme\n# Generated:     07 March 2026\n# Max vUsers:    2000\n# Scenarios:     3 (S1 33%  S2 33%  S3 34%)\n# Rounding:      exact total\n# ================================================\n\n# 15vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=5 -JS2=5 -JS3=5\n# 50vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=17 -JS2=16 -JS3=17\n# 100vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=33 -JS2=33 -JS3=34\n# 150vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=50 -JS2=49 -JS3=51\n# 250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=83 -JS2=82 -JS3=85\n# 500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=165 -JS2=165 -JS3=170\n# 750vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=248 -JS2=247 -JS3=255\n# 1000vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=330 -JS2=330 -JS3=340\n# 1250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=413 -JS2=412 -JS3=425\n# 1500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=495 -JS2=495 -JS3=510\n# 1750vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=578 -JS2=577 -JS3=595\n# 2000vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=660 -JS2=660 -JS3=680\n",
+    "filename": "Acme_RUNME.txt",
+    "mode": "exact",
+    "anyBump": false,
+    "rows": [
+     {
+      "total": 15,
+      "debug": true,
+      "parts": [
+       5,
+       5,
+       5
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 50,
+      "debug": false,
+      "parts": [
+       17,
+       16,
+       17
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 100,
+      "debug": false,
+      "parts": [
+       33,
+       33,
+       34
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 150,
+      "debug": false,
+      "parts": [
+       50,
+       49,
+       51
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 250,
+      "debug": false,
+      "parts": [
+       83,
+       82,
+       85
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 500,
+      "debug": false,
+      "parts": [
+       165,
+       165,
+       170
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 750,
+      "debug": false,
+      "parts": [
+       248,
+       247,
+       255
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1000,
+      "debug": false,
+      "parts": [
+       330,
+       330,
+       340
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1250,
+      "debug": false,
+      "parts": [
+       413,
+       412,
+       425
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1500,
+      "debug": false,
+      "parts": [
+       495,
+       495,
+       510
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1750,
+      "debug": false,
+      "parts": [
+       578,
+       577,
+       595
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 2000,
+      "debug": false,
+      "parts": [
+       660,
+       660,
+       680
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     }
+    ],
+    "highlight": "<span class=\"t-dim\"># ================================================</span>\n<span class=\"t-dim\"># Project:       Acme</span>\n<span class=\"t-dim\"># Generated:     07 March 2026</span>\n<span class=\"t-dim\"># Max vUsers:    2000</span>\n<span class=\"t-dim\"># Scenarios:     3 (S1 33%  S2 33%  S3 34%)</span>\n<span class=\"t-dim\"># Rounding:      exact total</span>\n<span class=\"t-dim\"># ================================================</span>\n\n<span class=\"t-total\"># 15vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">5</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">5</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">5</span>\n<span class=\"t-total\"># 50vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">17</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">16</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">17</span>\n<span class=\"t-total\"># 100vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">33</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">33</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">34</span>\n<span class=\"t-total\"># 150vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">50</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">49</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">51</span>\n<span class=\"t-total\"># 250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">83</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">82</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">85</span>\n<span class=\"t-total\"># 500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">165</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">165</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">170</span>\n<span class=\"t-total\"># 750vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">248</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">247</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">255</span>\n<span class=\"t-total\"># 1000vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">330</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">330</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">340</span>\n<span class=\"t-total\"># 1250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">413</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">412</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">425</span>\n<span class=\"t-total\"># 1500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">495</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">495</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">510</span>\n<span class=\"t-total\"># 1750vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">578</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">577</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">595</span>\n<span class=\"t-total\"># 2000vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">660</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">660</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">680</span>\n"
+   }
+  },
+  {
+   "name": "7 scenarios odd shares",
+   "state": {
+    "project": "Acme",
+    "path": "C:\\Tests\\My Plan.jmx",
+    "target": 1500,
+    "scnCount": 7,
+    "pcts": [
+     40,
+     20,
+     15,
+     10,
+     7,
+     5,
+     3
+    ],
+    "rampup": "",
+    "duration": "",
+    "rounding": "roundup",
+    "set": {
+     "debug": "15",
+     "inc": 250,
+     "ladder": "50,100,150,250,500,750,1000",
+     "filename": "{project}_RUNME.txt",
+     "header": true,
+     "tester": "",
+     "jmeterVersion": "",
+     "props": [],
+     "runtime": false,
+     "rampupProp": "rampup",
+     "durationProp": "duration"
+    }
+   },
+   "expected": {
+    "text": "# ================================================\n# Project:       Acme\n# Generated:     07 March 2026\n# Max vUsers:    1500\n# Scenarios:     7 (S1 40%  S2 20%  S3 15%  S4 10%  S5 7%  S6 5%  S7 3%)\n# Rounding:      round-up (+1)\n# ================================================\n\n# 15vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=6 -JS2=3 -JS3=2 -JS4=2 -JS5=1 -JS6=1 -JS7=1\n# 50vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=20 -JS2=10 -JS3=8 -JS4=5 -JS5=4 -JS6=3 -JS7=1\n# 100vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=40 -JS2=20 -JS3=15 -JS4=10 -JS5=7 -JS6=5 -JS7=3\n# 150vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=60 -JS2=30 -JS3=23 -JS4=15 -JS5=11 -JS6=8 -JS7=4\n# 250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=100 -JS2=50 -JS3=38 -JS4=25 -JS5=18 -JS6=13 -JS7=7\n# 500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=200 -JS2=100 -JS3=75 -JS4=50 -JS5=35 -JS6=25 -JS7=15\n# 750vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=300 -JS2=150 -JS3=113 -JS4=75 -JS5=53 -JS6=38 -JS7=22\n# 1000vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=400 -JS2=200 -JS3=150 -JS4=100 -JS5=70 -JS6=50 -JS7=30\n# 1250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=500 -JS2=250 -JS3=188 -JS4=125 -JS5=88 -JS6=63 -JS7=37\n# 1500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=600 -JS2=300 -JS3=225 -JS4=150 -JS5=105 -JS6=75 -JS7=45\n",
+    "filename": "Acme_RUNME.txt",
+    "mode": "roundup",
+    "anyBump": true,
+    "rows": [
+     {
+      "total": 15,
+      "debug": true,
+      "parts": [
+       6,
+       3,
+       2,
+       2,
+       1,
+       1,
+       1
+      ],
+      "bumped": true,
+      "bumpedAt": 6
+     },
+     {
+      "total": 50,
+      "debug": false,
+      "parts": [
+       20,
+       10,
+       8,
+       5,
+       4,
+       3,
+       1
+      ],
+      "bumped": true,
+      "bumpedAt": 5
+     },
+     {
+      "total": 100,
+      "debug": false,
+      "parts": [
+       40,
+       20,
+       15,
+       10,
+       7,
+       5,
+       3
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 150,
+      "debug": false,
+      "parts": [
+       60,
+       30,
+       23,
+       15,
+       11,
+       8,
+       4
+      ],
+      "bumped": true,
+      "bumpedAt": 5
+     },
+     {
+      "total": 250,
+      "debug": false,
+      "parts": [
+       100,
+       50,
+       38,
+       25,
+       18,
+       13,
+       7
+      ],
+      "bumped": true,
+      "bumpedAt": 5
+     },
+     {
+      "total": 500,
+      "debug": false,
+      "parts": [
+       200,
+       100,
+       75,
+       50,
+       35,
+       25,
+       15
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 750,
+      "debug": false,
+      "parts": [
+       300,
+       150,
+       113,
+       75,
+       53,
+       38,
+       22
+      ],
+      "bumped": true,
+      "bumpedAt": 5
+     },
+     {
+      "total": 1000,
+      "debug": false,
+      "parts": [
+       400,
+       200,
+       150,
+       100,
+       70,
+       50,
+       30
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1250,
+      "debug": false,
+      "parts": [
+       500,
+       250,
+       188,
+       125,
+       88,
+       63,
+       37
+      ],
+      "bumped": true,
+      "bumpedAt": 5
+     },
+     {
+      "total": 1500,
+      "debug": false,
+      "parts": [
+       600,
+       300,
+       225,
+       150,
+       105,
+       75,
+       45
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     }
+    ],
+    "highlight": "<span class=\"t-dim\"># ================================================</span>\n<span class=\"t-dim\"># Project:       Acme</span>\n<span class=\"t-dim\"># Generated:     07 March 2026</span>\n<span class=\"t-dim\"># Max vUsers:    1500</span>\n<span class=\"t-dim\"># Scenarios:     7 (S1 40%  S2 20%  S3 15%  S4 10%  S5 7%  S6 5%  S7 3%)</span>\n<span class=\"t-dim\"># Rounding:      round-up (+1)</span>\n<span class=\"t-dim\"># ================================================</span>\n\n<span class=\"t-flag\"># 15vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">6</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">3</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">2</span> <span class=\"t-dim\">-JS4=</span><span class=\"t-num\">2</span> <span class=\"t-dim\">-JS5=</span><span class=\"t-num\">1</span> <span class=\"t-dim\">-JS6=</span><span class=\"t-num\">1</span> <span class=\"t-dim\">-JS7=</span><span class=\"t-flag\">1</span>\n<span class=\"t-flag\"># 50vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">20</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">10</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">8</span> <span class=\"t-dim\">-JS4=</span><span class=\"t-num\">5</span> <span class=\"t-dim\">-JS5=</span><span class=\"t-num\">4</span> <span class=\"t-dim\">-JS6=</span><span class=\"t-flag\">3</span> <span class=\"t-dim\">-JS7=</span><span class=\"t-num\">1</span>\n<span class=\"t-total\"># 100vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">40</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">20</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">15</span> <span class=\"t-dim\">-JS4=</span><span class=\"t-num\">10</span> <span class=\"t-dim\">-JS5=</span><span class=\"t-num\">7</span> <span class=\"t-dim\">-JS6=</span><span class=\"t-num\">5</span> <span class=\"t-dim\">-JS7=</span><span class=\"t-num\">3</span>\n<span class=\"t-flag\"># 150vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">60</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">30</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">23</span> <span class=\"t-dim\">-JS4=</span><span class=\"t-num\">15</span> <span class=\"t-dim\">-JS5=</span><span class=\"t-num\">11</span> <span class=\"t-dim\">-JS6=</span><span class=\"t-flag\">8</span> <span class=\"t-dim\">-JS7=</span><span class=\"t-num\">4</span>\n<span class=\"t-flag\"># 250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">100</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">50</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">38</span> <span class=\"t-dim\">-JS4=</span><span class=\"t-num\">25</span> <span class=\"t-dim\">-JS5=</span><span class=\"t-num\">18</span> <span class=\"t-dim\">-JS6=</span><span class=\"t-flag\">13</span> <span class=\"t-dim\">-JS7=</span><span class=\"t-num\">7</span>\n<span class=\"t-total\"># 500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">200</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">100</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">75</span> <span class=\"t-dim\">-JS4=</span><span class=\"t-num\">50</span> <span class=\"t-dim\">-JS5=</span><span class=\"t-num\">35</span> <span class=\"t-dim\">-JS6=</span><span class=\"t-num\">25</span> <span class=\"t-dim\">-JS7=</span><span class=\"t-num\">15</span>\n<span class=\"t-flag\"># 750vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">300</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">150</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">113</span> <span class=\"t-dim\">-JS4=</span><span class=\"t-num\">75</span> <span class=\"t-dim\">-JS5=</span><span class=\"t-num\">53</span> <span class=\"t-dim\">-JS6=</span><span class=\"t-flag\">38</span> <span class=\"t-dim\">-JS7=</span><span class=\"t-num\">22</span>\n<span class=\"t-total\"># 1000vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">400</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">200</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">150</span> <span class=\"t-dim\">-JS4=</span><span class=\"t-num\">100</span> <span class=\"t-dim\">-JS5=</span><span class=\"t-num\">70</span> <span class=\"t-dim\">-JS6=</span><span class=\"t-num\">50</span> <span class=\"t-dim\">-JS7=</span><span class=\"t-num\">30</span>\n<span class=\"t-flag\"># 1250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">500</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">250</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">188</span> <span class=\"t-dim\">-JS4=</span><span class=\"t-num\">125</span> <span class=\"t-dim\">-JS5=</span><span class=\"t-num\">88</span> <span class=\"t-dim\">-JS6=</span><span class=\"t-flag\">63</span> <span class=\"t-dim\">-JS7=</span><span class=\"t-num\">37</span>\n<span class=\"t-total\"># 1500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">600</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">300</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">225</span> <span class=\"t-dim\">-JS4=</span><span class=\"t-num\">150</span> <span class=\"t-dim\">-JS5=</span><span class=\"t-num\">105</span> <span class=\"t-dim\">-JS6=</span><span class=\"t-num\">75</span> <span class=\"t-dim\">-JS7=</span><span class=\"t-num\">45</span>\n"
+   }
+  },
+  {
+   "name": "7 scenarios odd shares exact",
+   "state": {
+    "project": "Acme",
+    "path": "C:\\Tests\\My Plan.jmx",
+    "target": 1500,
+    "scnCount": 7,
+    "pcts": [
+     40,
+     20,
+     15,
+     10,
+     7,
+     5,
+     3
+    ],
+    "rampup": "",
+    "duration": "",
+    "rounding": "exact",
+    "set": {
+     "debug": "15",
+     "inc": 250,
+     "ladder": "50,100,150,250,500,750,1000",
+     "filename": "{project}_RUNME.txt",
+     "header": true,
+     "tester": "",
+     "jmeterVersion": "",
+     "props": [],
+     "runtime": false,
+     "rampupProp": "rampup",
+     "durationProp": "duration"
+    }
+   },
+   "expected": {
+    "text": "# ================================================\n# Project:       Acme\n# Generated:     07 March 2026\n# Max vUsers:    1500\n# Scenarios:     7 (S1 40%  S2 20%  S3 15%  S4 10%  S5 7%  S6 5%  S7 3%)\n# Rounding:      exact total\n# ================================================\n\n# 15vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=5 -JS2=3 -JS3=2 -JS4=2 -JS5=1 -JS6=1 -JS7=1\n# 50vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=20 -JS2=10 -JS3=7 -JS4=5 -JS5=3 -JS6=3 -JS7=2\n# 100vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=40 -JS2=20 -JS3=15 -JS4=10 -JS5=7 -JS6=5 -JS7=3\n# 150vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=60 -JS2=30 -JS3=22 -JS4=15 -JS5=10 -JS6=8 -JS7=5\n# 250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=100 -JS2=50 -JS3=37 -JS4=25 -JS5=17 -JS6=13 -JS7=8\n# 500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=200 -JS2=100 -JS3=75 -JS4=50 -JS5=35 -JS6=25 -JS7=15\n# 750vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=300 -JS2=150 -JS3=112 -JS4=75 -JS5=52 -JS6=38 -JS7=23\n# 1000vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=400 -JS2=200 -JS3=150 -JS4=100 -JS5=70 -JS6=50 -JS7=30\n# 1250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=500 -JS2=250 -JS3=187 -JS4=125 -JS5=87 -JS6=63 -JS7=38\n# 1500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=600 -JS2=300 -JS3=225 -JS4=150 -JS5=105 -JS6=75 -JS7=45\n",
+    "filename": "Acme_RUNME.txt",
+    "mode": "exact",
+    "anyBump": false,
+    "rows": [
+     {
+      "total": 15,
+      "debug": true,
+      "parts": [
+       5,
+       3,
+       2,
+       2,
+       1,
+       1,
+       1
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 50,
+      "debug": false,
+      "parts": [
+       20,
+       10,
+       7,
+       5,
+       3,
+       3,
+       2
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 100,
+      "debug": false,
+      "parts": [
+       40,
+       20,
+       15,
+       10,
+       7,
+       5,
+       3
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 150,
+      "debug": false,
+      "parts": [
+       60,
+       30,
+       22,
+       15,
+       10,
+       8,
+       5
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 250,
+      "debug": false,
+      "parts": [
+       100,
+       50,
+       37,
+       25,
+       17,
+       13,
+       8
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 500,
+      "debug": false,
+      "parts": [
+       200,
+       100,
+       75,
+       50,
+       35,
+       25,
+       15
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 750,
+      "debug": false,
+      "parts": [
+       300,
+       150,
+       112,
+       75,
+       52,
+       38,
+       23
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1000,
+      "debug": false,
+      "parts": [
+       400,
+       200,
+       150,
+       100,
+       70,
+       50,
+       30
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1250,
+      "debug": false,
+      "parts": [
+       500,
+       250,
+       187,
+       125,
+       87,
+       63,
+       38
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1500,
+      "debug": false,
+      "parts": [
+       600,
+       300,
+       225,
+       150,
+       105,
+       75,
+       45
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     }
+    ],
+    "highlight": "<span class=\"t-dim\"># ================================================</span>\n<span class=\"t-dim\"># Project:       Acme</span>\n<span class=\"t-dim\"># Generated:     07 March 2026</span>\n<span class=\"t-dim\"># Max vUsers:    1500</span>\n<span class=\"t-dim\"># Scenarios:     7 (S1 40%  S2 20%  S3 15%  S4 10%  S5 7%  S6 5%  S7 3%)</span>\n<span class=\"t-dim\"># Rounding:      exact total</span>\n<span class=\"t-dim\"># ================================================</span>\n\n<span class=\"t-total\"># 15vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">5</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">3</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">2</span> <span class=\"t-dim\">-JS4=</span><span class=\"t-num\">2</span> <span class=\"t-dim\">-JS5=</span><span class=\"t-num\">1</span> <span class=\"t-dim\">-JS6=</span><span class=\"t-num\">1</span> <span class=\"t-dim\">-JS7=</span><span class=\"t-num\">1</span>\n<span class=\"t-total\"># 50vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">20</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">10</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">7</span> <span class=\"t-dim\">-JS4=</span><span class=\"t-num\">5</span> <span class=\"t-dim\">-JS5=</span><span class=\"t-num\">3</span> <span class=\"t-dim\">-JS6=</span><span class=\"t-num\">3</span> <span class=\"t-dim\">-JS7=</span><span class=\"t-num\">2</span>\n<span class=\"t-total\"># 100vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">40</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">20</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">15</span> <span class=\"t-dim\">-JS4=</span><span class=\"t-num\">10</span> <span class=\"t-dim\">-JS5=</span><span class=\"t-num\">7</span> <span class=\"t-dim\">-JS6=</span><span class=\"t-num\">5</span> <span class=\"t-dim\">-JS7=</span><span class=\"t-num\">3</span>\n<span class=\"t-total\"># 150vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">60</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">30</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">22</span> <span class=\"t-dim\">-JS4=</span><span class=\"t-num\">15</span> <span class=\"t-dim\">-JS5=</span><span class=\"t-num\">10</span> <span class=\"t-dim\">-JS6=</span><span class=\"t-num\">8</span> <span class=\"t-dim\">-JS7=</span><span class=\"t-num\">5</span>\n<span class=\"t-total\"># 250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">100</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">50</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">37</span> <span class=\"t-dim\">-JS4=</span><span class=\"t-num\">25</span> <span class=\"t-dim\">-JS5=</span><span class=\"t-num\">17</span> <span class=\"t-dim\">-JS6=</span><span class=\"t-num\">13</span> <span class=\"t-dim\">-JS7=</span><span class=\"t-num\">8</span>\n<span class=\"t-total\"># 500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">200</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">100</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">75</span> <span class=\"t-dim\">-JS4=</span><span class=\"t-num\">50</span> <span class=\"t-dim\">-JS5=</span><span class=\"t-num\">35</span> <span class=\"t-dim\">-JS6=</span><span class=\"t-num\">25</span> <span class=\"t-dim\">-JS7=</span><span class=\"t-num\">15</span>\n<span class=\"t-total\"># 750vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">300</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">150</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">112</span> <span class=\"t-dim\">-JS4=</span><span class=\"t-num\">75</span> <span class=\"t-dim\">-JS5=</span><span class=\"t-num\">52</span> <span class=\"t-dim\">-JS6=</span><span class=\"t-num\">38</span> <span class=\"t-dim\">-JS7=</span><span class=\"t-num\">23</span>\n<span class=\"t-total\"># 1000vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">400</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">200</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">150</span> <span class=\"t-dim\">-JS4=</span><span class=\"t-num\">100</span> <span class=\"t-dim\">-JS5=</span><span class=\"t-num\">70</span> <span class=\"t-dim\">-JS6=</span><span class=\"t-num\">50</span> <span class=\"t-dim\">-JS7=</span><span class=\"t-num\">30</span>\n<span class=\"t-total\"># 1250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">500</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">250</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">187</span> <span class=\"t-dim\">-JS4=</span><span class=\"t-num\">125</span> <span class=\"t-dim\">-JS5=</span><span class=\"t-num\">87</span> <span class=\"t-dim\">-JS6=</span><span class=\"t-num\">63</span> <span class=\"t-dim\">-JS7=</span><span class=\"t-num\">38</span>\n<span class=\"t-total\"># 1500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">600</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">300</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">225</span> <span class=\"t-dim\">-JS4=</span><span class=\"t-num\">150</span> <span class=\"t-dim\">-JS5=</span><span class=\"t-num\">105</span> <span class=\"t-dim\">-JS6=</span><span class=\"t-num\">75</span> <span class=\"t-dim\">-JS7=</span><span class=\"t-num\">45</span>\n"
+   }
+  },
+  {
+   "name": "custom props + metadata",
+   "state": {
+    "project": "Acme",
+    "path": "C:\\Tests\\My Plan.jmx",
+    "target": 2000,
+    "scnCount": 3,
+    "pcts": [
+     50,
+     30,
+     20
+    ],
+    "rampup": "",
+    "duration": "",
+    "rounding": "roundup",
+    "set": {
+     "debug": "15",
+     "inc": 250,
+     "ladder": "50,100,150,250,500,750,1000",
+     "filename": "{project}_RUNME.txt",
+     "header": true,
+     "tester": "Khalil",
+     "jmeterVersion": "5.6.3",
+     "props": [
+      "Login",
+      " Search ",
+      ""
+     ],
+     "runtime": false,
+     "rampupProp": "rampup",
+     "durationProp": "duration"
+    }
+   },
+   "expected": {
+    "text": "# ================================================\n# Project:       Acme\n# Generated:     07 March 2026\n# Max vUsers:    2000\n# Scenarios:     3 (Login 50%  Search 30%  S3 20%)\n# Rounding:      round-up (+1)\n# Tester:        Khalil\n# JMeter:        5.6.3\n# ================================================\n\n# 15vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JLogin=8 -JSearch=5 -JS3=3\n# 50vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JLogin=25 -JSearch=15 -JS3=10\n# 100vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JLogin=50 -JSearch=30 -JS3=20\n# 150vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JLogin=75 -JSearch=45 -JS3=30\n# 250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JLogin=125 -JSearch=75 -JS3=50\n# 500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JLogin=250 -JSearch=150 -JS3=100\n# 750vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JLogin=375 -JSearch=225 -JS3=150\n# 1000vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JLogin=500 -JSearch=300 -JS3=200\n# 1250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JLogin=625 -JSearch=375 -JS3=250\n# 1500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JLogin=750 -JSearch=450 -JS3=300\n# 1750vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JLogin=875 -JSearch=525 -JS3=350\n# 2000vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JLogin=1000 -JSearch=600 -JS3=400\n",
+    "filename": "Acme_RUNME.txt",
+    "mode": "roundup",
+    "anyBump": true,
+    "rows": [
+     {
+      "total": 15,
+      "debug": true,
+      "parts": [
+       8,
+       5,
+       3
+      ],
+      "bumped": true,
+      "bumpedAt": 1
+     },
+     {
+      "total": 50,
+      "debug": false,
+      "parts": [
+       25,
+       15,
+       10
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 100,
+      "debug": false,
+      "parts": [
+       50,
+       30,
+       20
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 150,
+      "debug": false,
+      "parts": [
+       75,
+       45,
+       30
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 250,
+      "debug": false,
+      "parts": [
+       125,
+       75,
+       50
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 500,
+      "debug": false,
+      "parts": [
+       250,
+       150,
+       100
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 750,
+      "debug": false,
+      "parts": [
+       375,
+       225,
+       150
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1000,
+      "debug": false,
+      "parts": [
+       500,
+       300,
+       200
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1250,
+      "debug": false,
+      "parts": [
+       625,
+       375,
+       250
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1500,
+      "debug": false,
+      "parts": [
+       750,
+       450,
+       300
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1750,
+      "debug": false,
+      "parts": [
+       875,
+       525,
+       350
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 2000,
+      "debug": false,
+      "parts": [
+       1000,
+       600,
+       400
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     }
+    ],
+    "highlight": "<span class=\"t-dim\"># ================================================</span>\n<span class=\"t-dim\"># Project:       Acme</span>\n<span class=\"t-dim\"># Generated:     07 March 2026</span>\n<span class=\"t-dim\"># Max vUsers:    2000</span>\n<span class=\"t-dim\"># Scenarios:     3 (Login 50%  Search 30%  S3 20%)</span>\n<span class=\"t-dim\"># Rounding:      round-up (+1)</span>\n<span class=\"t-dim\"># Tester:        Khalil</span>\n<span class=\"t-dim\"># JMeter:        5.6.3</span>\n<span class=\"t-dim\"># ================================================</span>\n\n<span class=\"t-flag\"># 15vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JLogin=</span><span class=\"t-num\">8</span> <span class=\"t-dim\">-JSearch=</span><span class=\"t-flag\">5</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">3</span>\n<span class=\"t-total\"># 50vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JLogin=</span><span class=\"t-num\">25</span> <span class=\"t-dim\">-JSearch=</span><span class=\"t-num\">15</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">10</span>\n<span class=\"t-total\"># 100vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JLogin=</span><span class=\"t-num\">50</span> <span class=\"t-dim\">-JSearch=</span><span class=\"t-num\">30</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">20</span>\n<span class=\"t-total\"># 150vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JLogin=</span><span class=\"t-num\">75</span> <span class=\"t-dim\">-JSearch=</span><span class=\"t-num\">45</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">30</span>\n<span class=\"t-total\"># 250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JLogin=</span><span class=\"t-num\">125</span> <span class=\"t-dim\">-JSearch=</span><span class=\"t-num\">75</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">50</span>\n<span class=\"t-total\"># 500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JLogin=</span><span class=\"t-num\">250</span> <span class=\"t-dim\">-JSearch=</span><span class=\"t-num\">150</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">100</span>\n<span class=\"t-total\"># 750vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JLogin=</span><span class=\"t-num\">375</span> <span class=\"t-dim\">-JSearch=</span><span class=\"t-num\">225</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">150</span>\n<span class=\"t-total\"># 1000vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JLogin=</span><span class=\"t-num\">500</span> <span class=\"t-dim\">-JSearch=</span><span class=\"t-num\">300</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">200</span>\n<span class=\"t-total\"># 1250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JLogin=</span><span class=\"t-num\">625</span> <span class=\"t-dim\">-JSearch=</span><span class=\"t-num\">375</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">250</span>\n<span class=\"t-total\"># 1500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JLogin=</span><span class=\"t-num\">750</span> <span class=\"t-dim\">-JSearch=</span><span class=\"t-num\">450</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">300</span>\n<span class=\"t-total\"># 1750vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JLogin=</span><span class=\"t-num\">875</span> <span class=\"t-dim\">-JSearch=</span><span class=\"t-num\">525</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">350</span>\n<span class=\"t-total\"># 2000vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JLogin=</span><span class=\"t-num\">1000</span> <span class=\"t-dim\">-JSearch=</span><span class=\"t-num\">600</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">400</span>\n"
+   }
+  },
+  {
+   "name": "runtime on",
+   "state": {
+    "project": "Acme",
+    "path": "C:\\Tests\\My Plan.jmx",
+    "target": 2000,
+    "scnCount": 3,
+    "pcts": [
+     50,
+     30,
+     20
+    ],
+    "rampup": "60",
+    "duration": "3600",
+    "rounding": "roundup",
+    "set": {
+     "debug": "15",
+     "inc": 250,
+     "ladder": "50,100,150,250,500,750,1000",
+     "filename": "{project}_RUNME.txt",
+     "header": true,
+     "tester": "",
+     "jmeterVersion": "",
+     "props": [],
+     "runtime": true,
+     "rampupProp": "rampup",
+     "durationProp": "duration"
+    }
+   },
+   "expected": {
+    "text": "# ================================================\n# Project:       Acme\n# Generated:     07 March 2026\n# Max vUsers:    2000\n# Scenarios:     3 (S1 50%  S2 30%  S3 20%)\n# Rounding:      round-up (+1)\n# ================================================\n\n# 15vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=8 -JS2=5 -JS3=3 -Jrampup=60 -Jduration=3600\n# 50vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=25 -JS2=15 -JS3=10 -Jrampup=60 -Jduration=3600\n# 100vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=50 -JS2=30 -JS3=20 -Jrampup=60 -Jduration=3600\n# 150vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=75 -JS2=45 -JS3=30 -Jrampup=60 -Jduration=3600\n# 250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=125 -JS2=75 -JS3=50 -Jrampup=60 -Jduration=3600\n# 500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=250 -JS2=150 -JS3=100 -Jrampup=60 -Jduration=3600\n# 750vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=375 -JS2=225 -JS3=150 -Jrampup=60 -Jduration=3600\n# 1000vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=500 -JS2=300 -JS3=200 -Jrampup=60 -Jduration=3600\n# 1250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=625 -JS2=375 -JS3=250 -Jrampup=60 -Jduration=3600\n# 1500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=750 -JS2=450 -JS3=300 -Jrampup=60 -Jduration=3600\n# 1750vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=875 -JS2=525 -JS3=350 -Jrampup=60 -Jduration=3600\n# 2000vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=1000 -JS2=600 -JS3=400 -Jrampup=60 -Jduration=3600\n",
+    "filename": "Acme_RUNME.txt",
+    "mode": "roundup",
+    "anyBump": true,
+    "rows": [
+     {
+      "total": 15,
+      "debug": true,
+      "parts": [
+       8,
+       5,
+       3
+      ],
+      "bumped": true,
+      "bumpedAt": 1
+     },
+     {
+      "total": 50,
+      "debug": false,
+      "parts": [
+       25,
+       15,
+       10
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 100,
+      "debug": false,
+      "parts": [
+       50,
+       30,
+       20
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 150,
+      "debug": false,
+      "parts": [
+       75,
+       45,
+       30
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 250,
+      "debug": false,
+      "parts": [
+       125,
+       75,
+       50
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 500,
+      "debug": false,
+      "parts": [
+       250,
+       150,
+       100
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 750,
+      "debug": false,
+      "parts": [
+       375,
+       225,
+       150
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1000,
+      "debug": false,
+      "parts": [
+       500,
+       300,
+       200
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1250,
+      "debug": false,
+      "parts": [
+       625,
+       375,
+       250
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1500,
+      "debug": false,
+      "parts": [
+       750,
+       450,
+       300
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1750,
+      "debug": false,
+      "parts": [
+       875,
+       525,
+       350
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 2000,
+      "debug": false,
+      "parts": [
+       1000,
+       600,
+       400
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     }
+    ],
+    "highlight": "<span class=\"t-dim\"># ================================================</span>\n<span class=\"t-dim\"># Project:       Acme</span>\n<span class=\"t-dim\"># Generated:     07 March 2026</span>\n<span class=\"t-dim\"># Max vUsers:    2000</span>\n<span class=\"t-dim\"># Scenarios:     3 (S1 50%  S2 30%  S3 20%)</span>\n<span class=\"t-dim\"># Rounding:      round-up (+1)</span>\n<span class=\"t-dim\"># ================================================</span>\n\n<span class=\"t-flag\"># 15vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">8</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-flag\">5</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">3</span> <span class=\"t-dim\">-Jrampup=</span><span class=\"t-num\">60</span> <span class=\"t-dim\">-Jduration=</span><span class=\"t-num\">3600</span>\n<span class=\"t-total\"># 50vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">25</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">15</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">10</span> <span class=\"t-dim\">-Jrampup=</span><span class=\"t-num\">60</span> <span class=\"t-dim\">-Jduration=</span><span class=\"t-num\">3600</span>\n<span class=\"t-total\"># 100vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">50</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">30</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">20</span> <span class=\"t-dim\">-Jrampup=</span><span class=\"t-num\">60</span> <span class=\"t-dim\">-Jduration=</span><span class=\"t-num\">3600</span>\n<span class=\"t-total\"># 150vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">75</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">45</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">30</span> <span class=\"t-dim\">-Jrampup=</span><span class=\"t-num\">60</span> <span class=\"t-dim\">-Jduration=</span><span class=\"t-num\">3600</span>\n<span class=\"t-total\"># 250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">125</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">75</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">50</span> <span class=\"t-dim\">-Jrampup=</span><span class=\"t-num\">60</span> <span class=\"t-dim\">-Jduration=</span><span class=\"t-num\">3600</span>\n<span class=\"t-total\"># 500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">250</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">150</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">100</span> <span class=\"t-dim\">-Jrampup=</span><span class=\"t-num\">60</span> <span class=\"t-dim\">-Jduration=</span><span class=\"t-num\">3600</span>\n<span class=\"t-total\"># 750vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">375</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">225</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">150</span> <span class=\"t-dim\">-Jrampup=</span><span class=\"t-num\">60</span> <span class=\"t-dim\">-Jduration=</span><span class=\"t-num\">3600</span>\n<span class=\"t-total\"># 1000vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">500</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">300</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">200</span> <span class=\"t-dim\">-Jrampup=</span><span class=\"t-num\">60</span> <span class=\"t-dim\">-Jduration=</span><span class=\"t-num\">3600</span>\n<span class=\"t-total\"># 1250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">625</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">375</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">250</span> <span class=\"t-dim\">-Jrampup=</span><span class=\"t-num\">60</span> <span class=\"t-dim\">-Jduration=</span><span class=\"t-num\">3600</span>\n<span class=\"t-total\"># 1500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">750</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">450</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">300</span> <span class=\"t-dim\">-Jrampup=</span><span class=\"t-num\">60</span> <span class=\"t-dim\">-Jduration=</span><span class=\"t-num\">3600</span>\n<span class=\"t-total\"># 1750vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">875</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">525</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">350</span> <span class=\"t-dim\">-Jrampup=</span><span class=\"t-num\">60</span> <span class=\"t-dim\">-Jduration=</span><span class=\"t-num\">3600</span>\n<span class=\"t-total\"># 2000vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">1000</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">600</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">400</span> <span class=\"t-dim\">-Jrampup=</span><span class=\"t-num\">60</span> <span class=\"t-dim\">-Jduration=</span><span class=\"t-num\">3600</span>\n"
+   }
+  },
+  {
+   "name": "runtime on, custom prop names",
+   "state": {
+    "project": "Acme",
+    "path": "C:\\Tests\\My Plan.jmx",
+    "target": 2000,
+    "scnCount": 3,
+    "pcts": [
+     50,
+     30,
+     20
+    ],
+    "rampup": "30",
+    "duration": "",
+    "rounding": "roundup",
+    "set": {
+     "debug": "15",
+     "inc": 250,
+     "ladder": "50,100,150,250,500,750,1000",
+     "filename": "{project}_RUNME.txt",
+     "header": true,
+     "tester": "",
+     "jmeterVersion": "",
+     "props": [],
+     "runtime": true,
+     "rampupProp": "rt",
+     "durationProp": "dur"
+    }
+   },
+   "expected": {
+    "text": "# ================================================\n# Project:       Acme\n# Generated:     07 March 2026\n# Max vUsers:    2000\n# Scenarios:     3 (S1 50%  S2 30%  S3 20%)\n# Rounding:      round-up (+1)\n# ================================================\n\n# 15vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=8 -JS2=5 -JS3=3 -Jrt=30\n# 50vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=25 -JS2=15 -JS3=10 -Jrt=30\n# 100vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=50 -JS2=30 -JS3=20 -Jrt=30\n# 150vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=75 -JS2=45 -JS3=30 -Jrt=30\n# 250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=125 -JS2=75 -JS3=50 -Jrt=30\n# 500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=250 -JS2=150 -JS3=100 -Jrt=30\n# 750vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=375 -JS2=225 -JS3=150 -Jrt=30\n# 1000vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=500 -JS2=300 -JS3=200 -Jrt=30\n# 1250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=625 -JS2=375 -JS3=250 -Jrt=30\n# 1500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=750 -JS2=450 -JS3=300 -Jrt=30\n# 1750vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=875 -JS2=525 -JS3=350 -Jrt=30\n# 2000vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=1000 -JS2=600 -JS3=400 -Jrt=30\n",
+    "filename": "Acme_RUNME.txt",
+    "mode": "roundup",
+    "anyBump": true,
+    "rows": [
+     {
+      "total": 15,
+      "debug": true,
+      "parts": [
+       8,
+       5,
+       3
+      ],
+      "bumped": true,
+      "bumpedAt": 1
+     },
+     {
+      "total": 50,
+      "debug": false,
+      "parts": [
+       25,
+       15,
+       10
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 100,
+      "debug": false,
+      "parts": [
+       50,
+       30,
+       20
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 150,
+      "debug": false,
+      "parts": [
+       75,
+       45,
+       30
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 250,
+      "debug": false,
+      "parts": [
+       125,
+       75,
+       50
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 500,
+      "debug": false,
+      "parts": [
+       250,
+       150,
+       100
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 750,
+      "debug": false,
+      "parts": [
+       375,
+       225,
+       150
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1000,
+      "debug": false,
+      "parts": [
+       500,
+       300,
+       200
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1250,
+      "debug": false,
+      "parts": [
+       625,
+       375,
+       250
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1500,
+      "debug": false,
+      "parts": [
+       750,
+       450,
+       300
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1750,
+      "debug": false,
+      "parts": [
+       875,
+       525,
+       350
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 2000,
+      "debug": false,
+      "parts": [
+       1000,
+       600,
+       400
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     }
+    ],
+    "highlight": "<span class=\"t-dim\"># ================================================</span>\n<span class=\"t-dim\"># Project:       Acme</span>\n<span class=\"t-dim\"># Generated:     07 March 2026</span>\n<span class=\"t-dim\"># Max vUsers:    2000</span>\n<span class=\"t-dim\"># Scenarios:     3 (S1 50%  S2 30%  S3 20%)</span>\n<span class=\"t-dim\"># Rounding:      round-up (+1)</span>\n<span class=\"t-dim\"># ================================================</span>\n\n<span class=\"t-flag\"># 15vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">8</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-flag\">5</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">3</span> <span class=\"t-dim\">-Jrt=</span><span class=\"t-num\">30</span>\n<span class=\"t-total\"># 50vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">25</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">15</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">10</span> <span class=\"t-dim\">-Jrt=</span><span class=\"t-num\">30</span>\n<span class=\"t-total\"># 100vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">50</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">30</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">20</span> <span class=\"t-dim\">-Jrt=</span><span class=\"t-num\">30</span>\n<span class=\"t-total\"># 150vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">75</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">45</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">30</span> <span class=\"t-dim\">-Jrt=</span><span class=\"t-num\">30</span>\n<span class=\"t-total\"># 250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">125</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">75</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">50</span> <span class=\"t-dim\">-Jrt=</span><span class=\"t-num\">30</span>\n<span class=\"t-total\"># 500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">250</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">150</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">100</span> <span class=\"t-dim\">-Jrt=</span><span class=\"t-num\">30</span>\n<span class=\"t-total\"># 750vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">375</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">225</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">150</span> <span class=\"t-dim\">-Jrt=</span><span class=\"t-num\">30</span>\n<span class=\"t-total\"># 1000vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">500</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">300</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">200</span> <span class=\"t-dim\">-Jrt=</span><span class=\"t-num\">30</span>\n<span class=\"t-total\"># 1250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">625</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">375</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">250</span> <span class=\"t-dim\">-Jrt=</span><span class=\"t-num\">30</span>\n<span class=\"t-total\"># 1500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">750</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">450</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">300</span> <span class=\"t-dim\">-Jrt=</span><span class=\"t-num\">30</span>\n<span class=\"t-total\"># 1750vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">875</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">525</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">350</span> <span class=\"t-dim\">-Jrt=</span><span class=\"t-num\">30</span>\n<span class=\"t-total\"># 2000vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">1000</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">600</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">400</span> <span class=\"t-dim\">-Jrt=</span><span class=\"t-num\">30</span>\n"
+   }
+  },
+  {
+   "name": "multiple debug rows, custom ladder + inc",
+   "state": {
+    "project": "Acme",
+    "path": "C:\\Tests\\My Plan.jmx",
+    "target": 900,
+    "scnCount": 3,
+    "pcts": [
+     50,
+     30,
+     20
+    ],
+    "rampup": "",
+    "duration": "",
+    "rounding": "roundup",
+    "set": {
+     "debug": "3, 15",
+     "inc": "100",
+     "ladder": "20,40",
+     "filename": "{project}_RUNME.txt",
+     "header": true,
+     "tester": "",
+     "jmeterVersion": "",
+     "props": [],
+     "runtime": false,
+     "rampupProp": "rampup",
+     "durationProp": "duration"
+    }
+   },
+   "expected": {
+    "text": "# ================================================\n# Project:       Acme\n# Generated:     07 March 2026\n# Max vUsers:    900\n# Scenarios:     3 (S1 50%  S2 30%  S3 20%)\n# Rounding:      round-up (+1)\n# ================================================\n\n# 3vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=2 -JS2=1 -JS3=1\n# 15vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=8 -JS2=5 -JS3=3\n# 20vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=10 -JS2=6 -JS3=4\n# 40vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=20 -JS2=12 -JS3=8\n# 140vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=70 -JS2=42 -JS3=28\n# 240vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=120 -JS2=72 -JS3=48\n# 340vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=170 -JS2=102 -JS3=68\n# 440vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=220 -JS2=132 -JS3=88\n# 540vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=270 -JS2=162 -JS3=108\n# 640vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=320 -JS2=192 -JS3=128\n# 740vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=370 -JS2=222 -JS3=148\n# 840vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=420 -JS2=252 -JS3=168\n# 900vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=450 -JS2=270 -JS3=180\n",
+    "filename": "Acme_RUNME.txt",
+    "mode": "roundup",
+    "anyBump": true,
+    "rows": [
+     {
+      "total": 3,
+      "debug": true,
+      "parts": [
+       2,
+       1,
+       1
+      ],
+      "bumped": true,
+      "bumpedAt": 0
+     },
+     {
+      "total": 15,
+      "debug": true,
+      "parts": [
+       8,
+       5,
+       3
+      ],
+      "bumped": true,
+      "bumpedAt": 1
+     },
+     {
+      "total": 20,
+      "debug": false,
+      "parts": [
+       10,
+       6,
+       4
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 40,
+      "debug": false,
+      "parts": [
+       20,
+       12,
+       8
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 140,
+      "debug": false,
+      "parts": [
+       70,
+       42,
+       28
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 240,
+      "debug": false,
+      "parts": [
+       120,
+       72,
+       48
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 340,
+      "debug": false,
+      "parts": [
+       170,
+       102,
+       68
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 440,
+      "debug": false,
+      "parts": [
+       220,
+       132,
+       88
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 540,
+      "debug": false,
+      "parts": [
+       270,
+       162,
+       108
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 640,
+      "debug": false,
+      "parts": [
+       320,
+       192,
+       128
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 740,
+      "debug": false,
+      "parts": [
+       370,
+       222,
+       148
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 840,
+      "debug": false,
+      "parts": [
+       420,
+       252,
+       168
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 900,
+      "debug": false,
+      "parts": [
+       450,
+       270,
+       180
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     }
+    ],
+    "highlight": "<span class=\"t-dim\"># ================================================</span>\n<span class=\"t-dim\"># Project:       Acme</span>\n<span class=\"t-dim\"># Generated:     07 March 2026</span>\n<span class=\"t-dim\"># Max vUsers:    900</span>\n<span class=\"t-dim\"># Scenarios:     3 (S1 50%  S2 30%  S3 20%)</span>\n<span class=\"t-dim\"># Rounding:      round-up (+1)</span>\n<span class=\"t-dim\"># ================================================</span>\n\n<span class=\"t-flag\"># 3vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-flag\">2</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">1</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">1</span>\n<span class=\"t-flag\"># 15vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">8</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-flag\">5</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">3</span>\n<span class=\"t-total\"># 20vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">10</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">6</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">4</span>\n<span class=\"t-total\"># 40vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">20</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">12</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">8</span>\n<span class=\"t-total\"># 140vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">70</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">42</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">28</span>\n<span class=\"t-total\"># 240vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">120</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">72</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">48</span>\n<span class=\"t-total\"># 340vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">170</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">102</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">68</span>\n<span class=\"t-total\"># 440vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">220</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">132</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">88</span>\n<span class=\"t-total\"># 540vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">270</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">162</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">108</span>\n<span class=\"t-total\"># 640vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">320</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">192</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">128</span>\n<span class=\"t-total\"># 740vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">370</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">222</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">148</span>\n<span class=\"t-total\"># 840vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">420</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">252</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">168</span>\n<span class=\"t-total\"># 900vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">450</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">270</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">180</span>\n"
+   }
+  },
+  {
+   "name": "filename pattern",
+   "state": {
+    "project": "My Proj / v2",
+    "path": "C:\\Tests\\My Plan.jmx",
+    "target": 2000,
+    "scnCount": 3,
+    "pcts": [
+     50,
+     30,
+     20
+    ],
+    "rampup": "",
+    "duration": "",
+    "rounding": "roundup",
+    "set": {
+     "debug": "15",
+     "inc": 250,
+     "ladder": "50,100,150,250,500,750,1000",
+     "filename": "{project}-{project}.txt",
+     "header": true,
+     "tester": "",
+     "jmeterVersion": "",
+     "props": [],
+     "runtime": false,
+     "rampupProp": "rampup",
+     "durationProp": "duration"
+    }
+   },
+   "expected": {
+    "text": "# ================================================\n# Project:       My Proj / v2\n# Generated:     07 March 2026\n# Max vUsers:    2000\n# Scenarios:     3 (S1 50%  S2 30%  S3 20%)\n# Rounding:      round-up (+1)\n# ================================================\n\n# 15vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=8 -JS2=5 -JS3=3\n# 50vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=25 -JS2=15 -JS3=10\n# 100vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=50 -JS2=30 -JS3=20\n# 150vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=75 -JS2=45 -JS3=30\n# 250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=125 -JS2=75 -JS3=50\n# 500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=250 -JS2=150 -JS3=100\n# 750vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=375 -JS2=225 -JS3=150\n# 1000vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=500 -JS2=300 -JS3=200\n# 1250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=625 -JS2=375 -JS3=250\n# 1500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=750 -JS2=450 -JS3=300\n# 1750vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=875 -JS2=525 -JS3=350\n# 2000vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=1000 -JS2=600 -JS3=400\n",
+    "filename": "My_Proj_v2-My_Proj_v2.txt",
+    "mode": "roundup",
+    "anyBump": true,
+    "rows": [
+     {
+      "total": 15,
+      "debug": true,
+      "parts": [
+       8,
+       5,
+       3
+      ],
+      "bumped": true,
+      "bumpedAt": 1
+     },
+     {
+      "total": 50,
+      "debug": false,
+      "parts": [
+       25,
+       15,
+       10
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 100,
+      "debug": false,
+      "parts": [
+       50,
+       30,
+       20
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 150,
+      "debug": false,
+      "parts": [
+       75,
+       45,
+       30
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 250,
+      "debug": false,
+      "parts": [
+       125,
+       75,
+       50
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 500,
+      "debug": false,
+      "parts": [
+       250,
+       150,
+       100
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 750,
+      "debug": false,
+      "parts": [
+       375,
+       225,
+       150
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1000,
+      "debug": false,
+      "parts": [
+       500,
+       300,
+       200
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1250,
+      "debug": false,
+      "parts": [
+       625,
+       375,
+       250
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1500,
+      "debug": false,
+      "parts": [
+       750,
+       450,
+       300
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1750,
+      "debug": false,
+      "parts": [
+       875,
+       525,
+       350
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 2000,
+      "debug": false,
+      "parts": [
+       1000,
+       600,
+       400
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     }
+    ],
+    "highlight": "<span class=\"t-dim\"># ================================================</span>\n<span class=\"t-dim\"># Project:       My Proj / v2</span>\n<span class=\"t-dim\"># Generated:     07 March 2026</span>\n<span class=\"t-dim\"># Max vUsers:    2000</span>\n<span class=\"t-dim\"># Scenarios:     3 (S1 50%  S2 30%  S3 20%)</span>\n<span class=\"t-dim\"># Rounding:      round-up (+1)</span>\n<span class=\"t-dim\"># ================================================</span>\n\n<span class=\"t-flag\"># 15vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">8</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-flag\">5</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">3</span>\n<span class=\"t-total\"># 50vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">25</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">15</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">10</span>\n<span class=\"t-total\"># 100vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">50</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">30</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">20</span>\n<span class=\"t-total\"># 150vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">75</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">45</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">30</span>\n<span class=\"t-total\"># 250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">125</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">75</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">50</span>\n<span class=\"t-total\"># 500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">250</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">150</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">100</span>\n<span class=\"t-total\"># 750vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">375</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">225</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">150</span>\n<span class=\"t-total\"># 1000vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">500</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">300</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">200</span>\n<span class=\"t-total\"># 1250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">625</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">375</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">250</span>\n<span class=\"t-total\"># 1500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">750</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">450</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">300</span>\n<span class=\"t-total\"># 1750vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">875</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">525</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">350</span>\n<span class=\"t-total\"># 2000vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">1000</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">600</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">400</span>\n"
+   }
+  },
+  {
+   "name": "13 scenarios even",
+   "state": {
+    "project": "Acme",
+    "path": "C:\\Tests\\My Plan.jmx",
+    "target": 500,
+    "scnCount": 13,
+    "pcts": [
+     8,
+     8,
+     8,
+     8,
+     8,
+     8,
+     8,
+     8,
+     8,
+     8,
+     8,
+     8,
+     4
+    ],
+    "rampup": "",
+    "duration": "",
+    "rounding": "roundup",
+    "set": {
+     "debug": "15",
+     "inc": 250,
+     "ladder": "50,100,150,250,500,750,1000",
+     "filename": "{project}_RUNME.txt",
+     "header": true,
+     "tester": "",
+     "jmeterVersion": "",
+     "props": [],
+     "runtime": false,
+     "rampupProp": "rampup",
+     "durationProp": "duration"
+    }
+   },
+   "expected": {
+    "text": "# ================================================\n# Project:       Acme\n# Generated:     07 March 2026\n# Max vUsers:    500\n# Scenarios:     13 (S1 8%  S2 8%  S3 8%  S4 8%  S5 8%  S6 8%  S7 8%  S8 8%  S9 8%  S10 8%  S11 8%  S12 8%  S13 4%)\n# Rounding:      round-up (+1)\n# ================================================\n\n# 15vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=2 -JS2=2 -JS3=2 -JS4=1 -JS5=1 -JS6=1 -JS7=1 -JS8=1 -JS9=1 -JS10=1 -JS11=1 -JS12=1 -JS13=1\n# 50vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=4 -JS2=4 -JS3=4 -JS4=4 -JS5=4 -JS6=4 -JS7=4 -JS8=4 -JS9=4 -JS10=4 -JS11=4 -JS12=4 -JS13=2\n# 100vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=8 -JS2=8 -JS3=8 -JS4=8 -JS5=8 -JS6=8 -JS7=8 -JS8=8 -JS9=8 -JS10=8 -JS11=8 -JS12=8 -JS13=4\n# 150vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=12 -JS2=12 -JS3=12 -JS4=12 -JS5=12 -JS6=12 -JS7=12 -JS8=12 -JS9=12 -JS10=12 -JS11=12 -JS12=12 -JS13=6\n# 250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=20 -JS2=20 -JS3=20 -JS4=20 -JS5=20 -JS6=20 -JS7=20 -JS8=20 -JS9=20 -JS10=20 -JS11=20 -JS12=20 -JS13=10\n# 500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=40 -JS2=40 -JS3=40 -JS4=40 -JS5=40 -JS6=40 -JS7=40 -JS8=40 -JS9=40 -JS10=40 -JS11=40 -JS12=40 -JS13=20\n",
+    "filename": "Acme_RUNME.txt",
+    "mode": "roundup",
+    "anyBump": true,
+    "rows": [
+     {
+      "total": 15,
+      "debug": true,
+      "parts": [
+       2,
+       2,
+       2,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1
+      ],
+      "bumped": true,
+      "bumpedAt": 2
+     },
+     {
+      "total": 50,
+      "debug": false,
+      "parts": [
+       4,
+       4,
+       4,
+       4,
+       4,
+       4,
+       4,
+       4,
+       4,
+       4,
+       4,
+       4,
+       2
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 100,
+      "debug": false,
+      "parts": [
+       8,
+       8,
+       8,
+       8,
+       8,
+       8,
+       8,
+       8,
+       8,
+       8,
+       8,
+       8,
+       4
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 150,
+      "debug": false,
+      "parts": [
+       12,
+       12,
+       12,
+       12,
+       12,
+       12,
+       12,
+       12,
+       12,
+       12,
+       12,
+       12,
+       6
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 250,
+      "debug": false,
+      "parts": [
+       20,
+       20,
+       20,
+       20,
+       20,
+       20,
+       20,
+       20,
+       20,
+       20,
+       20,
+       20,
+       10
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 500,
+      "debug": false,
+      "parts": [
+       40,
+       40,
+       40,
+       40,
+       40,
+       40,
+       40,
+       40,
+       40,
+       40,
+       40,
+       40,
+       20
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     }
+    ],
+    "highlight": "<span class=\"t-dim\"># ================================================</span>\n<span class=\"t-dim\"># Project:       Acme</span>\n<span class=\"t-dim\"># Generated:     07 March 2026</span>\n<span class=\"t-dim\"># Max vUsers:    500</span>\n<span class=\"t-dim\"># Scenarios:     13 (S1 8%  S2 8%  S3 8%  S4 8%  S5 8%  S6 8%  S7 8%  S8 8%  S9 8%  S10 8%  S11 8%  S12 8%  S13 4%)</span>\n<span class=\"t-dim\"># Rounding:      round-up (+1)</span>\n<span class=\"t-dim\"># ================================================</span>\n\n<span class=\"t-flag\"># 15vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">2</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">2</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-flag\">2</span> <span class=\"t-dim\">-JS4=</span><span class=\"t-num\">1</span> <span class=\"t-dim\">-JS5=</span><span class=\"t-num\">1</span> <span class=\"t-dim\">-JS6=</span><span class=\"t-num\">1</span> <span class=\"t-dim\">-JS7=</span><span class=\"t-num\">1</span> <span class=\"t-dim\">-JS8=</span><span class=\"t-num\">1</span> <span class=\"t-dim\">-JS9=</span><span class=\"t-num\">1</span> <span class=\"t-dim\">-JS10=</span><span class=\"t-num\">1</span> <span class=\"t-dim\">-JS11=</span><span class=\"t-num\">1</span> <span class=\"t-dim\">-JS12=</span><span class=\"t-num\">1</span> <span class=\"t-dim\">-JS13=</span><span class=\"t-num\">1</span>\n<span class=\"t-total\"># 50vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">4</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">4</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">4</span> <span class=\"t-dim\">-JS4=</span><span class=\"t-num\">4</span> <span class=\"t-dim\">-JS5=</span><span class=\"t-num\">4</span> <span class=\"t-dim\">-JS6=</span><span class=\"t-num\">4</span> <span class=\"t-dim\">-JS7=</span><span class=\"t-num\">4</span> <span class=\"t-dim\">-JS8=</span><span class=\"t-num\">4</span> <span class=\"t-dim\">-JS9=</span><span class=\"t-num\">4</span> <span class=\"t-dim\">-JS10=</span><span class=\"t-num\">4</span> <span class=\"t-dim\">-JS11=</span><span class=\"t-num\">4</span> <span class=\"t-dim\">-JS12=</span><span class=\"t-num\">4</span> <span class=\"t-dim\">-JS13=</span><span class=\"t-num\">2</span>\n<span class=\"t-total\"># 100vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">8</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">8</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">8</span> <span class=\"t-dim\">-JS4=</span><span class=\"t-num\">8</span> <span class=\"t-dim\">-JS5=</span><span class=\"t-num\">8</span> <span class=\"t-dim\">-JS6=</span><span class=\"t-num\">8</span> <span class=\"t-dim\">-JS7=</span><span class=\"t-num\">8</span> <span class=\"t-dim\">-JS8=</span><span class=\"t-num\">8</span> <span class=\"t-dim\">-JS9=</span><span class=\"t-num\">8</span> <span class=\"t-dim\">-JS10=</span><span class=\"t-num\">8</span> <span class=\"t-dim\">-JS11=</span><span class=\"t-num\">8</span> <span class=\"t-dim\">-JS12=</span><span class=\"t-num\">8</span> <span class=\"t-dim\">-JS13=</span><span class=\"t-num\">4</span>\n<span class=\"t-total\"># 150vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">12</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">12</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">12</span> <span class=\"t-dim\">-JS4=</span><span class=\"t-num\">12</span> <span class=\"t-dim\">-JS5=</span><span class=\"t-num\">12</span> <span class=\"t-dim\">-JS6=</span><span class=\"t-num\">12</span> <span class=\"t-dim\">-JS7=</span><span class=\"t-num\">12</span> <span class=\"t-dim\">-JS8=</span><span class=\"t-num\">12</span> <span class=\"t-dim\">-JS9=</span><span class=\"t-num\">12</span> <span class=\"t-dim\">-JS10=</span><span class=\"t-num\">12</span> <span class=\"t-dim\">-JS11=</span><span class=\"t-num\">12</span> <span class=\"t-dim\">-JS12=</span><span class=\"t-num\">12</span> <span class=\"t-dim\">-JS13=</span><span class=\"t-num\">6</span>\n<span class=\"t-total\"># 250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">20</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">20</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">20</span> <span class=\"t-dim\">-JS4=</span><span class=\"t-num\">20</span> <span class=\"t-dim\">-JS5=</span><span class=\"t-num\">20</span> <span class=\"t-dim\">-JS6=</span><span class=\"t-num\">20</span> <span class=\"t-dim\">-JS7=</span><span class=\"t-num\">20</span> <span class=\"t-dim\">-JS8=</span><span class=\"t-num\">20</span> <span class=\"t-dim\">-JS9=</span><span class=\"t-num\">20</span> <span class=\"t-dim\">-JS10=</span><span class=\"t-num\">20</span> <span class=\"t-dim\">-JS11=</span><span class=\"t-num\">20</span> <span class=\"t-dim\">-JS12=</span><span class=\"t-num\">20</span> <span class=\"t-dim\">-JS13=</span><span class=\"t-num\">10</span>\n<span class=\"t-total\"># 500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">40</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">40</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">40</span> <span class=\"t-dim\">-JS4=</span><span class=\"t-num\">40</span> <span class=\"t-dim\">-JS5=</span><span class=\"t-num\">40</span> <span class=\"t-dim\">-JS6=</span><span class=\"t-num\">40</span> <span class=\"t-dim\">-JS7=</span><span class=\"t-num\">40</span> <span class=\"t-dim\">-JS8=</span><span class=\"t-num\">40</span> <span class=\"t-dim\">-JS9=</span><span class=\"t-num\">40</span> <span class=\"t-dim\">-JS10=</span><span class=\"t-num\">40</span> <span class=\"t-dim\">-JS11=</span><span class=\"t-num\">40</span> <span class=\"t-dim\">-JS12=</span><span class=\"t-num\">40</span> <span class=\"t-dim\">-JS13=</span><span class=\"t-num\">20</span>\n"
+   }
+  },
+  {
+   "name": "err: no path",
+   "state": {
+    "project": "Acme",
+    "path": "",
+    "target": 2000,
+    "scnCount": 3,
+    "pcts": [
+     50,
+     30,
+     20
+    ],
+    "rampup": "",
+    "duration": "",
+    "rounding": "roundup",
+    "set": {
+     "debug": "15",
+     "inc": 250,
+     "ladder": "50,100,150,250,500,750,1000",
+     "filename": "{project}_RUNME.txt",
+     "header": true,
+     "tester": "",
+     "jmeterVersion": "",
+     "props": [],
+     "runtime": false,
+     "rampupProp": "rampup",
+     "durationProp": "duration"
+    }
+   },
+   "expected": {
+    "error": "Add the script path in the top bar."
+   }
+  },
+  {
+   "name": "err: bad target",
+   "state": {
+    "project": "Acme",
+    "path": "C:\\Tests\\My Plan.jmx",
+    "target": "",
+    "scnCount": 3,
+    "pcts": [
+     50,
+     30,
+     20
+    ],
+    "rampup": "",
+    "duration": "",
+    "rounding": "roundup",
+    "set": {
+     "debug": "15",
+     "inc": 250,
+     "ladder": "50,100,150,250,500,750,1000",
+     "filename": "{project}_RUNME.txt",
+     "header": true,
+     "tester": "",
+     "jmeterVersion": "",
+     "props": [],
+     "runtime": false,
+     "rampupProp": "rampup",
+     "durationProp": "duration"
+    }
+   },
+   "expected": {
+    "error": "Set a valid target user count."
+   }
+  },
+  {
+   "name": "err: pct sum",
+   "state": {
+    "project": "Acme",
+    "path": "C:\\Tests\\My Plan.jmx",
+    "target": 2000,
+    "scnCount": 3,
+    "pcts": [
+     50,
+     30,
+     10
+    ],
+    "rampup": "",
+    "duration": "",
+    "rounding": "roundup",
+    "set": {
+     "debug": "15",
+     "inc": 250,
+     "ladder": "50,100,150,250,500,750,1000",
+     "filename": "{project}_RUNME.txt",
+     "header": true,
+     "tester": "",
+     "jmeterVersion": "",
+     "props": [],
+     "runtime": false,
+     "rampupProp": "rampup",
+     "durationProp": "duration"
+    }
+   },
+   "expected": {
+    "error": "Distribution must sum to 100% (currently 90%)."
+   }
+  },
+  {
+   "name": "err: zero share",
+   "state": {
+    "project": "Acme",
+    "path": "C:\\Tests\\My Plan.jmx",
+    "target": 2000,
+    "scnCount": 3,
+    "pcts": [
+     70,
+     30,
+     0
+    ],
+    "rampup": "",
+    "duration": "",
+    "rounding": "roundup",
+    "set": {
+     "debug": "15",
+     "inc": 250,
+     "ladder": "50,100,150,250,500,750,1000",
+     "filename": "{project}_RUNME.txt",
+     "header": true,
+     "tester": "",
+     "jmeterVersion": "",
+     "props": [],
+     "runtime": false,
+     "rampupProp": "rampup",
+     "durationProp": "duration"
+    }
+   },
+   "expected": {
+    "error": "Scenario 3 is 0% — give it a share or reduce the scenario count."
+   }
+  },
+  {
+   "name": "err: empty ladder",
+   "state": {
+    "project": "Acme",
+    "path": "C:\\Tests\\My Plan.jmx",
+    "target": 2000,
+    "scnCount": 3,
+    "pcts": [
+     50,
+     30,
+     20
+    ],
+    "rampup": "",
+    "duration": "",
+    "rounding": "roundup",
+    "set": {
+     "debug": "15",
+     "inc": 250,
+     "ladder": "",
+     "filename": "{project}_RUNME.txt",
+     "header": true,
+     "tester": "",
+     "jmeterVersion": "",
+     "props": [],
+     "runtime": false,
+     "rampupProp": "rampup",
+     "durationProp": "duration"
+    }
+   },
+   "expected": {
+    "error": "Base ladder is empty — add at least one step."
+   }
+  },
+  {
+   "name": "err: debug too small",
+   "state": {
+    "project": "Acme",
+    "path": "C:\\Tests\\My Plan.jmx",
+    "target": 2000,
+    "scnCount": 20,
+    "pcts": [
+     5,
+     5,
+     5,
+     5,
+     5,
+     5,
+     5,
+     5,
+     5,
+     5,
+     5,
+     5,
+     5,
+     5,
+     5,
+     5,
+     5,
+     5,
+     5,
+     5
+    ],
+    "rampup": "",
+    "duration": "",
+    "rounding": "roundup",
+    "set": {
+     "debug": "15",
+     "inc": 250,
+     "ladder": "50,100,150,250,500,750,1000",
+     "filename": "{project}_RUNME.txt",
+     "header": true,
+     "tester": "",
+     "jmeterVersion": "",
+     "props": [],
+     "runtime": false,
+     "rampupProp": "rampup",
+     "durationProp": "duration"
+    }
+   },
+   "expected": {
+    "error": "The 15-user debug step can't cover 20 scenarios (needs ≥1 user each). Lower the scenario count or raise the debug value."
+   }
+  },
+  {
+   "name": "tiny shares at 50+ users still feasible",
+   "state": {
+    "project": "Acme",
+    "path": "C:\\Tests\\My Plan.jmx",
+    "target": 2000,
+    "scnCount": 3,
+    "pcts": [
+     98,
+     1,
+     1
+    ],
+    "rampup": "",
+    "duration": "",
+    "rounding": "roundup",
+    "set": {
+     "debug": "",
+     "inc": 250,
+     "ladder": "50,100,150,250,500,750,1000",
+     "filename": "{project}_RUNME.txt",
+     "header": true,
+     "tester": "",
+     "jmeterVersion": "",
+     "props": [],
+     "runtime": false,
+     "rampupProp": "rampup",
+     "durationProp": "duration"
+    }
+   },
+   "expected": {
+    "text": "# ================================================\n# Project:       Acme\n# Generated:     07 March 2026\n# Max vUsers:    2000\n# Scenarios:     3 (S1 98%  S2 1%  S3 1%)\n# Rounding:      round-up (+1)\n# ================================================\n\n# 50vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=49 -JS2=1 -JS3=1\n# 100vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=98 -JS2=1 -JS3=1\n# 150vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=147 -JS2=2 -JS3=2\n# 250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=245 -JS2=3 -JS3=3\n# 500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=490 -JS2=5 -JS3=5\n# 750vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=735 -JS2=8 -JS3=8\n# 1000vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=980 -JS2=10 -JS3=10\n# 1250vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=1225 -JS2=13 -JS3=13\n# 1500vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=1470 -JS2=15 -JS3=15\n# 1750vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=1715 -JS2=18 -JS3=18\n# 2000vUsers\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" -JS1=1960 -JS2=20 -JS3=20\n",
+    "filename": "Acme_RUNME.txt",
+    "mode": "roundup",
+    "anyBump": true,
+    "rows": [
+     {
+      "total": 50,
+      "debug": false,
+      "parts": [
+       49,
+       1,
+       1
+      ],
+      "bumped": true,
+      "bumpedAt": 2
+     },
+     {
+      "total": 100,
+      "debug": false,
+      "parts": [
+       98,
+       1,
+       1
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 150,
+      "debug": false,
+      "parts": [
+       147,
+       2,
+       2
+      ],
+      "bumped": true,
+      "bumpedAt": 2
+     },
+     {
+      "total": 250,
+      "debug": false,
+      "parts": [
+       245,
+       3,
+       3
+      ],
+      "bumped": true,
+      "bumpedAt": 2
+     },
+     {
+      "total": 500,
+      "debug": false,
+      "parts": [
+       490,
+       5,
+       5
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 750,
+      "debug": false,
+      "parts": [
+       735,
+       8,
+       8
+      ],
+      "bumped": true,
+      "bumpedAt": 2
+     },
+     {
+      "total": 1000,
+      "debug": false,
+      "parts": [
+       980,
+       10,
+       10
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1250,
+      "debug": false,
+      "parts": [
+       1225,
+       13,
+       13
+      ],
+      "bumped": true,
+      "bumpedAt": 2
+     },
+     {
+      "total": 1500,
+      "debug": false,
+      "parts": [
+       1470,
+       15,
+       15
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     },
+     {
+      "total": 1750,
+      "debug": false,
+      "parts": [
+       1715,
+       18,
+       18
+      ],
+      "bumped": true,
+      "bumpedAt": 2
+     },
+     {
+      "total": 2000,
+      "debug": false,
+      "parts": [
+       1960,
+       20,
+       20
+      ],
+      "bumped": false,
+      "bumpedAt": null
+     }
+    ],
+    "highlight": "<span class=\"t-dim\"># ================================================</span>\n<span class=\"t-dim\"># Project:       Acme</span>\n<span class=\"t-dim\"># Generated:     07 March 2026</span>\n<span class=\"t-dim\"># Max vUsers:    2000</span>\n<span class=\"t-dim\"># Scenarios:     3 (S1 98%  S2 1%  S3 1%)</span>\n<span class=\"t-dim\"># Rounding:      round-up (+1)</span>\n<span class=\"t-dim\"># ================================================</span>\n\n<span class=\"t-flag\"># 50vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">49</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">1</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-flag\">1</span>\n<span class=\"t-total\"># 100vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">98</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">1</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">1</span>\n<span class=\"t-flag\"># 150vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">147</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">2</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-flag\">2</span>\n<span class=\"t-flag\"># 250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">245</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">3</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-flag\">3</span>\n<span class=\"t-total\"># 500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">490</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">5</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">5</span>\n<span class=\"t-flag\"># 750vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">735</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">8</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-flag\">8</span>\n<span class=\"t-total\"># 1000vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">980</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">10</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">10</span>\n<span class=\"t-flag\"># 1250vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">1225</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">13</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-flag\">13</span>\n<span class=\"t-total\"># 1500vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">1470</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">15</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">15</span>\n<span class=\"t-flag\"># 1750vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">1715</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">18</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-flag\">18</span>\n<span class=\"t-total\"># 2000vUsers</span>\njmeter -n -t \"C:\\Tests\\My Plan.jmx\" <span class=\"t-dim\">-JS1=</span><span class=\"t-num\">1960</span> <span class=\"t-dim\">-JS2=</span><span class=\"t-num\">20</span> <span class=\"t-dim\">-JS3=</span><span class=\"t-num\">20</span>\n"
+   }
+  },
+  {
+   "name": "err: roundup infeasible",
+   "state": {
+    "project": "Acme",
+    "path": "C:\\Tests\\My Plan.jmx",
+    "target": 5,
+    "scnCount": 3,
+    "pcts": [
+     98,
+     1,
+     1
+    ],
+    "rampup": "",
+    "duration": "",
+    "rounding": "roundup",
+    "set": {
+     "debug": "",
+     "inc": 250,
+     "ladder": "5",
+     "filename": "{project}_RUNME.txt",
+     "header": true,
+     "tester": "",
+     "jmeterVersion": "",
+     "props": [],
+     "runtime": false,
+     "rampupProp": "rampup",
+     "durationProp": "duration"
+    }
+   },
+   "expected": {
+    "error": "At 5 users a scenario's share rounds below 1 user, so the step can't stay within 6. Raise the smallest step or rebalance the percentages."
+   }
+  },
+  {
+   "name": "err: exact infeasible",
+   "state": {
+    "project": "Acme",
+    "path": "C:\\Tests\\My Plan.jmx",
+    "target": 3,
+    "scnCount": 3,
+    "pcts": [
+     97,
+     2,
+     1
+    ],
+    "rampup": "",
+    "duration": "",
+    "rounding": "exact",
+    "set": {
+     "debug": "",
+     "inc": 250,
+     "ladder": "2",
+     "filename": "{project}_RUNME.txt",
+     "header": true,
+     "tester": "",
+     "jmeterVersion": "",
+     "props": [],
+     "runtime": false,
+     "rampupProp": "rampup",
+     "durationProp": "duration"
+    }
+   },
+   "expected": {
+    "error": "At 2 users, exact rounding can't fit ≥1 user per scenario without overshoot. Switch to Round-up mode, raise the smallest step, or reduce scenarios."
+   }
+  }
+ ]
+}

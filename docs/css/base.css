@@ -1,0 +1,28 @@
+/* ==============================================================
+   RESET + BASE
+   ============================================================== */
+*,*::before,*::after{ box-sizing:border-box }
+html,body{ margin:0; height:100% }
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-sans);
+  font-size:var(--fs-md);
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  overflow:hidden;
+}
+button{ font-family:inherit }
+input{ font-family:inherit }
+::selection{ background:var(--accent-weak) }
+
+input[type=number]{ -moz-appearance:textfield; appearance:textfield }
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0 }
+
+::-webkit-scrollbar{ width:10px; height:10px }
+::-webkit-scrollbar-thumb{ background:#4F5355; border-radius:6px }
+::-webkit-scrollbar-thumb:hover{ background:#5A5F62 }
+::-webkit-scrollbar-track{ background:transparent }
+
+[hidden]{ display:none !important }
