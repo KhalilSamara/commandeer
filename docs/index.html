@@ -5,13 +5,789 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Commandeer</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='8' y='8' width='48' height='48' rx='13' fill='%23E8743B'/><circle cx='32' cy='23.5' r='4.7' fill='%232B2B2B'/><circle cx='32' cy='39' r='4.7' fill='%232B2B2B'/><path d='M35.53 41.59 C34.82 47.10 31.60 48.90 26.00 50.90 C28.50 46.30 31.06 43.50 28.48 40.88 Z' fill='%232B2B2B'/></svg>">
-<link rel="stylesheet" href="css/tokens.css">
-<link rel="stylesheet" href="css/base.css">
-<link rel="stylesheet" href="css/layout.css">
-<link rel="stylesheet" href="css/components.css">
-<link rel="stylesheet" href="css/preview.css">
-<link rel="stylesheet" href="css/overlays.css">
-<link rel="stylesheet" href="css/responsive.css">
+<style>
+/* ---- css/tokens.css ---- */
+/* ==============================================================
+   DESIGN TOKENS — v1
+   Single source of truth for colour, type, space and radii.
+   Every other stylesheet reads from these vars and nothing else,
+   so a rebrand (or a second tool in the suite) is one file.
+   ============================================================== */
+:root{
+  /* Neutrals — JetBrains Darcula family */
+  --bg:            #2B2B2B;
+  --surface-1:     #3C3F41;   /* raised: drawer, buttons */
+  --surface-2:     #313335;   /* top strip */
+  --surface-3:     #212223;   /* deep: preview panel */
+  --line:          #4F5355;
+  --line-soft:     #34383A;
+  --ink:           #D6D6D6;
+  --ink-dim:       #9AA0A0;
+  --ink-faint:     #7E8385;
+
+  /* Accent — JMeter orange */
+  --accent:        #E8743B;
+  --accent-hi:     #F0895A;
+  --accent-weak:   rgba(232,116,59,.18);
+
+  /* Semantic */
+  --ok:            #6EBF6E;
+  --warn:          #D6A15E;
+  --danger:        #FF6E67;
+
+  /* Preview syntax */
+  --syn-total:     var(--accent);
+  --syn-num:       #D6A15E;
+  --syn-flag:      #FF6E67;
+  --syn-dim:       #7E8385;
+  --syn-cmd:       #C9CCCE;
+  --syn-str:       #A5C261;
+
+  /* Type */
+  --font-sans: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --font-mono: ui-monospace,"SF Mono","Cascadia Code",Consolas,"Roboto Mono",monospace;
+  --fs-xs:  11px;
+  --fs-sm:  12px;
+  --fs-md:  13px;
+  --fs-lg:  15px;
+  --fs-xl:  19px;
+
+  /* Space — 4pt grid */
+  --sp-1: 4px;   --sp-2: 8px;   --sp-3: 12px;  --sp-4: 16px;
+  --sp-5: 20px;  --sp-6: 24px;  --sp-8: 32px;
+
+  /* Radii */
+  --r-sm: 4px;   --r-md: 6px;   --r-lg: 10px;
+
+  /* Chrome */
+  --topbar-h: 52px;
+}
+
+/* ---- css/base.css ---- */
+/* ==============================================================
+   RESET + BASE
+   ============================================================== */
+*,*::before,*::after{ box-sizing:border-box }
+html,body{ margin:0; height:100% }
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-sans);
+  font-size:var(--fs-md);
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  overflow:hidden;
+}
+button{ font-family:inherit }
+input{ font-family:inherit }
+::selection{ background:var(--accent-weak) }
+
+input[type=number]{ -moz-appearance:textfield; appearance:textfield }
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0 }
+
+::-webkit-scrollbar{ width:10px; height:10px }
+::-webkit-scrollbar-thumb{ background:#4F5355; border-radius:6px }
+::-webkit-scrollbar-thumb:hover{ background:#5A5F62 }
+::-webkit-scrollbar-track{ background:transparent }
+
+[hidden]{ display:none !important }
+
+/* ---- css/layout.css ---- */
+/* ==============================================================
+   APP SHELL
+   ============================================================== */
+.app{
+  display:grid;
+  grid-template-rows: var(--topbar-h) 1fr;
+  height:100%;
+}
+
+/* ---- Topbar -------------------------------------------------- */
+.topbar{
+  display:flex;
+  align-items:center;
+  gap:var(--sp-3);
+  padding:0 var(--sp-4);
+  background:var(--surface-2);
+  border-bottom:1px solid var(--line);
+  min-width:0;
+}
+.brand{ display:flex; align-items:center; gap:var(--sp-2); flex:0 0 auto }
+.brand .logo{ width:26px; height:26px; flex:0 0 auto; display:block }
+.brand .name{
+  font-size:var(--fs-lg); font-weight:650; letter-spacing:-.01em;
+}
+.divider{ width:1px; height:22px; background:var(--line); flex:0 0 auto }
+
+.path-slot{
+  flex:1 1 auto; min-width:0;
+  display:flex; align-items:center; gap:var(--sp-2);
+}
+.path-slot .k{
+  font-family:var(--font-mono);
+  font-size:var(--fs-xs);
+  color:var(--ink-faint);
+  flex:0 0 auto;
+  padding:0 2px;
+}
+.path-slot .input-inline{ flex:1 1 auto; min-width:0 }
+
+.input-inline{
+  font-family:var(--font-mono);
+  font-size:var(--fs-sm);
+  color:var(--ink);
+  background:var(--bg);
+  border:1px solid var(--line-soft);
+  border-radius:var(--r-sm);
+  padding:6px 10px;
+  outline:none;
+  height:30px;
+  transition:border-color .12s, box-shadow .12s;
+}
+.input-inline:hover{ border-color:var(--ink-faint) }
+.input-inline:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 2px var(--accent-weak);
+}
+.input-inline::placeholder{ color:var(--ink-faint) }
+
+.top-actions{ display:flex; gap:var(--sp-2); align-items:center; flex:0 0 auto }
+
+/* ---- Workspace ---------------------------------------------- */
+.workspace{
+  display:grid;
+  grid-template-columns: minmax(360px, 440px) 1fr;
+  min-height:0;
+  overflow:hidden;
+}
+.form-pane{
+  overflow-y:auto;
+  padding:var(--sp-5);
+  border-right:1px solid var(--line);
+  background:var(--bg);
+}
+.preview-pane{
+  padding:var(--sp-4);
+  min-height:0;
+  overflow:hidden;
+  display:flex;
+}
+
+/* ---- css/components.css ---- */
+/* ==============================================================
+   PRIMITIVES
+   ============================================================== */
+
+/* ---- Section: orange square + label + trailing rule --------- */
+.section{ margin-bottom:var(--sp-6) }
+.section:last-child{ margin-bottom:0 }
+.section-hd{
+  display:flex; align-items:center; gap:var(--sp-2);
+  font-family:var(--font-mono);
+  font-size:var(--fs-xs);
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  color:var(--ink-dim);
+  font-weight:600;
+  margin-bottom:var(--sp-3);
+  user-select:none;
+}
+.section-hd::before{
+  content:"";
+  width:7px; height:7px;
+  background:var(--accent);
+  border-radius:1.5px;
+  flex:0 0 auto;
+}
+.section-hd::after{
+  content:"";
+  flex:1 1 auto;
+  height:1px;
+  background:var(--line-soft);
+  margin-left:var(--sp-1);
+}
+
+/* ---- Field / Label ------------------------------------------ */
+.field{ display:block }
+.field + .field{ margin-top:var(--sp-3) }
+.field-lbl{
+  display:block;
+  font-size:var(--fs-xs);
+  color:var(--ink-dim);
+  margin-bottom:var(--sp-1);
+  font-weight:500;
+  letter-spacing:.04em;
+}
+.row-2{ display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-3) }
+.row-2 > .field + .field{ margin-top:0 }
+
+/* ---- Input -------------------------------------------------- */
+.input{
+  width:100%;
+  font-family:var(--font-mono);
+  font-size:var(--fs-md);
+  color:var(--ink);
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:var(--r-sm);
+  padding:8px 10px;
+  outline:none;
+  height:34px;
+  transition:border-color .12s, box-shadow .12s;
+}
+.input:hover{ border-color:var(--ink-faint) }
+.input:focus{ border-color:var(--accent); box-shadow:0 0 0 2px var(--accent-weak) }
+.input::placeholder{ color:var(--ink-faint) }
+
+/* ---- Stepper (numeric with -/+, optional suffix) ----------- */
+.stepper{
+  display:flex; align-items:stretch;
+  border:1px solid var(--line);
+  border-radius:var(--r-sm);
+  background:var(--bg);
+  overflow:hidden;
+  height:34px;
+}
+.stepper button{
+  border:0; background:transparent;
+  color:var(--ink-dim);
+  cursor:pointer;
+  width:30px; padding:0;
+  font-size:16px; line-height:1;
+  display:flex; align-items:center; justify-content:center;
+  transition:color .12s, background .12s;
+}
+.stepper button:hover:not(:disabled){ color:var(--accent); background:rgba(232,116,59,.08) }
+.stepper button:disabled{ opacity:.45; cursor:not-allowed }
+.stepper input{
+  border:0; background:transparent;
+  color:var(--ink);
+  text-align:center;
+  font-family:var(--font-mono); font-size:var(--fs-md);
+  width:44px; padding:0;
+  outline:none;
+}
+.stepper .suffix{
+  padding:0 8px 0 4px;
+  display:flex; align-items:center;
+  font-family:var(--font-mono); font-size:var(--fs-xs);
+  color:var(--ink-faint);
+  border-left:1px solid var(--line-soft);
+  background:rgba(0,0,0,.15);
+}
+
+/* Inline hint under the Scenarios stepper, shown only at high scenario counts */
+.scn-hint{
+  display:block;
+  margin-top:var(--sp-1);
+  font-size:var(--fs-xs);
+  color:var(--ink-faint);
+  line-height:1.4;
+}
+
+/* ---- Buttons ------------------------------------------------ */
+.btn{
+  font-family:var(--font-sans);
+  font-size:var(--fs-sm);
+  font-weight:600;
+  border-radius:var(--r-md);
+  padding:0 14px;
+  height:34px;
+  cursor:pointer;
+  border:1px solid var(--line);
+  background:var(--surface-1);
+  color:var(--ink);
+  display:inline-flex; align-items:center; gap:var(--sp-2);
+  white-space:nowrap;
+  transition:all .12s;
+}
+.btn:hover:not(:disabled){ border-color:var(--accent); color:var(--accent) }
+.btn:disabled{ opacity:.5; cursor:not-allowed }
+.btn svg{ width:14px; height:14px; flex:0 0 auto }
+
+.btn-primary{
+  background:var(--accent); border-color:var(--accent); color:#1F1F1F;
+}
+.btn-primary:hover:not(:disabled){
+  background:var(--accent-hi); border-color:var(--accent-hi); color:#1F1F1F;
+}
+.btn-primary:disabled{
+  background:var(--line-soft); border-color:var(--line-soft); color:var(--ink-dim);
+}
+
+.btn-ghost{
+  background:transparent; border-color:transparent;
+  color:var(--ink-dim);
+  height:26px; padding:0 8px;
+  font-size:var(--fs-xs);
+  font-weight:500;
+  letter-spacing:.02em;
+}
+.btn-ghost:hover:not(:disabled){
+  color:var(--accent); background:transparent; border-color:transparent;
+}
+
+.icon-btn{
+  width:34px; height:34px;
+  display:inline-flex; align-items:center; justify-content:center;
+  background:transparent;
+  border:1px solid transparent;
+  border-radius:var(--r-md);
+  color:var(--ink-dim);
+  cursor:pointer;
+  padding:0;
+  transition:all .12s;
+}
+.icon-btn:hover{ color:var(--ink); background:var(--surface-1); border-color:var(--line) }
+.icon-btn.active{ color:var(--accent); border-color:var(--accent); background:var(--accent-weak) }
+.icon-btn svg{ width:18px; height:18px }
+
+/* ---- Distribution row -------------------------------------- */
+.dist{ display:flex; flex-direction:column; gap:var(--sp-2) }
+.dist-row{
+  display:grid;
+  grid-template-columns: 62px 1fr auto;
+  gap:var(--sp-3);
+  align-items:center;
+  min-height:30px;
+}
+.dist-tag{
+  font-family:var(--font-mono);
+  font-size:var(--fs-xs);
+  color:var(--ink);
+  text-align:right;
+  white-space:nowrap;
+  overflow:hidden; text-overflow:ellipsis;
+}
+.dist-tag .prefix{ color:var(--ink-faint) }
+
+/* ---- Slider ------------------------------------------------- */
+.slider{
+  -webkit-appearance:none; appearance:none;
+  width:100%; height:6px; border-radius:3px;
+  background:var(--line-soft);
+  outline:none; cursor:pointer; margin:0;
+}
+.slider::-webkit-slider-runnable-track{ height:6px; border-radius:3px; background:transparent }
+.slider::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:16px; height:16px; border-radius:50%;
+  background:var(--accent);
+  border:3px solid var(--surface-2);
+  box-shadow:0 0 0 1px var(--line);
+  margin-top:-5px; cursor:grab;
+  transition:transform .1s;
+}
+.slider:active::-webkit-slider-thumb{ cursor:grabbing; transform:scale(1.1) }
+.slider::-moz-range-track{ height:6px; border-radius:3px; background:var(--line-soft) }
+.slider::-moz-range-progress{ height:6px; border-radius:3px; background:var(--accent) }
+.slider::-moz-range-thumb{
+  width:16px; height:16px; border:3px solid var(--surface-2); border-radius:50%;
+  background:var(--accent); box-shadow:0 0 0 1px var(--line);
+  cursor:grab;
+}
+.slider:focus-visible{ box-shadow:0 0 0 2px var(--accent-weak) }
+.slider:disabled{ cursor:not-allowed; opacity:.55 }
+
+.dist-sum{
+  display:flex; align-items:center; justify-content:space-between;
+  margin-top:var(--sp-3);
+  font-family:var(--font-mono); font-size:var(--fs-xs);
+  color:var(--ink-dim);
+}
+.dist-sum .val{ font-weight:650; margin-left:6px }
+.dist-sum .val.ok{ color:var(--ok) }
+.dist-sum .val.bad{ color:var(--danger) }
+
+/* ---- Segmented control (rounding mode) --------------------- */
+.rounding-row{ margin-top:var(--sp-4) }
+.rounding-row .field-lbl{ margin-bottom:var(--sp-2) }
+.seg{
+  display:inline-flex;
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:var(--r-md);
+  padding:2px;
+  gap:2px;
+}
+.seg-btn{
+  background:transparent; border:0;
+  color:var(--ink-dim);
+  padding:6px 12px;
+  border-radius:var(--r-sm);
+  font-family:var(--font-sans);
+  font-size:var(--fs-sm); font-weight:600;
+  cursor:pointer; line-height:1;
+  transition:color .12s, background .12s;
+}
+.seg-btn:hover{ color:var(--ink) }
+.seg-btn.on{ background:var(--accent); color:#1F1F1F }
+.seg-btn:focus-visible{ outline:none; box-shadow:0 0 0 2px var(--accent-weak) }
+.rounding-help{
+  margin:var(--sp-2) 0 0;
+  color:var(--ink-faint);
+  font-size:var(--fs-xs);
+  line-height:1.5;
+  font-family:var(--font-sans);
+  min-height:1.5em;
+}
+
+/* ---- Utilities (replace former inline style="" attributes) --- */
+.u-mt-3{ margin-top:var(--sp-3) }
+
+/* ---- Load generators ---------------------------------------- */
+.seg--fill{ display:flex; width:100% }
+.seg--fill .seg-btn{ flex:1 1 0; text-align:center }
+
+.stepper--fit{ display:inline-flex }
+
+.host-head,
+.host-row{
+  display:grid;
+  grid-template-columns: 20px 1fr auto;
+  gap:var(--sp-2);
+  align-items:center;
+}
+.host-head{
+  font-size:var(--fs-xs);
+  color:var(--ink-dim);
+  font-weight:500;
+  letter-spacing:.04em;
+  margin-bottom:var(--sp-1);
+}
+.host-head > span:last-child{ width:128px; text-align:center }
+.hosts{ display:flex; flex-direction:column; gap:var(--sp-2) }
+.host-tag{
+  font-family:var(--font-mono);
+  font-size:var(--fs-xs);
+  color:var(--ink-faint);
+  text-align:right;
+}
+.host-row .input{ min-width:0 }
+.host-pct{ width:128px }
+.host-pct .suffix{ margin-left:auto }
+
+/* Inline field errors */
+.input.is-bad,
+.stepper.is-bad{ border-color:var(--danger) }
+.input.is-bad:focus{ box-shadow:0 0 0 2px rgba(255,110,103,.22) }
+.field-err{
+  margin:var(--sp-2) 0 0;
+  color:var(--danger);
+  font-size:var(--fs-xs);
+  line-height:1.5;
+}
+
+/* Inline mono flag inside a label */
+.k-inline{
+  font-family:var(--font-mono);
+  font-size:var(--fs-xs);
+  color:var(--ink-faint);
+  margin-left:var(--sp-1);
+}
+
+/* ---- css/preview.css ---- */
+/* ==============================================================
+   PREVIEW
+   ============================================================== */
+.preview{
+  background:var(--surface-3);
+  border:1px solid var(--line);
+  border-radius:var(--r-lg);
+  overflow:hidden;
+  display:flex; flex-direction:column;
+  flex:1 1 auto;
+  min-height:0; min-width:0;
+  width:100%;
+}
+.preview-hd{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 14px;
+  border-bottom:1px solid var(--line);
+  background:rgba(0,0,0,.18);
+  flex:0 0 auto;
+  gap:var(--sp-3);
+}
+.preview-hd .fname{
+  font-family:var(--font-mono);
+  font-size:var(--fs-sm);
+  color:var(--ink);
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.preview-hd .meta{
+  font-family:var(--font-mono);
+  font-size:var(--fs-xs);
+  color:var(--syn-dim);
+  display:flex; gap:var(--sp-3);
+  flex:0 0 auto;
+  white-space:nowrap;
+}
+.preview-hd .meta .flag{ color:var(--syn-flag) }
+
+.preview-body{
+  flex:1 1 auto; min-height:0;
+  overflow:auto;
+  margin:0;
+  padding:var(--sp-4) var(--sp-5);
+  font-family:var(--font-mono);
+  font-size:12.5px;
+  line-height:1.7;
+  color:var(--syn-cmd);
+  white-space:pre;
+  tab-size:2;
+}
+
+.preview-legend{
+  flex:0 0 auto;
+  display:flex; gap:var(--sp-4); flex-wrap:wrap;
+  padding:8px 14px;
+  border-top:1px solid var(--line);
+  background:rgba(0,0,0,.12);
+  font-family:var(--font-mono);
+  font-size:var(--fs-xs);
+  color:var(--syn-dim);
+}
+.preview-legend .dot{
+  display:inline-block; width:7px; height:7px;
+  border-radius:1.5px; margin-right:6px; vertical-align:middle;
+}
+
+/* Preview syntax classes */
+.t-total{ color:var(--syn-total); font-weight:650 }
+.t-num{ color:var(--syn-num) }
+.t-flag{ color:var(--syn-flag); font-weight:650 }
+.t-dim{ color:var(--syn-dim) }
+.t-str{ color:var(--syn-str) }
+
+/* Empty / error state */
+.preview-empty{
+  flex:1 1 auto; min-height:0;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  padding:var(--sp-6);
+  gap:var(--sp-3);
+  color:var(--ink-dim);
+  text-align:center;
+}
+.preview-empty .icn{ color:var(--warn) }
+.preview-empty .msg{
+  font-family:var(--font-mono);
+  font-size:var(--fs-sm);
+  max-width:44ch;
+  line-height:1.6;
+}
+
+/* Legend swatches (replace former inline style="" attributes) */
+.dot--total{ background:var(--syn-total) }
+.dot--num{ background:var(--syn-num) }
+.dot--flag{ background:var(--syn-flag) }
+
+/* Machine tabs (per-machine mode): one output per machine */
+.preview-tabs{
+  flex:0 0 auto;
+  display:flex; gap:var(--sp-1);
+  padding:0 var(--sp-3);
+  border-bottom:1px solid var(--line);
+  overflow-x:auto;
+  background:rgba(0,0,0,.12);
+}
+.pv-tab{
+  background:transparent; border:0;
+  border-bottom:2px solid transparent;
+  color:var(--ink-dim);
+  font-family:var(--font-mono);
+  font-size:var(--fs-xs);
+  padding:8px 8px 6px;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:color .12s, border-color .12s;
+}
+.pv-tab:hover{ color:var(--ink) }
+.pv-tab.on{ color:var(--ink); border-bottom-color:var(--accent) }
+.pv-tab:focus-visible{ outline:none; box-shadow:inset 0 0 0 2px var(--accent-weak) }
+
+/* ---- css/overlays.css ---- */
+/* ==============================================================
+   DRAWER (Preferences)
+   ============================================================== */
+.drawer-scrim{
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.5);
+  opacity:0; pointer-events:none;
+  transition:opacity .18s;
+  z-index:40;
+}
+.drawer-scrim.open{ opacity:1; pointer-events:auto }
+
+.drawer{
+  position:fixed; top:0; right:0; bottom:0;
+  width:min(420px, 100vw);
+  background:var(--surface-1);
+  border-left:1px solid var(--line);
+  transform:translateX(100%);
+  transition:transform .22s cubic-bezier(.2,.6,.2,1);
+  z-index:50;
+  display:flex; flex-direction:column;
+  box-shadow:-20px 0 60px rgba(0,0,0,.45);
+}
+.drawer.open{ transform:translateX(0) }
+.drawer-hd{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:var(--sp-3) var(--sp-4);
+  border-bottom:1px solid var(--line-soft);
+  flex:0 0 auto;
+}
+.drawer-hd h2{
+  margin:0; font-size:var(--fs-md); font-weight:650; letter-spacing:.01em;
+  display:flex; align-items:baseline; gap:var(--sp-2);
+}
+.drawer-hd h2 .k{
+  font-family:var(--font-mono); font-size:var(--fs-xs);
+  color:var(--ink-faint); letter-spacing:.1em; text-transform:uppercase;
+  font-weight:500;
+}
+.drawer-bd{
+  flex:1 1 auto;
+  overflow-y:auto;
+  padding:var(--sp-5);
+}
+.drawer-ft{
+  flex:0 0 auto;
+  border-top:1px solid var(--line-soft);
+  padding:var(--sp-3) var(--sp-4);
+  display:flex; align-items:center; justify-content:space-between;
+  gap:var(--sp-3);
+  font-family:var(--font-mono);
+  font-size:var(--fs-xs);
+  color:var(--ink-faint);
+}
+
+/* Checkbox row */
+.field-check{
+  display:flex; align-items:center; gap:var(--sp-2);
+  cursor:pointer;
+  padding:6px 0;
+  margin-top:var(--sp-2);
+}
+.field-check input[type=checkbox]{
+  accent-color:var(--accent);
+  width:16px; height:16px; flex:0 0 auto;
+  cursor:pointer; margin:0;
+}
+.field-check span{ font-size:var(--fs-md) }
+
+/* Property name row: segmented input with -J prefix baked in */
+.prop-list{ display:flex; flex-direction:column; gap:var(--sp-2) }
+.prop-row{
+  display:grid;
+  grid-template-columns: 74px 1fr;
+  gap:var(--sp-3);
+  align-items:center;
+}
+.prop-row .k{
+  font-family:var(--font-mono); font-size:var(--fs-xs);
+  color:var(--ink-dim); text-align:right;
+}
+.prop-row .input-wrap{
+  display:flex; align-items:stretch;
+  border:1px solid var(--line); border-radius:var(--r-sm);
+  background:var(--bg);
+  overflow:hidden;
+  transition:border-color .12s, box-shadow .12s;
+}
+.prop-row .input-wrap:focus-within{
+  border-color:var(--accent);
+  box-shadow:0 0 0 2px var(--accent-weak);
+}
+.prop-row .prefix{
+  padding:0 10px;
+  display:flex; align-items:center;
+  font-family:var(--font-mono); font-size:var(--fs-xs);
+  color:var(--ink-faint);
+  border-right:1px solid var(--line-soft);
+  background:rgba(0,0,0,.18);
+}
+.prop-row input{
+  flex:1 1 auto;
+  border:0; background:transparent;
+  padding:0 10px; height:32px;
+  color:var(--ink);
+  font-family:var(--font-mono); font-size:var(--fs-md);
+  outline:none; min-width:0;
+}
+.prop-row input::placeholder{ color:var(--ink-faint) }
+
+/* ==============================================================
+   TOAST
+   ============================================================== */
+.toast{
+  position:fixed; bottom:24px; left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:var(--surface-3);
+  color:var(--ink);
+  font-size:var(--fs-sm);
+  padding:10px 16px;
+  border-radius:var(--r-md);
+  border:1px solid var(--line);
+  opacity:0; pointer-events:none;
+  transition:opacity .18s, transform .18s;
+  font-family:var(--font-mono);
+  z-index:60;
+}
+.toast.show{ opacity:1; transform:translateX(-50%) translateY(0) }
+
+/* ---- css/responsive.css ---- */
+/* ==============================================================
+   RESPONSIVE
+   ============================================================== */
+@media (max-width: 900px){
+  body{ overflow:auto }
+  .app{ height:auto; min-height:100% }
+  .workspace{ grid-template-columns:minmax(0,1fr); overflow:visible }
+  .preview-pane{ min-width:0 }
+  .preview-hd{ flex-wrap:wrap }
+  .preview-hd .meta{ flex:1 1 100%; min-width:0; flex-wrap:wrap; white-space:normal; column-gap:var(--sp-2) }
+  .form-pane{
+    border-right:none; border-bottom:1px solid var(--line);
+    overflow:visible; max-width:600px; width:100%;
+  }
+  .preview-pane{ overflow:visible }
+  .preview{ min-height:60vh }
+}
+@media (max-width: 720px){
+  .topbar{
+    flex-wrap:wrap; height:auto;
+    padding:var(--sp-2) var(--sp-3);
+    gap:var(--sp-2);
+    min-height:var(--topbar-h);
+  }
+  .app{ grid-template-rows:auto 1fr }
+  .path-slot{ order:10; flex-basis:100% }
+  .divider{ display:none }
+  .btn > span{ display:none }
+  .btn{ padding:0; width:34px; justify-content:center; gap:0 }
+}
+@media (max-width: 560px){
+  .form-pane{ padding:var(--sp-4) }
+  .dist-row{
+    grid-template-columns:auto 1fr;
+    grid-template-areas: "tag ctrl" "slider slider";
+    row-gap:var(--sp-2);
+  }
+  .dist-row .dist-tag{ grid-area:tag; text-align:left }
+  .dist-row .slider{ grid-area:slider }
+  .dist-row .stepper{ grid-area:ctrl }
+  .row-2{ grid-template-columns:1fr }
+  .row-2 > .field + .field{ margin-top:var(--sp-3) }
+  .seg{ display:flex; width:100% }
+  .seg-btn{ flex:1; text-align:center }
+}
+@media (max-width: 360px){
+  .host-head > span:last-child, .host-pct{ width:112px }
+  .host-pct input{ width:28px }
+}
+</style>
 </head>
 <body>
 
@@ -128,6 +904,38 @@
         </div>
       </div>
 
+      <div class="section">
+        <div class="section-hd">Load generators</div>
+        <div class="seg seg--fill" id="distSeg" role="radiogroup" aria-label="Where the load runs">
+          <button type="button" class="seg-btn" data-dist="local" role="radio" aria-checked="true">Local</button>
+          <button type="button" class="seg-btn" data-dist="remote" role="radio" aria-checked="false">Remote</button>
+          <button type="button" class="seg-btn" data-dist="machines" role="radio" aria-checked="false">Per machine</button>
+        </div>
+        <p class="rounding-help" id="distHelp" aria-live="polite"></p>
+
+        <div id="hostBlock" hidden>
+          <div class="field u-mt-3">
+            <label class="field-lbl" for="hostCount" id="hostCountLbl">Engines</label>
+            <div class="stepper stepper--fit">
+              <button type="button" id="hostMinus" aria-label="remove the last one">−</button>
+              <input type="text" inputmode="numeric" id="hostCount" value="2">
+              <button type="button" id="hostPlus" aria-label="add one">+</button>
+            </div>
+          </div>
+          <div class="host-head u-mt-3" aria-hidden="true">
+            <span></span>
+            <span>IP or hostname</span>
+            <span class="js-share">Share</span>
+          </div>
+          <div class="hosts" id="hostTable"></div>
+          <p class="field-err" id="hostErr" role="alert" hidden></p>
+          <div class="dist-sum js-share">
+            <span>Total <span class="val" id="hostSum">0%</span></span>
+            <button class="btn-ghost" id="hostEvenBtn" type="button">Even split</button>
+          </div>
+        </div>
+      </div>
+
     </section>
 
     <section class="preview-pane">
@@ -136,6 +944,7 @@
           <span class="fname" id="pvName">RUNME.txt</span>
           <span class="meta" id="pvMeta"></span>
         </div>
+        <div class="preview-tabs" id="pvTabs" role="tablist" aria-label="Machine" hidden></div>
         <pre class="preview-body" id="pvBody"></pre>
         <div class="preview-empty" id="pvEmpty" hidden>
           <svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -149,8 +958,8 @@
         </div>
         <div class="preview-legend">
           <span><i class="dot dot--total"></i>step total</span>
-          <span><i class="dot dot--num"></i>per-scenario users</span>
-          <span id="lgFlag"><i class="dot dot--flag"></i>+1 rounded up</span>
+          <span><i class="dot dot--num"></i><span id="lgNumText">per-scenario users</span></span>
+          <span id="lgFlag"><i class="dot dot--flag"></i><span id="lgFlagText">+1 rounded up</span></span>
         </div>
       </div>
     </section>
@@ -225,18 +1034,26 @@
         <div class="prop-row">
           <span class="k">ramp-up</span>
           <div class="input-wrap">
-            <span class="prefix">-J</span>
+            <span class="prefix js-flag">-J</span>
             <input type="text" id="setRampupProp" spellcheck="false">
           </div>
         </div>
         <div class="prop-row">
           <span class="k">duration</span>
           <div class="input-wrap">
-            <span class="prefix">-J</span>
+            <span class="prefix js-flag">-J</span>
             <input type="text" id="setDurationProp" spellcheck="false">
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="section">
+      <div class="section-hd">Remote</div>
+      <label class="field-check">
+        <input type="checkbox" id="setExit">
+        <span>Stop engines after each run <span class="k-inline">-X</span></span>
+      </label>
     </div>
 
     <div class="section">
@@ -259,7 +1076,7 @@
      ============================================================== -->
 <template id="tplDistRow">
   <div class="dist-row">
-    <span class="dist-tag"><span class="prefix">-J</span></span>
+    <span class="dist-tag"><span class="prefix js-flag">-J</span></span>
     <input type="range" class="slider" min="0" max="100" step="1">
     <div class="stepper">
       <button type="button" class="pct-dec" aria-label="decrease">−</button>
@@ -274,30 +1091,1626 @@
   <div class="prop-row">
     <span class="k"></span>
     <div class="input-wrap">
-      <span class="prefix">-J</span>
+      <span class="prefix js-flag">-J</span>
       <input type="text" spellcheck="false">
+    </div>
+  </div>
+</template>
+
+<template id="tplHostRow">
+  <div class="host-row">
+    <span class="host-tag"></span>
+    <input type="text" class="input host-in" autocomplete="off" spellcheck="false">
+    <div class="stepper host-pct js-share">
+      <button type="button" class="pct-dec" aria-label="decrease share">−</button>
+      <input type="text" inputmode="numeric" class="pct-num">
+      <button type="button" class="pct-inc" aria-label="increase share">+</button>
+      <span class="suffix">%</span>
     </div>
   </div>
 </template>
 
 <!-- Classic scripts (not ES modules) so the app runs from file:// with no server.
      Order = dependency order. Each file registers itself on window.Commandeer. -->
-<script src="js/core/config.js"></script>
-<script src="js/core/utils.js"></script>
-<script src="js/core/distribution.js"></script>
-<script src="js/core/ladder.js"></script>
-<script src="js/core/format.js"></script>
-<script src="js/core/model.js"></script>
-<script src="js/services/storage.js"></script>
-<script src="js/services/state.js"></script>
-<script src="js/ui/dom.js"></script>
-<script src="js/ui/highlight.js"></script>
-<script src="js/ui/scenario-table.js"></script>
-<script src="js/ui/property-list.js"></script>
-<script src="js/ui/preview.js"></script>
-<script src="js/ui/drawer.js"></script>
-<script src="js/ui/forms.js"></script>
-<script src="js/ui/export.js"></script>
-<script src="js/app.js"></script>
+<script>
+/* ---- js/core/config.js ---- */
+/* ================================================================
+   core/config.js — constants and defaults. No DOM, no side effects.
+   ================================================================ */
+(function (C) {
+  "use strict";
+
+  function deepFreeze(obj) {
+    Object.values(obj).forEach(v => { if (v && typeof v === "object") deepFreeze(v); });
+    return Object.freeze(obj);
+  }
+
+  /** User-tunable preferences (the drawer). Reset restores these. */
+  const DEFAULTS = deepFreeze({
+    debug: "15",
+    inc: 250,
+    ladder: "50,100,150,250,500,750,1000",
+    filename: "{project}_RUNME.txt",
+    header: true,
+    tester: "",
+    jmeterVersion: "",
+    props: [],
+    runtime: false,
+    rampupProp: "rampup",
+    durationProp: "duration",
+    exitServers: false        // remote mode: append -X (servers exit after each run)
+  });
+
+  C.config = Object.freeze({
+    DEFAULTS,
+
+    /** localStorage key. Changing it orphans every user's saved state. */
+    STORAGE_KEY: "jmcg.state.v1",
+
+    ROUNDING: Object.freeze({ ROUNDUP: "roundup", EXACT: "exact" }),
+
+    /** Where the load runs.
+     *  local    — this machine only (v1 behaviour, output unchanged)
+     *  remote   — one controller command, -R host list, -G props, equal split
+     *  machines — standalone command per machine, split by weight */
+    DIST: Object.freeze({ LOCAL: "local", REMOTE: "remote", MACHINES: "machines" }),
+
+    HOSTS: Object.freeze({ MIN: 1, MAX: 50 }),
+
+    SCENARIOS: Object.freeze({
+      MIN: 1,
+      MAX: 50,
+      HINT_AT: 13            // show the "small shares" hint from this count up
+    }),
+
+    FALLBACK_INCREMENT: 250,
+    FALLBACK_FILENAME: "{project}_RUNME.txt",
+
+    MONTHS: Object.freeze(["January","February","March","April","May","June",
+                           "July","August","September","October","November","December"]),
+
+    /** Fresh top-level state. Key order is kept stable for the saved JSON. */
+    initialState() {
+      return {
+        project: "", path: "", target: 2000, scnCount: 3,
+        pcts: [50, 30, 20],
+        rampup: "", duration: "",
+        rounding: "roundup",   // "roundup" (allow N+1 to preserve minor scenarios) or "exact" (sum == N exactly)
+        set: JSON.parse(JSON.stringify(DEFAULTS)),
+        dist: "local",
+        hosts: [ { host: "", pct: 50 }, { host: "", pct: 50 } ]
+      };
+    }
+  });
+})(globalThis.Commandeer = globalThis.Commandeer || {});
+</script>
+<script>
+/* ---- js/core/utils.js ---- */
+/* ================================================================
+   core/utils.js — small pure helpers shared by core and UI.
+   ================================================================ */
+(function (C) {
+  "use strict";
+
+  /** Escape text for insertion into HTML element content. */
+  function esc(t) {
+    return String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function round2(n) { return Math.round(n * 100) / 100; }
+
+  /** Filesystem-safe token; never empty. */
+  function sanitize(t) {
+    return String(t).replace(/[^\w.\-]+/g, "_").replace(/^_+|_+$/g, "") || "project";
+  }
+
+  /** "50, 100,x,150" -> [50,100,150] (positive integers only). */
+  function parseList(str) {
+    return String(str).split(",").map(s => parseInt(s.trim(), 10)).filter(v => Number.isFinite(v) && v > 0);
+  }
+
+  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+  /** Deep copy for plain JSON data. */
+  function clone(obj) { return JSON.parse(JSON.stringify(obj)); }
+
+  /** Strip everything but digits (numeric text inputs). */
+  function digitsOnly(s) { return String(s).replace(/[^\d]/g, ""); }
+
+  C.utils = Object.freeze({ esc, round2, sanitize, parseList, clamp, clone, digitsOnly });
+})(globalThis.Commandeer = globalThis.Commandeer || {});
+</script>
+<script>
+/* ---- js/core/distribution.js ---- */
+/* ================================================================
+   core/distribution.js — splitting a step total across scenarios.
+
+   CORRECTNESS-CRITICAL. Function bodies are byte-identical to the
+   verified v1 single-file build. Any change here must keep
+   tests/distribution.test.js and tests/golden.test.js green.
+   ================================================================ */
+(function (C) {
+  "use strict";
+
+  // Distribute `total` across percentages. Rules:
+  //   - never round a scenario down without compensation; prefer rounding up
+  //   - final sum is exactly `total` or `total`+1 (never under, never more than +1)
+  //   - every scenario gets at least 1
+  // Returns {parts, bumped, bumpedAt}
+  //   bumped   = landed on total+1
+  //   bumpedAt = scenario index that received the round-up (for preview flagging)
+  function distribute(total, pcts){
+    const n = pcts.length;
+    if(n === 1) return { parts:[total], bumped:false, bumpedAt:null };
+
+    const exact = pcts.map(p => total * p / 100);
+    const base  = exact.map(Math.floor);
+    const rem   = exact.map((x,i) => x - base[i]);
+    const parts = base.slice();
+
+    let deficit = total - parts.reduce((a,b)=>a+b,0);
+    const order = [...Array(n).keys()].sort((a,b)=> rem[b]-rem[a] || a-b);
+    const bumpedIdx = new Set();
+    for(let k=0;k<deficit;k++){ const i=order[k%n]; parts[i]++; bumpedIdx.add(i); }
+
+    let bumped = false;
+    let bumpedAt = null;
+    const loser = order.find(i => rem[i] > 1e-9 && !bumpedIdx.has(i));
+    if(loser !== undefined){ parts[loser]++; bumped = true; bumpedAt = loser; }
+
+    for(let i=0;i<n;i++) if(parts[i] < 1 && pcts[i] > 0) parts[i] = 1;
+    return { parts, bumped, bumpedAt };
+  }
+
+  // Exact-total variant. Same largest-remainder fair-share fill, but no round-up
+  // overshoot: sum equals `total` exactly. When a scenario's share rounds to 0,
+  // steal from the largest donor (parts>1). If no donor exists, produce parts
+  // whose sum exceeds `total` so buildModel's feasibility check refuses the step.
+  function distributeExact(total, pcts){
+    const n = pcts.length;
+    if(n === 1) return { parts:[total], bumped:false, bumpedAt:null };
+
+    const exact = pcts.map(p => total * p / 100);
+    const base  = exact.map(Math.floor);
+    const rem   = exact.map((x,i) => x - base[i]);
+    const parts = base.slice();
+
+    let deficit = total - parts.reduce((a,b)=>a+b,0);
+    // On remainder ties, protect the SMALLER scenario: ascending pct wins the
+    // fair-share user, so it's the larger one that rounds down.
+    const order = [...Array(n).keys()].sort((a,b)=> rem[b]-rem[a] || pcts[a]-pcts[b] || a-b);
+    for(let k=0;k<deficit;k++){ const i=order[k%n]; parts[i]++; }
+
+    // min-1 rescue via STEAL from largest — keeps the total exact
+    for(let i=0;i<n;i++){
+      if(pcts[i] > 0 && parts[i] < 1){
+        let donor = -1, max = -1;
+        for(let j=0;j<n;j++){
+          if(j !== i && parts[j] > 1 && parts[j] > max){ donor = j; max = parts[j]; }
+        }
+        if(donor === -1){ parts[i] = 1; }              // infeasible — will trip buildModel check
+        else { parts[donor]--; parts[i]++; }
+      }
+    }
+    return { parts, bumped:false, bumpedAt:null };
+  }
+
+  /** Whole-number even split summing to 100 (earlier scenarios take the remainder). */
+  function evenPcts(n){
+    const q = Math.floor(100 / n);
+    const r = 100 - q*n;
+    return Array.from({length:n}, (_,i) => i < r ? q+1 : q);
+  }
+
+  // ---- Distributed testing -------------------------------------------
+  // New in v2. The three functions above are untouched.
+
+  /** Users per remote engine when every engine runs the same plan: ceil(total/n). */
+  function perEngine(total, n){ return Math.ceil(total / n); }
+
+  /**
+   * Split scenario totals across machines by weight, for many ladder rows.
+   *
+   * Users are dealt one at a time, like cards, to the machine furthest
+   * below its share (Sainte-Laguë order: weight / (2*dealt + 1), ties to
+   * the earlier machine). Within a row, scenarios take consecutive runs of
+   * the same deck, so:
+   *   - every scenario total is kept exactly
+   *   - machine totals follow the weights as closely as whole users allow
+   *   - counts are never negative
+   * Every row starts from the top of one shared deck, so it is dealt once
+   * up to the largest row (linear in max vUsers × machines).
+   *
+   * @param {number[][]} rows   per row: users per scenario (already rounded)
+   * @param {number[]}   weights machine weights (> 0)
+   * @returns {number[][][]} per row: parts[machine][scenario]
+   */
+  function dealRows(rows, weights){
+    const M = weights.length;
+    const marks = new Set([0]);
+    rows.forEach(totals => {
+      let c = 0;
+      totals.forEach(t => { c += t; marks.add(c); });
+    });
+    const stops = [...marks].sort((a,b)=>a-b);
+    const snap = new Map();
+    const dealt = Array(M).fill(0);
+    let pos = 0;
+    for(const stop of stops){
+      while(pos < stop){
+        let best = -1;
+        for(let m = 0; m < M; m++){
+          if(!(weights[m] > 0)) continue;
+          // weights[m]/(2*dealt[m]+1) > weights[best]/(2*dealt[best]+1), cross-multiplied
+          if(best === -1 || weights[m] * (2*dealt[best] + 1) > weights[best] * (2*dealt[m] + 1)) best = m;
+        }
+        if(best === -1) break;          // no positive weight: nothing can be dealt
+        dealt[best]++; pos++;
+      }
+      snap.set(stop, dealt.slice());
+    }
+    return rows.map(totals => {
+      const out = Array.from({length:M}, () => Array(totals.length).fill(0));
+      let c = 0;
+      totals.forEach((t, i) => {
+        const a = snap.get(c), b = snap.get(c + t);
+        for(let m = 0; m < M; m++) out[m][i] = b[m] - a[m];
+        c += t;
+      });
+      return out;
+    });
+  }
+
+  /** Single-row form of dealRows. */
+  function dealAcross(totals, weights){ return dealRows([totals], weights)[0]; }
+
+  C.distribution = Object.freeze({ distribute, distributeExact, evenPcts, perEngine, dealRows, dealAcross });
+})(globalThis.Commandeer = globalThis.Commandeer || {});
+</script>
+<script>
+/* ---- js/core/ladder.js ---- */
+/* ================================================================
+   core/ladder.js — which load steps appear, and scenario prop names.
+
+   CORRECTNESS-CRITICAL. buildLadder is byte-identical to v1.
+   ================================================================ */
+(function (C) {
+  "use strict";
+
+  // Rows = debug steps (in given order) + base steps <= target + fixed
+  // increments after the last base step, always ending on `target`.
+  function buildLadder(target, debug, base, inc){
+    const rows = [];
+    const seen = new Set();
+    const push = (v, isDebug) => { if(v>0 && !seen.has(v)){ seen.add(v); rows.push({total:v, debug:isDebug}); } };
+    debug.forEach(d => push(d, true));
+    base.filter(v => v <= target).forEach(v => push(v, false));
+    const last = base.length ? base[base.length-1] : 0;
+    for(let v = last + inc; v <= target; v += inc) push(v, false);
+    push(target, false);
+    const dbg = rows.filter(r=>r.debug);
+    const load = rows.filter(r=>!r.debug).sort((a,b)=>a.total-b.total);
+    return [...dbg, ...load];
+  }
+
+  /** JMeter property name per scenario: custom name if set, else S1..Sn. */
+  function propNames(n, custom){
+    const out = [];
+    for(let i=0;i<n;i++) out.push((custom && custom[i] && custom[i].trim()) ? custom[i].trim() : ("S"+(i+1)));
+    return out;
+  }
+
+  C.ladder = Object.freeze({ buildLadder, propNames });
+})(globalThis.Commandeer = globalThis.Commandeer || {});
+</script>
+<script>
+/* ---- js/core/format.js ---- */
+/* ================================================================
+   core/format.js — RUNME text output.
+
+   OUTPUT FORMAT IS A CONTRACT — preserve byte-for-byte:
+     # <total>vUsers
+     jmeter -n -t "<path>" -JS1=<n> -JS2=<n> ...
+   Optional metadata header: '#' lines, then exactly one blank line.
+
+   Distributed modes (v2) add their own blocks; local output is unchanged:
+     remote    # <total>vUsers (<n> engines × <each>[ = <actual>])
+               jmeter -n -t "<path>" -R h1,h2 -GS1=<n> ... [-X]
+     machines  # [<host>] <pct>%
+               # <total>vUsers[ +1] (<users> on <host>[, skip])
+               jmeter -n -t "<path>" -JS1=<n> ...
+   ================================================================ */
+(function (C) {
+  "use strict";
+  const { sanitize } = C.utils;
+  const { MONTHS, FALLBACK_FILENAME, ROUNDING } = C.config;
+
+  /** " -Jrampup=60 -Jduration=3600" or "" when runtime is off / values empty.
+   *  flag "G" sends them to remote servers instead. */
+  function runtimeArgs(state, flag = "J"){
+    const s = state;
+    let extras = "";
+    if(s.set.runtime){
+      const rp = (s.set.rampupProp||"rampup").trim() || "rampup";
+      const dp = (s.set.durationProp||"duration").trim() || "duration";
+      const rv = String(s.rampup||"").trim();
+      const dv = String(s.duration||"").trim();
+      if(rv) extras += ` -${flag}${rp}=${rv}`;
+      if(dv) extras += ` -${flag}${dp}=${dv}`;
+    }
+    return extras;
+  }
+
+  function commandBlocks(rows, names, path, extras){
+    return rows.map(r=>{
+      const args = r.parts.map((v,i)=>`-J${names[i]}=${v}`).join(" ");
+      return `# ${r.total}vUsers\njmeter -n -t "${path}" ${args}${extras}`;
+    }).join("\n") + "\n";
+  }
+
+  /** "07 March 2026" */
+  function formatDate(d){
+    return `${String(d.getDate()).padStart(2,"0")} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+  }
+
+  function metadataHeader({ state, target, names, active, mode, now, extra = [] }){
+    const s = state;
+    const dist = names.map((nm,i)=>`${nm} ${active[i]}%`).join("  ");
+    const meta = [];
+    const add = (k,v)=> meta.push(`# ${(k+":").padEnd(15)}${v}`);
+    add("Project", s.project || "(unnamed)");
+    add("Generated", formatDate(now));
+    add("Max vUsers", target);
+    add("Scenarios", `${s.scnCount} (${dist})`);
+    add("Rounding", mode === ROUNDING.EXACT ? "exact total" : "round-up (+1)");
+    if((s.set.tester||"").trim())        add("Tester", s.set.tester.trim());
+    if((s.set.jmeterVersion||"").trim()) add("JMeter", s.set.jmeterVersion.trim());
+    extra.forEach(([k,v]) => add(k, v));
+    const bar = "# " + "=".repeat(48);
+    return [bar, ...meta, bar].join("\n");
+  }
+
+  /** Full RUNME text: optional header + blank line + command blocks. */
+  function runmeText(ctx){
+    const { state, rows, names } = ctx;
+    const body = commandBlocks(rows, names, state.path, runtimeArgs(state));
+    return withHeader(ctx, body);
+  }
+
+  function withHeader(ctx, body){
+    return ctx.state.set.header ? metadataHeader(ctx) + "\n\n" + body : body;
+  }
+
+  // ---- Distributed: remote (-R) ---------------------------------------
+  // rows: { total, parts, perEngine, actual }
+  function remoteBlocks(rows, names, path, hosts, extras, exit){
+    const n = hosts.length;
+    const list = hosts.join(",");
+    const unit = n === 1 ? "engine" : "engines";
+    return rows.map(r=>{
+      const args = r.parts.map((v,i)=>`-G${names[i]}=${v}`).join(" ");
+      const each = r.parts.reduce((a,b)=>a+b,0);
+      const tail = r.actual === r.total ? "" : ` = ${r.actual}`;
+      return `# ${r.total}vUsers (${n} ${unit} × ${each}${tail})\n` +
+             `jmeter -n -t "${path}" -R ${list} ${args}${extras}${exit ? " -X" : ""}`;
+    }).join("\n") + "\n";
+  }
+
+  function remoteText(ctx){
+    const { state, rows, names, hosts } = ctx;
+    const body = remoteBlocks(rows, names, state.path, hosts, runtimeArgs(state, "G"), !!state.set.exitServers);
+    const n = hosts.length;
+    return withHeader({ ...ctx, extra: [["Distributed", `remote (-R), ${n} ${n === 1 ? "engine" : "engines"}, same load on each`]] }, body);
+  }
+
+  // ---- Distributed: standalone command per machine --------------------
+  // mrows: { total, parts, users, bumped }. "+1" marks a step whose
+  // round-up put it one user over across all machines.
+  function machineSection(host, pct, mrows, names, path, extras){
+    const lines = [`# [${host}] ${pct}%`];
+    mrows.forEach(r=>{
+      const step = `# ${r.total}vUsers${r.bumped ? " +1" : ""}`;
+      if(r.users === 0){ lines.push(`${step} (0 on ${host}, skip)`); return; }
+      const args = r.parts.map((v,i)=>`-J${names[i]}=${v}`).join(" ");
+      lines.push(`${step} (${r.users} on ${host})`);
+      lines.push(`jmeter -n -t "${path}" ${args}${extras}`);
+    });
+    return lines.join("\n") + "\n";
+  }
+
+  function machineSplitLabel(hosts, pcts){
+    return hosts.map((h,i)=>`${h} ${pcts[i]}%`).join("  ");
+  }
+
+  /** Text for one machine (index m) or, with m === null, all machines. */
+  function machinesText(ctx, m){
+    const { state, names, hosts, pcts, machineRows } = ctx;
+    const extras = runtimeArgs(state);
+    const extra = [["Distributed", `per machine (${machineSplitLabel(hosts, pcts)})`]];
+    const idx = m === null ? hosts.map((_,i)=>i) : [m];
+    if(m !== null) extra.push(["This machine", `${hosts[m]} (${pcts[m]}%)`]);
+    const body = idx.map(i => machineSection(hosts[i], pcts[i], machineRows[i], names, state.path, extras)).join("\n");
+    return withHeader({ ...ctx, extra }, body);
+  }
+
+  /** Download filename from the pattern; {project} is sanitised. */
+  function resolveFilename(state){
+    return (state.set.filename || FALLBACK_FILENAME)
+      .replace(/\{project\}/g, sanitize(state.project || "project"));
+  }
+
+  /** "Acme_RUNME.txt" + "10.0.0.11" -> "Acme_RUNME_10.0.0.11.txt" */
+  function machineFilename(state, host){
+    const base = resolveFilename(state);
+    const tag = sanitize(host);
+    const dot = base.lastIndexOf(".");
+    return dot > 0 ? `${base.slice(0,dot)}_${tag}${base.slice(dot)}` : `${base}_${tag}`;
+  }
+
+  C.format = Object.freeze({ runtimeArgs, commandBlocks, formatDate, metadataHeader, runmeText, resolveFilename,
+                             remoteBlocks, remoteText, machinesText, machineFilename });
+})(globalThis.Commandeer = globalThis.Commandeer || {});
+</script>
+<script>
+/* ---- js/core/model.js ---- */
+/* ================================================================
+   core/model.js — validate state, build the ladder, distribute users,
+   produce the output. Pure: (state, now) -> model | { error }.
+   ================================================================ */
+(function (C) {
+  "use strict";
+  const { round2, parseList } = C.utils;
+  const { distribute, distributeExact, perEngine, dealRows } = C.distribution;
+  const { buildLadder, propNames } = C.ladder;
+  const { runmeText, resolveFilename, remoteText, machinesText, machineFilename } = C.format;
+  const { ROUNDING, FALLBACK_INCREMENT, DIST } = C.config;
+
+  const sum = arr => arr.reduce((a,b)=>a+b,0);
+
+  /** First blocking input problem, or null. */
+  function validateInputs(s, target, active){
+    if(!s.path) return "Add the script path in the top bar.";
+    if(!Number.isFinite(target) || target<1) return "Set a valid target user count.";
+    const pctSum = sum(active);
+    if(Math.abs(pctSum-100) > 0.01) return `Distribution must sum to 100% (currently ${round2(pctSum)}%).`;
+    const zeroAt = active.findIndex(v=>v<=0);
+    if(s.scnCount > 1 && zeroAt !== -1) return `Scenario ${zeroAt+1} is 0% — give it a share or reduce the scenario count.`;
+    return null;
+  }
+
+  // Feasibility depends on mode:
+  //   exact   — sum must equal total (no overshoot allowed)
+  //   roundup — sum may exceed total by at most 1
+  function findInfeasibleRow(rows, mode){
+    return rows.find(r => {
+      const total = sum(r.parts);
+      return mode === ROUNDING.EXACT ? total !== r.total : total > r.total + 1;
+    });
+  }
+
+  function infeasibleMessage(bad, mode, scnCount){
+    if(bad.debug){
+      return `The ${bad.total}-user debug step can't cover ${scnCount} scenarios (needs ≥1 user each). Lower the scenario count or raise the debug value.`;
+    }
+    return mode === ROUNDING.EXACT
+      ? `At ${bad.total} users, exact rounding can't fit ≥1 user per scenario without overshoot. Switch to Round-up mode, raise the smallest step, or reduce scenarios.`
+      : `At ${bad.total} users a scenario's share rounds below 1 user, so the step can't stay within ${bad.total+1}. Raise the smallest step or rebalance the percentages.`;
+  }
+
+  // ---- Distributed: host validation -----------------------------------
+  // IPv4, hostname, or [IPv6], each with an optional :port.
+  const HOST_RE = /^(\[[0-9A-Fa-f:.]+\]|[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?)(:\d{1,5})?$/;
+
+  function distMode(s){
+    return s.dist === DIST.REMOTE || s.dist === DIST.MACHINES ? s.dist : DIST.LOCAL;
+  }
+
+  /** First problem with the load generator list, or null. `at` points the UI at the field. */
+  function validateHosts(s, dist){
+    const hosts = (s.hosts || []).map(h => String((h && h.host) || "").trim());
+    const noun = dist === DIST.REMOTE ? "engine" : "machine";
+    const Noun = noun[0].toUpperCase() + noun.slice(1);
+    if(!hosts.length) return { error:`Add at least one ${noun}.` };
+    for(let i=0;i<hosts.length;i++){
+      const h = hosts[i];
+      if(!h) return { error:`Enter the IP or hostname of ${noun} ${i+1}.`, at:{ host:i } };
+      if(!HOST_RE.test(h)) return { error:`${Noun} ${i+1}: "${h}" is not a valid IP or hostname.`, at:{ host:i } };
+      const port = h.match(/:(\d+)$/);
+      if(port && (+port[1] < 1 || +port[1] > 65535)) return { error:`${Noun} ${i+1}: port ${port[1]} is out of range.`, at:{ host:i } };
+      const j = hosts.findIndex(x => x.toLowerCase() === h.toLowerCase());
+      if(j < i) return { error:`${Noun} ${i+1} repeats ${noun} ${j+1} (${h}).`, at:{ host:i } };
+    }
+    if(dist === DIST.MACHINES){
+      const pcts = s.hosts.map(h => parseFloat(h.pct) || 0);
+      const total = sum(pcts);
+      if(Math.abs(total-100) > 0.01) return { error:`Machine shares must sum to 100% (currently ${round2(total)}%).`, at:{ pcts:true } };
+      const z = pcts.findIndex(v => v <= 0);
+      if(z !== -1) return { error:`Machine ${z+1} is 0%. Give it a share or remove it.`, at:{ pct:z } };
+    }
+    return null;
+  }
+
+  function remoteInfeasibleMessage(bad, n, scnCount){
+    const kind = bad.debug ? `The ${bad.total}-user debug step` : `At ${bad.total} users, the step`;
+    return `${kind} gives each of ${n} engines ${bad.perEngine} users, too few for ${scnCount} scenarios at ≥1 user each. Use fewer engines, raise the step, or reduce scenarios.`;
+  }
+
+  /** One controller command per step; every engine runs the same -G counts.
+   *  Step totals move in multiples of the engine count, so each step takes
+   *  the smallest engines × each that is not under the step: per-engine
+   *  counts of floor(step/n) and ceil(step/n) are both tried. */
+  function buildRemote(ctx){
+    const { s, ladder, active, names, mode, split, hosts, target, now } = ctx;
+    const n = hosts.length;
+    const fits = (parts, each) => {
+      const t = sum(parts);
+      return mode === ROUNDING.EXACT ? t === each : t <= each + 1;
+    };
+    let bad = null;
+    const rows = ladder.map(r=>{
+      const tries = [...new Set([Math.floor(r.total / n), perEngine(r.total, n)])].filter(v => v > 0);
+      let best = null;
+      for(const each of tries){
+        const res = split(each, active);
+        const actual = n * sum(res.parts);
+        if(!fits(res.parts, each) || actual < r.total) continue;
+        if(!best || actual < best.actual) best = { each, actual, ...res };
+      }
+      if(!best){ if(!bad) bad = { total:r.total, debug:r.debug, perEngine:perEngine(r.total, n) }; return null; }
+      // Header goes red when engines × each ≠ step; the arg goes red only for a per-engine +1.
+      return { total:r.total, debug:r.debug, parts:best.parts, names, perEngine:best.each,
+               actual:best.actual, bumped: best.actual !== r.total, bumpedAt: best.bumped ? best.bumpedAt : null };
+    });
+    if(bad) return { error: remoteInfeasibleMessage(bad, n, s.scnCount) };
+
+    const text = remoteText({ state:s, rows, names, target, active, mode, now, hosts });
+    const filename = resolveFilename(s);
+    const over = rows.filter(r => r.actual !== r.total).length;
+    return { rows, text, filename, target, mode, dist:DIST.REMOTE, engines:n, over,
+             anyBump: over > 0,
+             views: [{ key:"all", label:"All", text, filename, rows }] };
+  }
+
+  /** Same scenario totals as local; each scenario dealt across machines by weight. */
+  function buildMachines(ctx){
+    const { s, ladder, active, names, mode, split, hosts, target, now } = ctx;
+    const pcts = s.hosts.map(h => parseFloat(h.pct) || 0);
+    const rows = ladder.map(r=>{
+      const { parts, bumped, bumpedAt } = split(r.total, active);
+      return { total:r.total, debug:r.debug, parts, names, bumped, bumpedAt };
+    });
+    const bad = findInfeasibleRow(rows, mode);
+    if(bad) return { error: infeasibleMessage(bad, mode, s.scnCount) };
+
+    const dealt = dealRows(rows.map(r => r.parts), pcts);
+    const machineRows = hosts.map((_,m) => rows.map((r,k) => {
+      const parts = dealt[k][m];
+      return { total:r.total, debug:r.debug, parts, names, users:sum(parts),
+               bumped:r.bumped, bumpedAt:null };
+    }));
+    const base = { state:s, names, target, active, mode, now, hosts, pcts, machineRows };
+    // highlight() walks "# NvUsers" headers in order, so each view carries its rows in text order.
+    const allRows = [].concat(...machineRows);
+    const text = machinesText(base, null);
+    const filename = resolveFilename(s);
+    const views = [{ key:"all", label:"All", text, filename, rows:allRows }]
+      .concat(hosts.map((h,m) => ({
+        key:"m"+m, label:h, text:machinesText(base, m),
+        filename:machineFilename(s, h), rows:machineRows[m]
+      })));
+    return { rows, text, filename, target, mode, dist:DIST.MACHINES, machines:hosts.length,
+             anyBump: rows.some(r=>r.bumped), views, machineRows };
+  }
+
+  /**
+   * @param {object} state  app state (see config.initialState)
+   * @param {Date}   [now]  injected clock for the metadata header
+   * @returns {{error:string} | {rows, text, filename, target, mode, anyBump}}
+   */
+  function buildModel(state, now = new Date()){
+    const s = state;
+    const target = parseInt(s.target,10);
+    const active = s.pcts.slice(0, s.scnCount).map(v=>parseFloat(v)||0);
+
+    const inputError = validateInputs(s, target, active);
+    if(inputError) return { error: inputError };
+
+    const dist = distMode(s);
+    if(dist !== DIST.LOCAL){
+      const hostError = validateHosts(s, dist);
+      if(hostError) return hostError;
+    }
+
+    const debug  = parseList(s.set.debug);
+    const base   = parseList(s.set.ladder);
+    const inc    = parseInt(s.set.inc,10) || FALLBACK_INCREMENT;
+    if(!base.length) return { error:"Base ladder is empty — add at least one step." };
+
+    const names  = propNames(s.scnCount, s.set.props);
+    const ladder = buildLadder(target, debug, base, inc);
+    const mode   = s.rounding === ROUNDING.EXACT ? ROUNDING.EXACT : ROUNDING.ROUNDUP;
+    const split  = mode === ROUNDING.EXACT ? distributeExact : distribute;
+
+    if(dist !== DIST.LOCAL){
+      const hosts = s.hosts.map(h => String(h.host).trim());
+      const ctx = { s, ladder, active, names, mode, split, hosts, target, now };
+      return dist === DIST.REMOTE ? buildRemote(ctx) : buildMachines(ctx);
+    }
+
+    const rows = ladder.map(r=>{
+      const {parts, bumped, bumpedAt} = split(r.total, active);
+      return { total:r.total, debug:r.debug, parts, names, bumped, bumpedAt };
+    });
+
+    const bad = findInfeasibleRow(rows, mode);
+    if(bad) return { error: infeasibleMessage(bad, mode, s.scnCount) };
+
+    const text = runmeText({ state:s, rows, names, target, active, mode, now });
+    const filename = resolveFilename(s);
+    return { rows, text, filename, target, mode,
+             anyBump: rows.some(r=>r.bumped),
+             dist: DIST.LOCAL, views: [{ key:"all", label:"All", text, filename, rows }] };
+  }
+
+  C.model = Object.freeze({ buildModel, validateInputs, validateHosts, findInfeasibleRow, distMode });
+})(globalThis.Commandeer = globalThis.Commandeer || {});
+</script>
+<script>
+/* ---- js/services/storage.js ---- */
+/* ================================================================
+   services/storage.js — localStorage that never throws.
+   Falls back to an in-memory map when storage is blocked
+   (sandboxed iframes, some file:// policies, locked-down browsers).
+   ================================================================ */
+(function (C) {
+  "use strict";
+
+  /**
+   * @param {() => Storage} [getBackend]  injectable for tests. Accessing
+   *        localStorage can itself throw, so it is resolved inside try.
+   */
+  function createStore(getBackend = () => globalThis.localStorage){
+    let backend = null;
+    try {
+      const b = getBackend();
+      const k = "__t"; b.setItem(k, "1"); b.removeItem(k);
+      backend = b;
+    } catch (e) { backend = null; }
+
+    const mem = {};
+    const ok = backend !== null;
+    return Object.freeze({
+      ok,
+      get(k){ try { return ok ? backend.getItem(k) : mem[k]; } catch (e) { return mem[k]; } },
+      set(k, v){ try { ok ? backend.setItem(k, v) : (mem[k] = v); } catch (e) { mem[k] = v; } }
+    });
+  }
+
+  C.storage = Object.freeze({ createStore });
+})(globalThis.Commandeer = globalThis.Commandeer || {});
+</script>
+<script>
+/* ---- js/services/state.js ---- */
+/* ================================================================
+   services/state.js — the single mutable app state, its persistence,
+   and every state transition that is more than "set one field".
+   UI modules call these instead of reshaping state themselves.
+   ================================================================ */
+(function (C) {
+  "use strict";
+  const { DEFAULTS, STORAGE_KEY, ROUNDING, SCENARIOS, DIST, HOSTS, initialState } = C.config;
+  const { clone, clamp } = C.utils;
+  const { evenPcts } = C.distribution;
+
+  function createStateService(store){
+    const state = initialState();
+
+    /** Merge saved state over defaults, then repair invariants. */
+    function load(){
+      const raw = store.get(STORAGE_KEY);
+      if(raw){
+        try {
+          const s = JSON.parse(raw);
+          Object.assign(state, s);
+          state.set = Object.assign(clone(DEFAULTS), s.set || {});
+        } catch (e) { /* corrupt JSON: keep defaults */ }
+      }
+      if(state.rounding !== ROUNDING.EXACT && state.rounding !== ROUNDING.ROUNDUP) state.rounding = ROUNDING.ROUNDUP;
+      repairHosts();
+      if(!state.set.props || state.set.props.length < state.scnCount){
+        state.set.props = Array(state.scnCount).fill("").map((_,i)=> (state.set.props && state.set.props[i]) || "");
+      }
+      return state;
+    }
+
+    /** Saved state from v1 has no dist/hosts; anything malformed falls back to defaults. */
+    function repairHosts(){
+      if(![DIST.LOCAL, DIST.REMOTE, DIST.MACHINES].includes(state.dist)) state.dist = DIST.LOCAL;
+      const fresh = initialState().hosts;
+      const list = Array.isArray(state.hosts) ? state.hosts : [];
+      state.hosts = list
+        .filter(h => h && typeof h === "object")
+        .slice(0, HOSTS.MAX)
+        .map(h => ({ host: String(h.host ?? ""), pct: clamp(parseInt(h.pct,10) || 0, 0, 100) }));
+      if(state.hosts.length < HOSTS.MIN) state.hosts = fresh;
+    }
+
+    function save(){ store.set(STORAGE_KEY, JSON.stringify(state)); }
+
+    /** Clamp to [MIN,MAX]; grow/trim pcts; grow (never trim) custom prop names. */
+    function setScenarioCount(v){
+      v = clamp(v|0, SCENARIOS.MIN, SCENARIOS.MAX);
+      state.scnCount = v;
+      while(state.pcts.length < v) state.pcts.push(0);
+      state.pcts = state.pcts.slice(0, v);
+      while(state.set.props.length < v) state.set.props.push("");
+      return v;
+    }
+
+    /** A single scenario always owns 100%. */
+    function enforceSingleScenario(){
+      if(state.scnCount === 1) state.pcts = [100];
+    }
+
+    function setPct(i, v){ state.pcts[i] = clamp(v, 0, 100); return state.pcts[i]; }
+
+    function evenSplit(){ state.pcts = evenPcts(state.scnCount).slice(); }
+
+    // ---- load generators ------------------------------------------------
+    function setDist(mode){
+      state.dist = [DIST.REMOTE, DIST.MACHINES].includes(mode) ? mode : DIST.LOCAL;
+    }
+
+    const isEven = pcts => {
+      const e = evenPcts(pcts.length);
+      return pcts.every((v,i) => v === e[i]);
+    };
+
+    /** Grow/trim the host list. If shares were an even split, keep them even. */
+    function setHostCount(v){
+      v = clamp(v|0, HOSTS.MIN, HOSTS.MAX);
+      const wasEven = isEven(state.hosts.map(h => h.pct));
+      while(state.hosts.length < v) state.hosts.push({ host:"", pct:0 });
+      state.hosts = state.hosts.slice(0, v);
+      if(wasEven) evenHosts();
+      return v;
+    }
+
+    function setHost(i, v){ state.hosts[i].host = String(v); }
+
+    function setHostPct(i, v){ state.hosts[i].pct = clamp(v|0, 0, 100); return state.hosts[i].pct; }
+
+    function evenHosts(){
+      const e = evenPcts(state.hosts.length);
+      state.hosts.forEach((h,i) => { h.pct = e[i]; });
+    }
+
+    function resetSettings(){
+      state.set = clone(DEFAULTS);
+      state.set.props = Array(state.scnCount).fill("");
+    }
+
+    return Object.freeze({ state, load, save, setScenarioCount, enforceSingleScenario, setPct, evenSplit, resetSettings,
+                           setDist, setHostCount, setHost, setHostPct, evenHosts });
+  }
+
+  C.stateService = Object.freeze({ createStateService });
+})(globalThis.Commandeer = globalThis.Commandeer || {});
+</script>
+<script>
+/* ---- js/ui/dom.js ---- */
+/* ================================================================
+   ui/dom.js — DOM lookups, templates, toast.
+   ================================================================ */
+(function (C) {
+  "use strict";
+
+  function byId(id){
+    const el = document.getElementById(id);
+    if(!el) throw new Error(`Commandeer: missing #${id} in index.html`);
+    return el;
+  }
+
+  /** First element of a <template id="..."> as a fresh clone. */
+  function fromTemplate(id){
+    return byId(id).content.firstElementChild.cloneNode(true);
+  }
+
+  let toastTimer = null;
+  function toast(msg){
+    const t = byId("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=>t.classList.remove("show"), 1800);
+  }
+
+  C.dom = Object.freeze({ byId, fromTemplate, toast });
+})(globalThis.Commandeer = globalThis.Commandeer || {});
+</script>
+<script>
+/* ---- js/ui/highlight.js ---- */
+/* ================================================================
+   ui/highlight.js — RUNME text -> syntax-coloured HTML. Pure string.
+   ================================================================ */
+(function (C) {
+  "use strict";
+  const { esc } = C.utils;
+
+  // Colorize: totals, numeric args, +1 flags. rowIdx tracks which model row
+  // we're inside; the "# NvUsers" header advances it, and the jmeter line that
+  // follows shares that row's flag state so the specific overshooting arg goes red.
+  function highlight(text, model){
+    const rows = (model && model.rows) || [];
+    let rowIdx = -1;
+    return text.split("\n").map(line=>{
+      if(/^# \[[^\]]+\] \d/.test(line)){            // per-machine section title
+        return `<span class="t-total">${esc(line)}</span>`;
+      }
+      if(/^# \d+vUsers/.test(line)){
+        rowIdx++;
+        const r = rows[rowIdx];
+        // Distributed headers carry their own overshoot marker (" = N" or " +1"):
+        // only that part goes red. Local headers keep v1 colouring.
+        const m = r && r.bumped && line.match(/^(# \d+vUsers)( \+1)?( \(.*?)( = \d+)?(\).*)$/);
+        if(m && (m[2] || m[4])){
+          const red = t => t ? `<span class="t-flag">${esc(t)}</span>` : "";
+          return `<span class="t-total">${esc(m[1])}${red(m[2])}${esc(m[3])}${red(m[4])}${esc(m[5])}</span>`;
+        }
+        const cls = (r && r.bumped) ? "t-flag" : "t-total";
+        return `<span class="${cls}">${esc(line)}</span>`;
+      }
+      if(/^jmeter/.test(line)){
+        const r = rows[rowIdx];
+        let l = esc(line);
+        let argIdx = 0;
+        l = l.replace(/(-[JG][\w.\-]+=)(\d+)/g, (_,a,b)=>{
+          const flagThis = r && r.bumped && argIdx === r.bumpedAt;
+          argIdx++;
+          const numCls = flagThis ? "t-flag" : "t-num";
+          return `<span class="t-dim">${a}</span><span class="${numCls}">${b}</span>`;
+        });
+        l = l.replace(/^(jmeter -n -t )(&quot;.*?&quot;)/, `<span class="t-dim">$1</span><span class="t-str">$2</span>`);
+        return l;
+      }
+      if(/^#/.test(line)){
+        return `<span class="t-dim">${esc(line)}</span>`;
+      }
+      return esc(line);
+    }).join("\n");
+  }
+
+  C.highlight = Object.freeze({ highlight });
+})(globalThis.Commandeer = globalThis.Commandeer || {});
+</script>
+<script>
+/* ---- js/ui/scenario-table.js ---- */
+/* ================================================================
+   ui/scenario-table.js — Distribution rows (slider + stepper) and
+   the Total % readout. Events are delegated once on the container,
+   so re-rendering rows never re-binds listeners.
+   ================================================================ */
+(function (C) {
+  "use strict";
+  const { byId, fromTemplate } = C.dom;
+  const { round2, clamp } = C.utils;
+  const { propNames } = C.ladder;
+
+  function setRangeFill(range, v){
+    range.style.background =
+      `linear-gradient(to right, var(--accent) ${v}%, var(--line-soft) ${v}%)`;
+  }
+
+  function buildRow(i, name, pct, single, flag){
+    const row = fromTemplate("tplDistRow");
+    row.querySelector(".js-flag").textContent = flag;
+    row.querySelector(".dist-tag").append(document.createTextNode(name));
+
+    const range = row.querySelector(".slider");
+    const num   = row.querySelector(".pct-num");
+    const dec   = row.querySelector(".pct-dec");
+    const inc   = row.querySelector(".pct-inc");
+    [range, num, dec, inc].forEach(el => el.dataset.i = i);
+    range.setAttribute("value", pct);
+    num.setAttribute("value", pct);
+    if(single){
+      [range, dec, inc].forEach(el => el.disabled = true);
+      num.readOnly = true;
+      num.tabIndex = -1;
+    }
+    setRangeFill(range, pct);
+    return row;
+  }
+
+  function render(app){
+    const { state } = app;
+    app.svc.enforceSingleScenario();
+    const n = state.scnCount;
+    const names = propNames(n, state.set.props);
+    const flag = state.dist === C.config.DIST.REMOTE ? "-G" : "-J";
+    const rows = [];
+    for(let i=0;i<n;i++) rows.push(buildRow(i, names[i], Math.round(state.pcts[i] ?? 0), n === 1, flag));
+    byId("scnTable").replaceChildren(...rows);
+    updateSum(app);
+  }
+
+  function updateSum({ state }){
+    const sum = state.pcts.slice(0,state.scnCount).reduce((a,b)=>a+(parseFloat(b)||0),0);
+    const el = byId("pctSum");
+    el.textContent = round2(sum) + "%";
+    el.className = "val " + (Math.abs(sum-100)<0.01 ? "ok" : "bad");
+  }
+
+  /** Bind once. */
+  function mount(app){
+    const tbl = byId("scnTable");
+    const rowOf = el => el.closest(".dist-row");
+
+    const commit = (i, v, {syncRange=true, syncNum=true}={}) => {
+      v = app.svc.setPct(i, v);
+      const row = tbl.children[i];
+      const range = row.querySelector(".slider");
+      const num   = row.querySelector(".pct-num");
+      if(syncRange){ range.value = v; }
+      setRangeFill(range, v);
+      if(syncNum){ num.value = v; }
+      updateSum(app); app.refresh();
+    };
+    const idx = el => +el.dataset.i;
+    const multi = () => app.state.scnCount > 1;
+
+    tbl.addEventListener("input", e=>{
+      const t = e.target;
+      if(!multi()) return;
+      if(t.matches(".slider")){
+        commit(idx(t), +t.value, {syncRange:false});
+      } else if(t.matches(".pct-num")){
+        const raw = t.value;
+        const v = raw === "" ? 0 : clamp(parseInt(raw,10) || 0, 0, 100);
+        commit(idx(t), v, {syncNum:false});
+        if(raw !== "" && String(v) !== raw) t.value = v;
+      }
+    });
+
+    // focusout bubbles; blur does not.
+    tbl.addEventListener("focusout", e=>{
+      const t = e.target;
+      if(multi() && t.matches(".pct-num") && t.value === "") t.value = app.state.pcts[idx(t)];
+    });
+
+    tbl.addEventListener("click", e=>{
+      const b = e.target.closest(".pct-dec, .pct-inc");
+      if(!b || !multi() || !rowOf(b)) return;
+      const i = idx(b);
+      commit(i, app.state.pcts[i] + (b.classList.contains("pct-inc") ? 1 : -1));
+    });
+  }
+
+  C.ui = C.ui || {};
+  C.ui.scenarioTable = Object.freeze({ mount, render, updateSum });
+})(globalThis.Commandeer = globalThis.Commandeer || {});
+</script>
+<script>
+/* ---- js/ui/property-list.js ---- */
+/* ================================================================
+   ui/property-list.js — per-scenario JMeter property names (drawer).
+   ================================================================ */
+(function (C) {
+  "use strict";
+  const { byId, fromTemplate } = C.dom;
+
+  function render({ state }){
+    const flag = state.dist === C.config.DIST.REMOTE ? "-G" : "-J";
+    const rows = [];
+    for(let i=0;i<state.scnCount;i++){
+      const row = fromTemplate("tplPropRow");
+      row.querySelector(".k").textContent = `scenario ${i+1}`;
+      row.querySelector(".js-flag").textContent = flag;
+      const inp = row.querySelector("input");
+      inp.dataset.i = i;
+      inp.setAttribute("value", state.set.props[i] ?? "");
+      rows.push(row);
+    }
+    byId("propList").replaceChildren(...rows);
+  }
+
+  /** Bind once. Renaming a property relabels the distribution rows. */
+  function mount(app){
+    byId("propList").addEventListener("input", e=>{
+      const t = e.target;
+      if(!t.matches("input[data-i]")) return;
+      app.state.set.props[+t.dataset.i] = t.value;
+      app.ui.scenarioTable.render(app); app.refresh();
+    });
+  }
+
+  C.ui = C.ui || {};
+  C.ui.propertyList = Object.freeze({ mount, render });
+})(globalThis.Commandeer = globalThis.Commandeer || {});
+</script>
+<script>
+/* ---- js/ui/hosts.js ---- */
+/* ================================================================
+   ui/hosts.js — Load generators: Local / Remote / Per machine,
+   the host list, per-machine shares, inline host errors, and the
+   -J / -G prefix shown on property fields.
+   Events are delegated once; rows are re-rendered only when the
+   count or mode changes, so typing never loses focus.
+   ================================================================ */
+(function (C) {
+  "use strict";
+  const { byId, fromTemplate } = C.dom;
+  const { round2, clamp, digitsOnly } = C.utils;
+  const { DIST } = C.config;
+
+  const HELP = {
+    local:    "This machine runs every user.",
+    remote:   "One command on the controller. Each engine runs jmeter-server and gets the same share (-G).",
+    machines: "A separate command for each machine, split by share. Start them together."
+  };
+
+  const isRemote   = s => s.dist === DIST.REMOTE;
+  const isMachines = s => s.dist === DIST.MACHINES;
+  const noun       = s => isRemote(s) ? "Engine" : "Machine";
+
+  /** Remote engines read properties sent with -G; everything else uses -J. */
+  function renderFlags({ state }){
+    const flag = isRemote(state) ? "-G" : "-J";
+    document.querySelectorAll(".js-flag").forEach(el => { el.textContent = flag; });
+  }
+
+  function renderMode(app){
+    const { state } = app;
+    document.querySelectorAll("#distSeg .seg-btn").forEach(b=>{
+      const on = b.dataset.dist === state.dist;
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-checked", on ? "true" : "false");
+    });
+    byId("distHelp").textContent = HELP[state.dist] || HELP.local;
+    byId("hostBlock").hidden = state.dist === DIST.LOCAL;
+    byId("hostCountLbl").textContent = isRemote(state) ? "Engines" : "Machines";
+    document.querySelectorAll("#hostBlock .js-share").forEach(el => { el.hidden = !isMachines(state); });
+    renderFlags(app);
+  }
+
+  function buildRow(i, h, label){
+    const row = fromTemplate("tplHostRow");
+    row.querySelector(".host-tag").textContent = i + 1;
+    const inp = row.querySelector(".host-in");
+    inp.value = h.host;
+    inp.setAttribute("aria-label", `${label} ${i+1} IP or hostname`);
+    const num = row.querySelector(".pct-num");
+    num.value = h.pct;
+    num.setAttribute("aria-label", `${label} ${i+1} share`);
+    row.querySelectorAll("[class^='pct-'], .host-in").forEach(el => { el.dataset.i = i; });
+    return row;
+  }
+
+  function renderRows(app){
+    const { state } = app;
+    const label = noun(state);
+    byId("hostCount").value = state.hosts.length;
+    byId("hostTable").replaceChildren(...state.hosts.map((h,i) => buildRow(i, h, label)));
+    document.querySelectorAll("#hostTable .js-share").forEach(el => { el.hidden = !isMachines(state); });
+    updateSum(app);
+  }
+
+  function updateSum({ state }){
+    const sum = state.hosts.reduce((a,h) => a + (parseFloat(h.pct) || 0), 0);
+    const el = byId("hostSum");
+    el.textContent = round2(sum) + "%";
+    el.className = "val " + (Math.abs(sum-100) < 0.01 ? "ok" : "bad");
+  }
+
+  function render(app){ renderMode(app); renderRows(app); }
+
+  /** Mark the field a host error points at; show the message next to the list. */
+  function renderError(model){
+    const at = model && model.error ? model.at : null;
+    document.querySelectorAll("#hostTable .is-bad").forEach(el => {
+      el.classList.remove("is-bad"); el.removeAttribute("aria-invalid");
+    });
+    const err = byId("hostErr");
+    err.hidden = !at;
+    err.textContent = at ? model.error : "";
+    if(!at) return;
+    const rows = byId("hostTable").children;
+    let el = null;
+    if(at.host !== undefined && rows[at.host]) el = rows[at.host].querySelector(".host-in");
+    if(at.pct  !== undefined && rows[at.pct])  el = rows[at.pct].querySelector(".host-pct");
+    if(el){ el.classList.add("is-bad"); el.setAttribute("aria-invalid", "true"); }
+  }
+
+  /** Bind once. */
+  function mount(app){
+    const { svc } = app;
+    const refresh = () => app.refresh();
+    const tbl = byId("hostTable");
+    const idx = el => +el.dataset.i;
+
+    document.querySelectorAll("#distSeg .seg-btn").forEach(b=>{
+      b.addEventListener("click", ()=>{
+        if(app.state.dist === b.dataset.dist) return;
+        svc.setDist(b.dataset.dist);
+        render(app); refresh();
+      });
+    });
+
+    const cnt = byId("hostCount");
+    const setCount = v => { cnt.value = svc.setHostCount(v); renderRows(app); refresh(); };
+    cnt.addEventListener("input", e=>{
+      const clean = digitsOnly(e.target.value);
+      if(clean === "") return;                 // let the field be cleared while typing
+      setCount(parseInt(clean,10));
+    });
+    cnt.addEventListener("focusout", ()=>{ cnt.value = app.state.hosts.length; });
+    byId("hostPlus").addEventListener("click", ()=> setCount(app.state.hosts.length + 1));
+    byId("hostMinus").addEventListener("click", ()=> setCount(app.state.hosts.length - 1));
+
+    byId("hostEvenBtn").addEventListener("click", ()=>{ svc.evenHosts(); renderRows(app); refresh(); });
+
+    const commitPct = (i, v, syncNum) => {
+      v = svc.setHostPct(i, v);
+      if(syncNum) tbl.children[i].querySelector(".pct-num").value = v;
+      updateSum(app); refresh();
+    };
+
+    tbl.addEventListener("input", e=>{
+      const t = e.target;
+      if(t.matches(".host-in")){
+        svc.setHost(idx(t), t.value); refresh();
+      } else if(t.matches(".pct-num")){
+        const raw = digitsOnly(t.value);
+        const v = raw === "" ? 0 : clamp(parseInt(raw,10), 0, 100);
+        if(raw !== "" && String(v) !== t.value) t.value = v;
+        commitPct(idx(t), v, false);
+      }
+    });
+
+    tbl.addEventListener("focusout", e=>{
+      const t = e.target;
+      if(t.matches(".pct-num") && t.value === "") t.value = app.state.hosts[idx(t)].pct;
+      if(t.matches(".host-in") && t.value !== t.value.trim()){
+        t.value = t.value.trim(); svc.setHost(idx(t), t.value); refresh();
+      }
+    });
+
+    tbl.addEventListener("click", e=>{
+      const b = e.target.closest(".pct-dec, .pct-inc");
+      if(!b) return;
+      const i = idx(b);
+      commitPct(i, app.state.hosts[i].pct + (b.classList.contains("pct-inc") ? 1 : -1), true);
+    });
+  }
+
+  C.ui = C.ui || {};
+  C.ui.hosts = Object.freeze({ mount, render, renderFlags, renderError });
+})(globalThis.Commandeer = globalThis.Commandeer || {});
+</script>
+<script>
+/* ---- js/ui/preview.js ---- */
+/* ================================================================
+   ui/preview.js — right-hand RUNME preview, meta strip, machine
+   tabs (per-machine mode), and the enabled state of Copy / Generate.
+   ================================================================ */
+(function (C) {
+  "use strict";
+  const { byId } = C.dom;
+  const { esc } = C.utils;
+  const { highlight } = C.highlight;
+  const { resolveFilename } = C.format;
+  const { ROUNDING, DIST } = C.config;
+
+  const LEGEND = {
+    local:    { num:"per-scenario users",    flag:"+1 rounded up" },
+    remote:   { num:"users on each engine",  flag:"rounded up" },
+    machines: { num:"per-scenario users",    flag:"+1 rounded up" }
+  };
+
+  function showError(state, message){
+    byId("pvBody").hidden = true;
+    byId("pvTabs").hidden = true;
+    byId("pvEmpty").hidden = false;
+    byId("pvEmptyMsg").textContent = message;
+    byId("pvMeta").textContent = "";
+    byId("pvName").textContent = resolveFilename(state);
+    setActionsEnabled(false);
+  }
+
+  function metaParts(model){
+    const parts = [`${model.rows.length} steps`, `reach ${model.target}`];
+    if(model.dist === DIST.REMOTE)   parts.push(`${model.engines} ${model.engines === 1 ? "engine" : "engines"}`);
+    if(model.dist === DIST.MACHINES) parts.push(`${model.machines} ${model.machines === 1 ? "machine" : "machines"}`);
+    parts.push(model.mode === ROUNDING.EXACT ? "exact" : "round-up");
+    if(model.dist === DIST.REMOTE){
+      if(model.over) parts.push(`<span class="flag">${model.over} rounded up</span>`);
+    } else if(model.anyBump){
+      parts.push(`<span class="flag">+1 flagged</span>`);
+    }
+    return parts;
+  }
+
+  function renderTabs(model, view){
+    const tabs = byId("pvTabs");
+    if(model.views.length < 2){ tabs.hidden = true; tabs.replaceChildren(); return; }
+    tabs.hidden = false;
+    tabs.innerHTML = model.views.map(v => {
+      const on = v.key === view.key;
+      return `<button type="button" class="pv-tab${on ? " on" : ""}" role="tab" aria-selected="${on}" data-view="${esc(v.key)}">${esc(v.label)}</button>`;
+    }).join("");
+  }
+
+  function showModel(model, view){
+    const body = byId("pvBody");
+    body.hidden = false;
+    byId("pvEmpty").hidden = true;
+    body.innerHTML = highlight(view.text, view);
+    byId("pvName").textContent = view.filename;
+    byId("pvMeta").innerHTML = metaParts(model).map(p => `<span>${p}</span>`).join(" · ");
+
+    const lg = LEGEND[model.dist] || LEGEND.local;
+    byId("lgNumText").textContent = lg.num;
+    byId("lgFlagText").textContent = lg.flag;
+    byId("lgFlag").hidden = model.dist === DIST.REMOTE ? false : model.mode === ROUNDING.EXACT;
+    renderTabs(model, view);
+    setActionsEnabled(true);
+  }
+
+  function setActionsEnabled(on){
+    byId("genBtn").disabled = !on;
+    byId("copyBtn").disabled = !on;
+  }
+
+  /** The view a key points at, or the first ("All") when it no longer exists. */
+  function pickView(model, key){
+    return model.views.find(v => v.key === key) || model.views[0];
+  }
+
+  /**
+   * @param model result of core.model.buildModel
+   * @param viewKey which output to show (per-machine mode has one per machine)
+   * @returns the view shown, or null on error
+   */
+  function render(state, model, viewKey){
+    if(model.error){ showError(state, model.error); return null; }
+    const view = pickView(model, viewKey);
+    showModel(model, view);
+    return view;
+  }
+
+  /** Bind once: tab clicks and arrow keys switch the shown machine. */
+  function mount(app){
+    const tabs = byId("pvTabs");
+    tabs.addEventListener("click", e=>{
+      const b = e.target.closest(".pv-tab");
+      if(b) app.setView(b.dataset.view);
+    });
+    tabs.addEventListener("keydown", e=>{
+      if(e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+      const all = [...tabs.querySelectorAll(".pv-tab")];
+      const i = all.findIndex(b => b.classList.contains("on"));
+      const next = all[(i + (e.key === "ArrowRight" ? 1 : all.length - 1)) % all.length];
+      if(next){ app.setView(next.dataset.view); tabs.querySelector(`[data-view="${next.dataset.view}"]`).focus(); }
+    });
+  }
+
+  C.ui = C.ui || {};
+  C.ui.preview = Object.freeze({ render, mount });
+})(globalThis.Commandeer = globalThis.Commandeer || {});
+</script>
+<script>
+/* ---- js/ui/drawer.js ---- */
+/* ================================================================
+   ui/drawer.js — Preferences slide-over: open/close, scrim, Esc.
+   ================================================================ */
+(function (C) {
+  "use strict";
+  const { byId } = C.dom;
+
+  const FOCUS_DELAY_MS = 240;   // after the .22s slide-in transition
+  const FIRST_FIELD_ID = "setDebug";
+
+  function mount(){
+    const drawer = byId("drawer");
+    const scrim  = byId("drawerScrim");
+    const opener = byId("drawerOpen");
+    const closer = byId("drawerClose");
+
+    const setOpen = on => {
+      drawer.classList.toggle("open", on);
+      scrim.classList.toggle("open", on);
+      opener.classList.toggle("active", on);
+    };
+    const open = () => {
+      setOpen(true);
+      setTimeout(()=>{
+        const first = document.getElementById(FIRST_FIELD_ID);
+        if(first) first.focus();
+      }, FOCUS_DELAY_MS);
+    };
+    const close = () => setOpen(false);
+
+    opener.addEventListener("click", open);
+    closer.addEventListener("click", close);
+    scrim.addEventListener("click", close);
+    document.addEventListener("keydown", e=>{
+      if(e.key === "Escape" && drawer.classList.contains("open")) close();
+    });
+  }
+
+  C.ui = C.ui || {};
+  C.ui.drawer = Object.freeze({ mount });
+})(globalThis.Commandeer = globalThis.Commandeer || {});
+</script>
+<script>
+/* ---- js/ui/forms.js ---- */
+/* ================================================================
+   ui/forms.js — plain field <-> state binding for the main form and
+   the Preferences drawer, plus scenario count, rounding mode,
+   runtime toggle and reset.
+
+   Adding a simple text field = one line in MAIN_FIELDS/SETTINGS_FIELDS
+   plus its <input> in index.html.
+   ================================================================ */
+(function (C) {
+  "use strict";
+  const { byId, toast } = C.dom;
+  const { digitsOnly } = C.utils;
+  const { SCENARIOS } = C.config;
+
+  // id: element id · key: state key · numeric: digits-only sanitising
+  // fallback: shown when the stored value is falsy
+  const MAIN_FIELDS = [
+    { id:"project",  key:"project" },
+    { id:"path",     key:"path" },
+    { id:"target",   key:"target",   numeric:true },
+    { id:"rampup",   key:"rampup",   numeric:true, fallback:"" },
+    { id:"duration", key:"duration", numeric:true, fallback:"" }
+  ];
+  const SETTINGS_FIELDS = [   // keys under state.set
+    { id:"setDebug",        key:"debug" },
+    { id:"setInc",          key:"inc",          numeric:true },
+    { id:"setLadder",       key:"ladder" },
+    { id:"setFilename",     key:"filename" },
+    { id:"setTester",       key:"tester",        fallback:"" },
+    { id:"setJmeter",       key:"jmeterVersion", fallback:"" },
+    { id:"setRampupProp",   key:"rampupProp",    fallback:"rampup" },
+    { id:"setDurationProp", key:"durationProp",  fallback:"duration" }
+  ];
+
+  const ROUNDING_HELP = {
+    exact:   "Step totals stay exact. Small scenarios may round down.",
+    roundup: "Keeps small scenarios near their share. Step totals may be 1 vUser over."
+  };
+
+  // ---- field binding -------------------------------------------------
+  function fillFields(fields, target){
+    fields.forEach(f=>{
+      const v = target[f.key];
+      byId(f.id).value = f.fallback !== undefined ? (v || f.fallback) : v;
+    });
+  }
+
+  function bindFields(fields, getTarget, onChange){
+    fields.forEach(f=>{
+      byId(f.id).addEventListener("input", e=>{
+        let v = e.target.value;
+        if(f.numeric){
+          const clean = digitsOnly(v);
+          if(clean !== v) e.target.value = clean;
+          v = clean;
+        }
+        getTarget()[f.key] = v;
+        onChange();
+      });
+    });
+  }
+
+  // ---- renderers -----------------------------------------------------
+  function fillMain({ state }){
+    fillFields(MAIN_FIELDS, state);
+    byId("scnCount").value = state.scnCount;
+    renderScenarioHint(state);
+  }
+
+  function fillSettings({ state }){
+    fillFields(SETTINGS_FIELDS, state.set);
+    byId("setHeader").checked = !!state.set.header;
+    byId("setRuntime").checked = !!state.set.runtime;
+    byId("setExit").checked = !!state.set.exitServers;
+  }
+
+  function renderScenarioHint(state){
+    byId("scnHint").hidden = state.scnCount < SCENARIOS.HINT_AT;
+  }
+
+  function renderRuntimeVisibility({ state }){
+    const on = !!state.set.runtime;
+    byId("runtimeSection").hidden = !on;
+    byId("runtimePropList").hidden = !on;
+  }
+
+  function renderRounding({ state }){
+    document.querySelectorAll("#roundSeg .seg-btn").forEach(b=>{
+      const active = b.dataset.mode === state.rounding;
+      b.classList.toggle("on", active);
+      b.setAttribute("aria-checked", active ? "true" : "false");
+    });
+    byId("roundHelp").textContent = state.rounding === "exact" ? ROUNDING_HELP.exact : ROUNDING_HELP.roundup;
+  }
+
+  function renderPersistNote(store){
+    byId("persistNote").textContent = store.ok
+      ? "Persists in this browser."
+      : "Storage blocked — settings won't persist.";
+  }
+
+  // ---- wiring (bind once) --------------------------------------------
+  function mount(app){
+    const { svc, ui } = app;
+    const refresh = () => app.refresh();
+
+    bindFields(MAIN_FIELDS, () => app.state, refresh);
+    bindFields(SETTINGS_FIELDS, () => app.state.set, refresh);
+
+    // Scenario count stepper
+    const scn = byId("scnCount");
+    const setScn = v => {
+      scn.value = svc.setScenarioCount(v);
+      renderScenarioHint(app.state);
+      ui.scenarioTable.render(app); ui.propertyList.render(app); refresh();
+    };
+    scn.addEventListener("input", e=> setScn(parseInt(e.target.value,10)||1));
+    byId("scnPlus").addEventListener("click", ()=> setScn(app.state.scnCount+1));
+    byId("scnMinus").addEventListener("click", ()=> setScn(app.state.scnCount-1));
+
+    byId("evenBtn").addEventListener("click", ()=>{
+      svc.evenSplit();
+      ui.scenarioTable.render(app); refresh();
+    });
+
+    document.querySelectorAll("#roundSeg .seg-btn").forEach(b=>{
+      b.addEventListener("click", ()=>{
+        if(app.state.rounding === b.dataset.mode) return;
+        app.state.rounding = b.dataset.mode;
+        renderRounding(app); refresh();
+      });
+    });
+
+    byId("setHeader").addEventListener("change", e=>{
+      app.state.set.header = e.target.checked; refresh();
+    });
+    byId("setRuntime").addEventListener("change", e=>{
+      app.state.set.runtime = e.target.checked;
+      renderRuntimeVisibility(app);
+      refresh();
+    });
+
+    byId("setExit").addEventListener("change", e=>{
+      app.state.set.exitServers = e.target.checked; refresh();
+    });
+
+    byId("resetBtn").addEventListener("click", ()=>{
+      svc.resetSettings();
+      fillSettings(app);
+      renderRuntimeVisibility(app);
+      ui.scenarioTable.render(app); ui.propertyList.render(app); refresh();
+      toast("Settings reset to defaults");
+    });
+  }
+
+  C.ui = C.ui || {};
+  C.ui.forms = Object.freeze({
+    mount, fillMain, fillSettings, renderRuntimeVisibility, renderRounding, renderPersistNote
+  });
+})(globalThis.Commandeer = globalThis.Commandeer || {});
+</script>
+<script>
+/* ---- js/ui/export.js ---- */
+/* ================================================================
+   ui/export.js — download the RUNME file, copy it to the clipboard.
+   ================================================================ */
+(function (C) {
+  "use strict";
+  const { toast } = C.dom;
+
+  function download(model){
+    if(!model) return;
+    const blob = new Blob([model.text], {type:"text/plain;charset=utf-8"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = model.filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 1000);
+    toast("Downloaded " + model.filename);
+  }
+
+  function copy(model){
+    if(!model) return;
+    const t = model.text;
+    const done = ()=>toast("Copied to clipboard");
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(t).then(done).catch(()=>fallbackCopy(t,done));
+    } else fallbackCopy(t,done);
+  }
+
+  // Clipboard API is unavailable on file:// in some browsers.
+  function fallbackCopy(t, cb){
+    const ta = document.createElement("textarea");
+    ta.value = t; ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); cb(); } catch (e) { /* nothing else to try */ }
+    ta.remove();
+  }
+
+  C.ui = C.ui || {};
+  C.ui.exporter = Object.freeze({ download, copy });
+})(globalThis.Commandeer = globalThis.Commandeer || {});
+</script>
+<script>
+/* ---- js/app.js ---- */
+/* ================================================================
+   app.js — composition root. Creates services, wires UI modules,
+   owns the refresh cycle: state -> model -> preview -> save.
+   Loaded last.
+   ================================================================ */
+(function (C) {
+  "use strict";
+  const { buildModel } = C.model;
+  const { createStore } = C.storage;
+  const { createStateService } = C.stateService;
+  const ui = C.ui;
+
+  const store = createStore();
+  const svc   = createStateService(store);
+  const state = svc.load();
+
+  const app = {
+    state, svc, store, ui,
+    lastModel: null,
+    viewKey: "all",       // which output the preview shows (per-machine mode has one per machine)
+    lastView: null,       // what Copy / Generate act on
+
+    /** Recompute everything derived from state. Call after any change. */
+    refresh(){
+      const model = buildModel(state);
+      app.lastModel = model.error ? null : model;
+      ui.hosts.renderError(model);
+      app.lastView = ui.preview.render(state, model, app.viewKey);
+      svc.save();
+    },
+
+    /** Switch the preview to another machine's output; nothing is recomputed. */
+    setView(key){
+      app.viewKey = key;
+      if(app.lastModel) app.lastView = ui.preview.render(state, app.lastModel, key);
+    }
+  };
+
+  // Initial paint (order matters: inputs, then derived lists, then preview)
+  ui.forms.fillMain(app);
+  ui.forms.fillSettings(app);
+  ui.forms.renderRuntimeVisibility(app);
+  ui.scenarioTable.render(app);
+  ui.propertyList.render(app);
+  ui.forms.renderRounding(app);
+  ui.hosts.render(app);
+
+  // Bind events once
+  ui.forms.mount(app);
+  ui.scenarioTable.mount(app);
+  ui.propertyList.mount(app);
+  ui.hosts.mount(app);
+  ui.preview.mount(app);
+  ui.drawer.mount();
+  document.getElementById("genBtn").addEventListener("click", ()=> ui.exporter.download(app.lastView));
+  document.getElementById("copyBtn").addEventListener("click", ()=> ui.exporter.copy(app.lastView));
+
+  ui.forms.renderPersistNote(store);
+  app.refresh();
+
+  C.app = app;   // handy for debugging in the console
+})(globalThis.Commandeer = globalThis.Commandeer || {});
+</script>
 </body>
 </html>
